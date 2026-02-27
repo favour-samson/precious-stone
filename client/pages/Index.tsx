@@ -356,18 +356,7 @@ export default function Index() {
                   </div>
                 </div>
 
-                <div className="flex gap-3">
-                  <Clock className="text-primary flex-shrink-0" size={24} />
-                  <div>
-                    <p className="font-semibold text-gray-900">
-                      Parking Available
-                    </p>
-                    <p className="text-gray-600">
-                      Free parking on grounds • Accessible spaces
-                    </p>
-                  </div>
-                </div>
-
+               
                 
               </div>
             </div>
