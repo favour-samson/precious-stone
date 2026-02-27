@@ -350,9 +350,9 @@ export default function Index() {
                   <MapPin className="text-primary flex-shrink-0" size={24} />
                   <div>
                     <p className="font-semibold text-gray-900">
-                      123 Main Street
+                      Ajila Road, Elebu-Akuru, 
                     </p>
-                    <p className="text-gray-600">Lagos, Nigeria 101001</p>
+                    <p className="text-gray-600">Ibadan, Nigeria</p>
                   </div>
                 </div>
 
@@ -368,11 +368,7 @@ export default function Index() {
                   </div>
                 </div>
 
-                <div className="pt-4">
-                  <button className="w-full px-4 py-2 bg-primary text-white font-semibold rounded-lg hover:bg-opacity-90 transition">
-                    Get Directions
-                  </button>
-                </div>
+                
               </div>
             </div>
           </div>
