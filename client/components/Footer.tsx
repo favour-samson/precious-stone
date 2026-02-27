@@ -100,7 +100,7 @@ export default function Footer() {
               </div>
               <div className="flex gap-2">
                 <MapPin size={16} className="text-primary flex-shrink-0 mt-0.5" />
-                <p className="text-gray-400">123 Main Street, Lagos, Nigeria</p>
+                <p className="text-gray-400">Ajila Road, Elebu-Akuru, Ibadan, Nigeria</p>
               </div>
             </div>
           </div>
