@@ -21,11 +21,16 @@ export default function Header() {
       <div className="container mx-auto px-4">
         <div className="flex items-center justify-between h-20">
           {/* Logo */}
-          <Link to="/" className="flex items-center gap-2 font-serif font-bold text-xl text-primary">
-            <div className="w-10 h-10 bg-gradient-to-br from-primary to-secondary rounded-lg flex items-center justify-center text-white text-lg font-bold">
-              PS
-            </div>
-            <span className="hidden sm:inline">RCCG Precious Stone</span>
+          {/* Logo */}
+          <Link
+            to="/"
+            className="flex items-center gap-2 font-serif font-bold text-xl text-primary"
+          >
+            <img
+              src="/images/logo.png"
+              alt="RCCG Precious Stone Logo"
+              className="w-20 h-20 object-contain"
+            />
           </Link>
 
           {/* Desktop Navigation */}
