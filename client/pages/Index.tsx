@@ -332,12 +332,17 @@ export default function Index() {
                 Find Us
               </h3>
 
-              <div className="bg-gray-200 rounded-lg h-80 mb-6 overflow-hidden shadow-md">
-                <img
-                  src="https://images.unsplash.com/photo-1524661135-423995f22d0b?w=600&h=400&fit=crop"
-                  alt="Location"
-                  className="w-full h-full object-cover"
-                />
+              <div className="rounded-lg h-80 mb-6 overflow-hidden shadow-md">
+                <iframe
+                  src="https://www.google.com/maps/embed?pb=!1m16!1m12!1m3!1d1978.5656853217363!2d3.822905038337143!3d7.339140698167354!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!2m1!1sAjila%20Road%2C%20Elebu-Akuru%2C%20Ibadan!5e0!3m2!1sen!2sng!4v1772195240110!5m2!1sen!2sng"
+                  width="600"
+                  height="450"
+                  style={{ border: 0 }}
+                  allowFullScreen
+                  loading="lazy"
+                  referrerPolicy="no-referrer-when-downgrade"
+                  title="RCCG Precious Stone Location"
+                ></iframe>
               </div>
 
               <div className="space-y-4">
@@ -784,9 +789,7 @@ export default function Index() {
                 size={40}
                 className="mb-3 group-hover:scale-110 transition"
               />
-              <span className="font-semibold text-center">
-                Prayer Requests
-              </span>
+              <span className="font-semibold text-center">Prayer Requests</span>
             </Link>
 
             <Link
@@ -815,7 +818,10 @@ export default function Index() {
               to="/resources"
               className="flex flex-col items-center justify-center p-6 bg-gray-800 rounded-lg hover:bg-primary transition group"
             >
-              <Gift size={40} className="mb-3 group-hover:scale-110 transition" />
+              <Gift
+                size={40}
+                className="mb-3 group-hover:scale-110 transition"
+              />
               <span className="font-semibold text-center">Resources</span>
             </Link>
 
