@@ -179,13 +179,7 @@ export default function About() {
                     together they have three adult children actively involved in
                     ministry.
                   </p>
-                  <div className="bg-gray-50 p-4 rounded-lg">
-                    <p className="text-sm text-gray-600">
-                      <strong>Vision:</strong> "To establish a church where
-                      Christ is magnified, believers are empowered, and
-                      communities are transformed."
-                    </p>
-                  </div>
+                
                 </div>
               </div>
             </div>
@@ -220,13 +214,7 @@ export default function About() {
                     counseling and family strengthening initiatives within the
                     church.
                   </p>
-                  <div className="bg-gray-50 p-4 rounded-lg">
-                    <p className="text-sm text-gray-600">
-                      <strong>Passion:</strong> "Empowering women to become
-                      powerful vessels of God's grace and agents of
-                      transformation."
-                    </p>
-                  </div>
+                  
                 </div>
               </div>
             </div>
