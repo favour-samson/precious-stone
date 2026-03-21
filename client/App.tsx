@@ -15,6 +15,7 @@ import Connect from "./pages/Connect";
 import PrayerRequests from "./pages/PrayerRequests";
 import Resources from "./pages/Resources";
 import NotFound from "./pages/NotFound";
+import ScrollToTop from "./components/ScrollToTop";
 
 const queryClient = new QueryClient();
 
@@ -24,6 +25,7 @@ export const App = () => (
       <Toaster />
       <Sonner />
       <BrowserRouter>
+        <ScrollToTop />
         <Routes>
           <Route path="/" element={<Index />} />
           <Route path="/about" element={<About />} />
