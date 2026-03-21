@@ -23,6 +23,7 @@ import {
   Facebook,
   Instagram,
 } from "lucide-react";
+import { useEffect, useState } from "react";
 
 export default function Index() {
   const sermons = [
@@ -67,30 +68,125 @@ export default function Index() {
       facebookUrl: "https://www.facebook.com/your-page/videos/VIDEO_ID_4",
     },
   ];
+
+  // Add this at the top of your component (or in a separate file)
+  const heroSlides = [
+    {
+      image:
+        "https://images.unsplash.com/photo-1510590337898-dcec4ce8a1c7?w=1600&h=900&fit=crop",
+      caption: "A Community of Faith, Family, and Fellowship",
+    },
+    {
+      image:
+        "https://images.unsplash.com/photo-1438032005730-c779502df39b?w=1600&h=900&fit=crop",
+      caption: "Come As You Are, Leave Transformed",
+    },
+    {
+      image:
+        "https://images.unsplash.com/photo-1529070538774-1843cb3265df?w=1600&h=900&fit=crop",
+      caption: "Experience the Presence of God Together",
+    },
+    {
+      image:
+        "https://images.unsplash.com/photo-1478147427282-58a87a120781?w=1600&h=900&fit=crop",
+      caption: "Growing in Grace, Rooted in Love",
+    },
+  ];
+
+  // Add these inside your component, above the return
+  const [currentSlide, setCurrentSlide] = useState(0);
+
+  useEffect(() => {
+    const timer = setInterval(() => {
+      setCurrentSlide((prev) => (prev + 1) % heroSlides.length);
+    }, 5000);
+    return () => clearInterval(timer);
+  }, []);
+
+  const goToSlide = (index: number) => setCurrentSlide(index);
+
+  const prevSlide = () =>
+    setCurrentSlide(
+      (prev) => (prev - 1 + heroSlides.length) % heroSlides.length,
+    );
+
+  const nextSlide = () =>
+    setCurrentSlide((prev) => (prev + 1) % heroSlides.length);
+
   return (
     <div className="min-h-screen bg-white">
       <Header />
 
       {/* Section 1: Hero Banner */}
-      <section className="relative h-screen bg-gradient-to-r from-gray-900 via-gray-800 to-gray-900 text-white overflow-hidden">
-        {/* Background Image Overlay */}
-        <div
-          className="absolute inset-0 bg-cover bg-center opacity-40"
-          style={{
-            backgroundImage:
-              "url('https://images.unsplash.com/photo-1511379938547-c1f69b13d835?w=1200&h=800&fit=crop')",
-          }}
-        />
-        <div className="absolute inset-0 bg-black bg-opacity-40" />
+      <section className="relative h-screen text-white overflow-hidden">
+        {/* Background Slides */}
+        {heroSlides.map((slide, index) => (
+          <div
+            key={index}
+            className="absolute inset-0 transition-opacity duration-1000 ease-in-out"
+            style={{ opacity: index === currentSlide ? 1 : 0 }}
+          >
+            <div
+              className="absolute inset-0 bg-cover bg-center scale-105"
+              style={{ backgroundImage: `url('${slide.image}')` }}
+            />
+            <div className="absolute inset-0 bg-black bg-opacity-55" />
+          </div>
+        ))}
+
+        {/* Prev / Next Arrows */}
+        <button
+          onClick={prevSlide}
+          className="absolute left-4 top-1/2 -translate-y-1/2 z-20 w-10 h-10 flex items-center justify-center bg-white bg-opacity-20 hover:bg-opacity-40 rounded-full transition backdrop-blur-sm"
+          aria-label="Previous slide"
+        >
+          <svg
+            className="w-5 h-5 text-white"
+            fill="none"
+            stroke="currentColor"
+            viewBox="0 0 24 24"
+          >
+            <path
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              strokeWidth={2}
+              d="M15 19l-7-7 7-7"
+            />
+          </svg>
+        </button>
+        <button
+          onClick={nextSlide}
+          className="absolute right-4 top-1/2 -translate-y-1/2 z-20 w-10 h-10 flex items-center justify-center bg-white bg-opacity-20 hover:bg-opacity-40 rounded-full transition backdrop-blur-sm"
+          aria-label="Next slide"
+        >
+          <svg
+            className="w-5 h-5 text-white"
+            fill="none"
+            stroke="currentColor"
+            viewBox="0 0 24 24"
+          >
+            <path
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              strokeWidth={2}
+              d="M9 5l7 7-7 7"
+            />
+          </svg>
+        </button>
 
         {/* Content */}
-        <div className="relative container mx-auto px-4 h-full flex flex-col items-center justify-center text-center">
+        <div className="relative z-10 container mx-auto px-4 h-full flex flex-col items-center justify-center text-center">
           <div className="max-w-3xl">
             <h1 className="text-4xl md:text-6xl font-serif font-bold mb-4 leading-tight">
               RCCG Precious Stone Area HQ
             </h1>
-            <p className="text-xl md:text-2xl text-gray-200 mb-8 font-light">
-              A Community of Faith, Family, and Fellowship
+
+            {/* Animated caption per slide */}
+            <p
+              key={currentSlide}
+              className="text-xl md:text-2xl text-gray-200 mb-8 font-light animate-fade-in"
+            >
+              {heroSlides[currentSlide].caption}
             </p>
 
             {/* CTAs */}
@@ -109,8 +205,24 @@ export default function Index() {
           </div>
         </div>
 
+        {/* Dot Indicators */}
+        <div className="absolute bottom-20 left-1/2 -translate-x-1/2 z-20 flex gap-2">
+          {heroSlides.map((_, index) => (
+            <button
+              key={index}
+              onClick={() => goToSlide(index)}
+              className={`rounded-full transition-all duration-300 ${
+                index === currentSlide
+                  ? "w-6 h-2 bg-white"
+                  : "w-2 h-2 bg-white bg-opacity-50 hover:bg-opacity-75"
+              }`}
+              aria-label={`Go to slide ${index + 1}`}
+            />
+          ))}
+        </div>
+
         {/* Scroll Indicator */}
-        <div className="absolute bottom-8 left-1/2 transform -translate-x-1/2 animate-bounce">
+        <div className="absolute bottom-8 left-1/2 transform -translate-x-1/2 animate-bounce z-20">
           <svg
             className="w-6 h-6 text-white"
             fill="none"
@@ -377,7 +489,6 @@ export default function Index() {
         </div>
       </section>
 
-      {/* Section 5: Recent Sermons */}
       {/* Section 5: Recent Sermons */}
       <section className="py-20">
         <div className="container mx-auto px-4">
