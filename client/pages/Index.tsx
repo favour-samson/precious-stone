@@ -20,15 +20,53 @@ import {
   Hand,
   DollarSign,
   UserPlus,
-  MailOpen,
-  GraduationCap,
-  Smartphone,
   Facebook,
   Instagram,
-  Gift,
 } from "lucide-react";
 
 export default function Index() {
+  const sermons = [
+    {
+      id: 1,
+      date: "February 23, 2025",
+      title: "Faith in the Midst of Challenges",
+      verse: "John 3:16",
+      pastor: "Pastor John Doe",
+      thumbnail:
+        "https://images.unsplash.com/photo-1516321318423-f06f70504195?w=400&h=300&fit=crop",
+      facebookUrl: "https://www.facebook.com/your-page/videos/VIDEO_ID_1",
+    },
+    {
+      id: 2,
+      date: "February 16, 2025",
+      title: "The Power of Prayer",
+      verse: "Matthew 6:6",
+      pastor: "Pastor Sarah Williams",
+      thumbnail:
+        "https://images.unsplash.com/photo-1533900298318-6b8da08a523e?w=400&h=300&fit=crop",
+      facebookUrl: "https://www.facebook.com/your-page/videos/VIDEO_ID_2",
+    },
+    {
+      id: 3,
+      date: "February 9, 2025",
+      title: "Living a Life of Purpose",
+      verse: "Ephesians 4:1",
+      pastor: "Pastor Michael Brown",
+      thumbnail:
+        "https://images.unsplash.com/photo-1528365842597-2d2e76319fdf?w=400&h=300&fit=crop",
+      facebookUrl: "https://www.facebook.com/your-page/videos/VIDEO_ID_3",
+    },
+    {
+      id: 4,
+      date: "February 2, 2025",
+      title: "Love Never Fails",
+      verse: "1 Corinthians 13:4",
+      pastor: "Pastor Grace Johnson",
+      thumbnail:
+        "https://images.unsplash.com/photo-1532236122827-19cd4b2a7d5c?w=400&h=300&fit=crop",
+      facebookUrl: "https://www.facebook.com/your-page/videos/VIDEO_ID_4",
+    },
+  ];
   return (
     <div className="min-h-screen bg-white">
       <Header />
@@ -54,25 +92,6 @@ export default function Index() {
             <p className="text-xl md:text-2xl text-gray-200 mb-8 font-light">
               A Community of Faith, Family, and Fellowship
             </p>
-
-            {/* Service Times */}
-            <div className="mb-12 grid grid-cols-1 md:grid-cols-3 gap-6 bg-white bg-opacity-10 backdrop-blur-md rounded-lg p-8 max-w-2xl mx-auto">
-              <div className="flex flex-col items-center">
-                <Clock className="text-primary mb-2" size={28} />
-                <p className="text-sm text-gray-300 mb-1">First Service</p>
-                <p className="text-lg font-semibold">7:30 AM</p>
-              </div>
-              <div className="flex flex-col items-center">
-                <Clock className="text-primary mb-2" size={28} />
-                <p className="text-sm text-gray-300 mb-1">Second Service</p>
-                <p className="text-lg font-semibold">10:00 AM</p>
-              </div>
-              <div className="flex flex-col items-center">
-                <Clock className="text-primary mb-2" size={28} />
-                <p className="text-sm text-gray-300 mb-1">Midweek Service</p>
-                <p className="text-lg font-semibold">Wednesdays 7 PM</p>
-              </div>
-            </div>
 
             {/* CTAs */}
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
@@ -297,11 +316,7 @@ export default function Index() {
                   <h4 className="font-semibold text-lg text-gray-900 mb-1">
                     Sunday Services
                   </h4>
-                  <p className="text-gray-600">First Service: 7:30 AM</p>
-                  <p className="text-gray-600">Second Service: 10:00 AM</p>
-                  <p className="text-gray-600 text-sm mt-1">
-                    Children's Church: 10:00 AM
-                  </p>
+                  <p className="text-gray-600">Service start: 8:00 AM</p>
                 </div>
 
                 <div className="border-l-4 border-secondary pl-4">
@@ -309,10 +324,10 @@ export default function Index() {
                     Midweek Service
                   </h4>
                   <p className="text-gray-600">
-                    Bible Study: Wednesday 7:00 PM
+                    Bible Study(digging deep): Tuesdays 5:30 PM
                   </p>
                   <p className="text-gray-600">
-                    Prayer Meeting: Friday 7:00 PM
+                    Prayer Meeting(faith clinic): Thurdays 5:30 PM
                   </p>
                 </div>
 
@@ -320,7 +335,9 @@ export default function Index() {
                   <h4 className="font-semibold text-lg text-gray-900 mb-1">
                     Special Programs
                   </h4>
-                  <p className="text-gray-600">Holy Communion: First Sunday</p>
+                  <p className="text-gray-600">
+                    Thanksgiving Service: First Sunday
+                  </p>
                   <p className="text-gray-600">Youth Service: Third Sunday</p>
                 </div>
               </div>
@@ -350,20 +367,17 @@ export default function Index() {
                   <MapPin className="text-primary flex-shrink-0" size={24} />
                   <div>
                     <p className="font-semibold text-gray-900">
-                      Ajila Road, Elebu-Akuru, 
+                      Ajila Road 7, Elebu, Ibadan, Nigeria
                     </p>
-                    <p className="text-gray-600">Ibadan, Nigeria</p>
                   </div>
                 </div>
-
-               
-                
               </div>
             </div>
           </div>
         </div>
       </section>
 
+      {/* Section 5: Recent Sermons */}
       {/* Section 5: Recent Sermons */}
       <section className="py-20">
         <div className="container mx-auto px-4">
@@ -377,151 +391,44 @@ export default function Index() {
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 max-w-6xl mx-auto mb-8">
-            {/* Sermon Card 1 */}
-            <div className="bg-white rounded-lg shadow-md overflow-hidden hover:shadow-lg transition group">
-              <div className="relative h-48 bg-gray-300 overflow-hidden">
-                <img
-                  src="https://images.unsplash.com/photo-1516321318423-f06f70504195?w=400&h=300&fit=crop"
-                  alt="Sermon thumbnail"
-                  className="w-full h-full object-cover group-hover:scale-105 transition"
-                />
-                <button className="absolute inset-0 flex items-center justify-center bg-black bg-opacity-0 group-hover:bg-opacity-40 transition">
-                  <Play
-                    className="text-white opacity-0 group-hover:opacity-100 transition"
-                    size={40}
+            {sermons.map((sermon) => (
+              <div
+                key={sermon.id}
+                className="bg-white rounded-lg shadow-md overflow-hidden hover:shadow-lg transition group"
+              >
+                <div className="relative h-48 bg-gray-300 overflow-hidden">
+                  <img
+                    src={sermon.thumbnail}
+                    alt="Sermon thumbnail"
+                    className="w-full h-full object-cover group-hover:scale-105 transition"
                   />
-                </button>
-              </div>
-              <div className="p-4">
-                <p className="text-xs text-gray-500 mb-2">February 23, 2025</p>
-                <h3 className="font-semibold text-gray-900 mb-2 line-clamp-2">
-                  Faith in the Midst of Challenges
-                </h3>
-                <p className="text-sm text-gray-600 mb-3">John 3:16</p>
-                <p className="text-sm text-gray-500 mb-4">Pastor John Doe</p>
-                <div className="flex gap-2">
-                  <button className="flex-1 flex items-center justify-center gap-1 py-2 px-3 bg-gray-100 text-gray-700 font-sm rounded hover:bg-gray-200 transition text-xs">
-                    <Play size={14} />
-                    Watch
-                  </button>
-                  <button className="flex-1 flex items-center justify-center gap-1 py-2 px-3 bg-gray-100 text-gray-700 font-sm rounded hover:bg-gray-200 transition text-xs">
-                    <Download size={14} />
-                    Listen
+                  <button className="absolute inset-0 flex items-center justify-center bg-black bg-opacity-0 group-hover:bg-opacity-40 transition">
+                    <Play
+                      className="text-white opacity-0 group-hover:opacity-100 transition"
+                      size={40}
+                    />
                   </button>
                 </div>
-              </div>
-            </div>
-
-            {/* Sermon Card 2 */}
-            <div className="bg-white rounded-lg shadow-md overflow-hidden hover:shadow-lg transition group">
-              <div className="relative h-48 bg-gray-300 overflow-hidden">
-                <img
-                  src="https://images.unsplash.com/photo-1533900298318-6b8da08a523e?w=400&h=300&fit=crop"
-                  alt="Sermon thumbnail"
-                  className="w-full h-full object-cover group-hover:scale-105 transition"
-                />
-                <button className="absolute inset-0 flex items-center justify-center bg-black bg-opacity-0 group-hover:bg-opacity-40 transition">
-                  <Play
-                    className="text-white opacity-0 group-hover:opacity-100 transition"
-                    size={40}
-                  />
-                </button>
-              </div>
-              <div className="p-4">
-                <p className="text-xs text-gray-500 mb-2">February 16, 2025</p>
-                <h3 className="font-semibold text-gray-900 mb-2 line-clamp-2">
-                  The Power of Prayer
-                </h3>
-                <p className="text-sm text-gray-600 mb-3">Matthew 6:6</p>
-                <p className="text-sm text-gray-500 mb-4">
-                  Pastor Sarah Williams
-                </p>
-                <div className="flex gap-2">
-                  <button className="flex-1 flex items-center justify-center gap-1 py-2 px-3 bg-gray-100 text-gray-700 font-sm rounded hover:bg-gray-200 transition text-xs">
-                    <Play size={14} />
-                    Watch
-                  </button>
-                  <button className="flex-1 flex items-center justify-center gap-1 py-2 px-3 bg-gray-100 text-gray-700 font-sm rounded hover:bg-gray-200 transition text-xs">
-                    <Download size={14} />
-                    Listen
-                  </button>
+                <div className="p-4">
+                  <p className="text-xs text-gray-500 mb-2">{sermon.date}</p>
+                  <h3 className="font-semibold text-gray-900 mb-2 line-clamp-2">
+                    {sermon.title}
+                  </h3>
+                  <p className="text-sm text-gray-600 mb-3">{sermon.verse}</p>
+                  <p className="text-sm text-gray-500 mb-4">{sermon.pastor}</p>
+                  <div className="flex gap-2">
+                    <button className="flex-1 flex items-center justify-center gap-1 py-2 px-3 bg-gray-100 text-gray-700 rounded hover:bg-gray-200 transition text-xs">
+                      <Play size={12} />
+                      Watch
+                    </button>
+                    <button className="flex-1 flex items-center justify-center gap-1 py-2 px-3 bg-gray-100 text-gray-700 rounded hover:bg-gray-200 transition text-xs">
+                      <Download size={12} />
+                      Listen
+                    </button>
+                  </div>
                 </div>
               </div>
-            </div>
-
-            {/* Sermon Card 3 */}
-            <div className="bg-white rounded-lg shadow-md overflow-hidden hover:shadow-lg transition group">
-              <div className="relative h-48 bg-gray-300 overflow-hidden">
-                <img
-                  src="https://images.unsplash.com/photo-1528365842597-2d2e76319fdf?w=400&h=300&fit=crop"
-                  alt="Sermon thumbnail"
-                  className="w-full h-full object-cover group-hover:scale-105 transition"
-                />
-                <button className="absolute inset-0 flex items-center justify-center bg-black bg-opacity-0 group-hover:bg-opacity-40 transition">
-                  <Play
-                    className="text-white opacity-0 group-hover:opacity-100 transition"
-                    size={40}
-                  />
-                </button>
-              </div>
-              <div className="p-4">
-                <p className="text-xs text-gray-500 mb-2">February 9, 2025</p>
-                <h3 className="font-semibold text-gray-900 mb-2 line-clamp-2">
-                  Living a Life of Purpose
-                </h3>
-                <p className="text-sm text-gray-600 mb-3">Ephesians 4:1</p>
-                <p className="text-sm text-gray-500 mb-4">
-                  Pastor Michael Brown
-                </p>
-                <div className="flex gap-2">
-                  <button className="flex-1 flex items-center justify-center gap-1 py-2 px-3 bg-gray-100 text-gray-700 font-sm rounded hover:bg-gray-200 transition text-xs">
-                    <Play size={14} />
-                    Watch
-                  </button>
-                  <button className="flex-1 flex items-center justify-center gap-1 py-2 px-3 bg-gray-100 text-gray-700 font-sm rounded hover:bg-gray-200 transition text-xs">
-                    <Download size={14} />
-                    Listen
-                  </button>
-                </div>
-              </div>
-            </div>
-
-            {/* Sermon Card 4 */}
-            <div className="bg-white rounded-lg shadow-md overflow-hidden hover:shadow-lg transition group">
-              <div className="relative h-48 bg-gray-300 overflow-hidden">
-                <img
-                  src="https://images.unsplash.com/photo-1532236122827-19cd4b2a7d5c?w=400&h=300&fit=crop"
-                  alt="Sermon thumbnail"
-                  className="w-full h-full object-cover group-hover:scale-105 transition"
-                />
-                <button className="absolute inset-0 flex items-center justify-center bg-black bg-opacity-0 group-hover:bg-opacity-40 transition">
-                  <Play
-                    className="text-white opacity-0 group-hover:opacity-100 transition"
-                    size={40}
-                  />
-                </button>
-              </div>
-              <div className="p-4">
-                <p className="text-xs text-gray-500 mb-2">February 2, 2025</p>
-                <h3 className="font-semibold text-gray-900 mb-2 line-clamp-2">
-                  Love Never Fails
-                </h3>
-                <p className="text-sm text-gray-600 mb-3">1 Corinthians 13:4</p>
-                <p className="text-sm text-gray-500 mb-4">
-                  Pastor Grace Johnson
-                </p>
-                <div className="flex gap-2">
-                  <button className="flex-1 flex items-center justify-center gap-1 py-2 px-3 bg-gray-100 text-gray-700 font-sm rounded hover:bg-gray-200 transition text-xs">
-                    <Play size={14} />
-                    Watch
-                  </button>
-                  <button className="flex-1 flex items-center justify-center gap-1 py-2 px-3 bg-gray-100 text-gray-700 font-sm rounded hover:bg-gray-200 transition text-xs">
-                    <Download size={14} />
-                    Listen
-                  </button>
-                </div>
-              </div>
-            </div>
+            ))}
           </div>
 
           <div className="text-center">
@@ -797,50 +704,6 @@ export default function Index() {
                 className="mb-3 group-hover:scale-110 transition"
               />
               <span className="font-semibold text-center">Volunteer</span>
-            </Link>
-
-            <Link
-              to="/resources"
-              className="flex flex-col items-center justify-center p-6 bg-gray-800 rounded-lg hover:bg-primary transition group"
-            >
-              <Gift
-                size={40}
-                className="mb-3 group-hover:scale-110 transition"
-              />
-              <span className="font-semibold text-center">Resources</span>
-            </Link>
-
-            <Link
-              to="/connect"
-              className="flex flex-col items-center justify-center p-6 bg-gray-800 rounded-lg hover:bg-primary transition group"
-            >
-              <MailOpen
-                size={40}
-                className="mb-3 group-hover:scale-110 transition"
-              />
-              <span className="font-semibold text-center">Email Updates</span>
-            </Link>
-
-            <Link
-              to="/services"
-              className="flex flex-col items-center justify-center p-6 bg-gray-800 rounded-lg hover:bg-primary transition group"
-            >
-              <GraduationCap
-                size={40}
-                className="mb-3 group-hover:scale-110 transition"
-              />
-              <span className="font-semibold text-center">Classes</span>
-            </Link>
-
-            <Link
-              to="#"
-              className="flex flex-col items-center justify-center p-6 bg-gray-800 rounded-lg hover:bg-primary transition group"
-            >
-              <Smartphone
-                size={40}
-                className="mb-3 group-hover:scale-110 transition"
-              />
-              <span className="font-semibold text-center">Download App</span>
             </Link>
           </div>
         </div>

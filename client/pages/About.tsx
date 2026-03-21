@@ -1,7 +1,7 @@
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import { Link } from "react-router-dom";
-import { ChevronRight, MapPin, Users, Target, BookOpen } from "lucide-react";
+import { ChevronRight, BookOpen } from "lucide-react";
 
 export default function About() {
   return (
@@ -26,120 +26,6 @@ export default function About() {
         </div>
       </section>
 
-      {/* Section 1: Our Story */}
-      <section className="py-20">
-        <div className="container mx-auto px-4">
-          <div className="max-w-4xl mx-auto">
-            <h2 className="text-4xl font-serif font-bold text-gray-900 mb-12 text-center">
-              Our Story
-            </h2>
-
-            {/* Timeline */}
-            <div className="space-y-12">
-              {/* Timeline Item 1 */}
-              <div className="flex gap-8">
-                <div className="flex flex-col items-center">
-                  <div className="w-4 h-4 bg-primary rounded-full" />
-                  <div className="w-1 h-24 bg-gradient-to-b from-primary to-gray-200" />
-                </div>
-                <div className="pb-8">
-                  <h3 className="text-2xl font-semibold text-primary mb-2">
-                    1998 - The Founding
-                  </h3>
-                  <p className="text-gray-700 leading-relaxed">
-                    RCCG Precious Stone Area HQ was founded with a vision to
-                    create a place where the love of Christ is preached boldly
-                    and lived authentically. Starting with just a small group of
-                    committed believers in a humble gathering space, the church
-                    was built on the foundation of prayer, faith, and the Word
-                    of God.
-                  </p>
-                </div>
-              </div>
-
-              {/* Timeline Item 2 */}
-              <div className="flex gap-8">
-                <div className="flex flex-col items-center">
-                  <div className="w-4 h-4 bg-primary rounded-full" />
-                  <div className="w-1 h-24 bg-gradient-to-b from-primary to-gray-200" />
-                </div>
-                <div className="pb-8">
-                  <h3 className="text-2xl font-semibold text-primary mb-2">
-                    2003 - Building Our Sanctuary
-                  </h3>
-                  <p className="text-gray-700 leading-relaxed">
-                    By 2003, the congregation had grown to over 500 members. We
-                    constructed our current sanctuary, a beautiful facility that
-                    accommodates 1,500+ worshippers. This milestone marked our
-                    commitment to providing a dedicated space for worship and
-                    fellowship.
-                  </p>
-                </div>
-              </div>
-
-              {/* Timeline Item 3 */}
-              <div className="flex gap-8">
-                <div className="flex flex-col items-center">
-                  <div className="w-4 h-4 bg-primary rounded-full" />
-                  <div className="w-1 h-24 bg-gradient-to-b from-primary to-gray-200" />
-                </div>
-                <div className="pb-8">
-                  <h3 className="text-2xl font-semibold text-primary mb-2">
-                    2010 - Expansion & Ministry Growth
-                  </h3>
-                  <p className="text-gray-700 leading-relaxed">
-                    We launched comprehensive ministry departments including
-                    Children's Ministry, Youth Church, Men's and Women's
-                    Fellowships, and Prayer Ministry. This expansion reflected
-                    our commitment to serving all ages and demographics in our
-                    congregation.
-                  </p>
-                </div>
-              </div>
-
-              {/* Timeline Item 4 */}
-              <div className="flex gap-8">
-                <div className="flex flex-col items-center">
-                  <div className="w-4 h-4 bg-primary rounded-full" />
-                  <div className="w-1 h-12 bg-gray-200" />
-                </div>
-                <div className="pb-8">
-                  <h3 className="text-2xl font-semibold text-primary mb-2">
-                    2024 - Present & Future
-                  </h3>
-                  <p className="text-gray-700 leading-relaxed">
-                    Today, RCCG Precious Stone Area HQ stands as a beacon of
-                    hope with over 3,000 active members. We continue to evolve,
-                    embracing technology and modern ministry approaches while
-                    maintaining our core values of faith, family, fellowship,
-                    and service.
-                  </p>
-                </div>
-              </div>
-            </div>
-
-            {/* Growth Milestones */}
-            <div className="mt-16 grid grid-cols-2 md:grid-cols-4 gap-6">
-              {[
-                { number: "1998", label: "Founded" },
-                { number: "3,000+", label: "Active Members" },
-                { number: "1,500", label: "Sanctuary Capacity" },
-                { number: "8", label: "Active Ministries" },
-              ].map((milestone, idx) => (
-                <div
-                  key={idx}
-                  className="bg-gray-50 rounded-lg p-6 text-center"
-                >
-                  <p className="text-3xl font-bold text-primary mb-2">
-                    {milestone.number}
-                  </p>
-                  <p className="text-gray-600">{milestone.label}</p>
-                </div>
-              ))}
-            </div>
-          </div>
-        </div>
-      </section>
 
       {/* Section 2: Our Beliefs */}
       <section className="py-20 bg-gray-50">
@@ -412,38 +298,15 @@ export default function About() {
             </h2>
 
             {/* Vision Statement */}
-            <div className="bg-white rounded-lg p-8 mb-8 shadow-md border-l-4 border-primary">
+            <div className="bg-white rounded-lg p-8 mb-8 shadow">
               <h3 className="text-2xl font-semibold text-gray-900 mb-4 flex items-center gap-2">
-                <Target className="text-primary" size={28} />
                 Our Vision
-              </h3>
-              <p className="text-lg text-gray-700 italic font-semibold mb-4">
-                "To be a beacon of Christ's light, impacting our community and
-                the world with the message of redemption, hope, and
-                transformation through the power of the Holy Spirit."
-              </p>
-              <p className="text-gray-700 leading-relaxed">
-                We envision RCCG Precious Stone as a thriving church where
-                believers experience deep spiritual growth, genuine community,
-                and empowering ministry. A place where the lost find salvation,
-                the broken find healing, and all believers are equipped to
-                fulfill God's purpose in their generation.
-              </p>
-            </div>
-
-            {/* Mission Objectives */}
-            <div className="bg-white rounded-lg p-8 mb-8 shadow-md">
-              <h3 className="text-2xl font-semibold text-gray-900 mb-6">
-                Mission Objectives
               </h3>
               <div className="space-y-4">
                 {[
-                  "To preach the Gospel of Jesus Christ with clarity, boldness, and compassion",
-                  "To disciple believers toward spiritual maturity and Christ-likeness",
-                  "To provide a loving, welcoming community where all feel valued and accepted",
-                  "To equip believers with spiritual gifts and training for effective ministry",
-                  "To demonstrate God's love through community outreach and social responsibility",
-                  "To maintain doctrinal integrity while embracing contextual relevance",
+                  "To make heaven",
+                  "To take as many as possible with us",
+                  "To have a member of RCCG in every family of all nations",
                 ].map((objective, idx) => (
                   <div key={idx} className="flex items-start gap-3">
                     <div className="w-8 h-8 bg-primary text-white rounded-full flex items-center justify-center flex-shrink-0 text-sm font-bold">
@@ -455,52 +318,28 @@ export default function About() {
               </div>
             </div>
 
-            {/* 5-Year Goals */}
+            {/* Mission Objectives */}
             <div className="bg-white rounded-lg p-8 mb-8 shadow-md">
               <h3 className="text-2xl font-semibold text-gray-900 mb-6">
-                5-Year Strategic Goals (2024-2029)
+                Mission Objectives
               </h3>
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+              <div className="space-y-4">
                 {[
-                  {
-                    goal: "Grow Active Membership",
-                    detail:
-                      "Increase to 5,000+ engaged members through effective evangelism",
-                  },
-                  {
-                    goal: "Ministry Expansion",
-                    detail:
-                      "Launch 4 new ministry departments addressing community needs",
-                  },
-                  {
-                    goal: "Facilities Development",
-                    detail:
-                      "Establish modern learning centers and fellowship spaces",
-                  },
-                  {
-                    goal: "Community Impact",
-                    detail:
-                      "Establish scholarship programs and social welfare initiatives",
-                  },
-                  {
-                    goal: "Global Missions",
-                    detail: "Support mission work in 5 African nations",
-                  },
-                  {
-                    goal: "Digital Transformation",
-                    detail:
-                      "Enhance online ministry and accessibility for remote members",
-                  },
-                ].map((item, idx) => (
-                  <div key={idx} className="bg-gray-50 rounded-lg p-4">
-                    <h4 className="font-semibold text-gray-900 mb-2">
-                      {item.goal}
-                    </h4>
-                    <p className="text-sm text-gray-600">{item.detail}</p>
+                  "To accomplish Number 1 above, HOLINESS will be LIFESTYLE",
+                  "We want to plant churches on every street, in every city, town and community in all Nations of the World",
+                  "We will pursue these objectives until every Nation in the world is reached for JESUS CHRIST OUR LORD",
+                ].map((objective, idx) => (
+                  <div key={idx} className="flex items-start gap-3">
+                    <div className="w-8 h-8 bg-primary text-white rounded-full flex items-center justify-center flex-shrink-0 text-sm font-bold">
+                      {idx + 1}
+                    </div>
+                    <p className="text-gray-700 pt-1">{objective}</p>
                   </div>
                 ))}
               </div>
             </div>
+
+          
 
             {/* Strategic Initiatives */}
             <div className="bg-gradient-to-r from-secondary to-primary text-white rounded-lg p-8">
@@ -508,15 +347,7 @@ export default function About() {
                 Strategic Initiatives
               </h3>
               <div className="space-y-4">
-                <div>
-                  <h4 className="font-semibold mb-2">
-                    • Discipleship & Cell Groups
-                  </h4>
-                  <p className="text-sm opacity-90">
-                    Establishing small groups throughout all communities for
-                    intimate discipleship
-                  </p>
-                </div>
+               
                 <div>
                   <h4 className="font-semibold mb-2">
                     • Youth Empowerment Program
@@ -549,199 +380,7 @@ export default function About() {
         </div>
       </section>
 
-      {/* Section 5: Church Facilities */}
-      <section className="py-20">
-        <div className="container mx-auto px-4">
-          <div className="max-w-5xl mx-auto">
-            <h2 className="text-4xl font-serif font-bold text-gray-900 mb-12 text-center">
-              Church Facilities
-            </h2>
-
-            {/* Facility Gallery */}
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-12">
-              {[
-                {
-                  image:
-                    "https://images.unsplash.com/photo-1511379938547-c1f69b13d835?w=600&h=400&fit=crop",
-                  title: "Main Sanctuary",
-                },
-                {
-                  image:
-                    "https://images.unsplash.com/photo-1516321318423-f06f70504195?w=600&h=400&fit=crop",
-                  title: "Fellowship Hall",
-                },
-                {
-                  image:
-                    "https://images.unsplash.com/photo-1517457373614-b7152f80ce57?w=600&h=400&fit=crop",
-                  title: "Children's Ministry Wing",
-                },
-                {
-                  image:
-                    "https://images.unsplash.com/photo-1528365842597-2d2e76319fdf?w=600&h=400&fit=crop",
-                  title: "Prayer Chapel",
-                },
-              ].map((facility, idx) => (
-                <div
-                  key={idx}
-                  className="rounded-lg overflow-hidden shadow-md group"
-                >
-                  <div className="relative h-64 overflow-hidden">
-                    <img
-                      src={facility.image}
-                      alt={facility.title}
-                      className="w-full h-full object-cover group-hover:scale-105 transition"
-                    />
-                  </div>
-                  <div className="bg-white p-4">
-                    <h3 className="font-semibold text-gray-900">
-                      {facility.title}
-                    </h3>
-                  </div>
-                </div>
-              ))}
-            </div>
-
-            {/* Facility Details */}
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mb-12">
-              {/* Facilities Info */}
-              <div>
-                <h3 className="text-2xl font-semibold text-gray-900 mb-6">
-                  Our Facilities Include
-                </h3>
-                <ul className="space-y-3">
-                  {[
-                    {
-                      icon: "🏛️",
-                      title: "Main Sanctuary",
-                      detail:
-                        "1,500+ seating capacity, modern sound & lighting",
-                    },
-                    {
-                      icon: "👶",
-                      title: "Children's Ministry Wing",
-                      detail: "Safe, age-appropriate learning spaces",
-                    },
-                    {
-                      icon: "🎓",
-                      title: "Educational Center",
-                      detail: "Classrooms for Bible study and training",
-                    },
-                    {
-                      icon: "🤝",
-                      title: "Fellowship Hall",
-                      detail: "Multi-purpose space for gatherings",
-                    },
-                    {
-                      icon: "🙏",
-                      title: "Prayer Chapel",
-                      detail: "Quiet space for personal prayer & intercession",
-                    },
-                    {
-                      icon: "🅿️",
-                      title: "Ample Parking",
-                      detail: "500+ parking spaces with accessible areas",
-                    },
-                  ].map((facility, idx) => (
-                    <div
-                      key={idx}
-                      className="flex gap-4 bg-gray-50 p-4 rounded-lg"
-                    >
-                      <span className="text-3xl">{facility.icon}</span>
-                      <div>
-                        <h4 className="font-semibold text-gray-900">
-                          {facility.title}
-                        </h4>
-                        <p className="text-sm text-gray-600">
-                          {facility.detail}
-                        </p>
-                      </div>
-                    </div>
-                  ))}
-                </ul>
-              </div>
-
-              {/* Room Booking & Capacity */}
-              <div className="space-y-6">
-                <div className="bg-white rounded-lg p-8 shadow-md">
-                  <h3 className="text-xl font-semibold text-gray-900 mb-4">
-                    Room Booking Information
-                  </h3>
-                  <p className="text-gray-700 mb-4">
-                    Our facilities are available for church events, ministries,
-                    and approved community activities.
-                  </p>
-                  <div className="space-y-3">
-                    <div>
-                      <p className="font-semibold text-gray-900">
-                        To Book a Facility:
-                      </p>
-                      <p className="text-sm text-gray-600 mt-1">
-                        Contact our administrative office 2 weeks in advance
-                      </p>
-                    </div>
-                    <div>
-                      <p className="font-semibold text-gray-900">
-                        Office Hours:
-                      </p>
-                      <p className="text-sm text-gray-600 mt-1">
-                        Monday - Friday: 9:00 AM - 5:00 PM
-                      </p>
-                    </div>
-                    <div>
-                      <p className="font-semibold text-gray-900">Email:</p>
-                      <p className="text-sm text-gray-600 mt-1">
-                        facilities@rccgpreciousstone.org
-                      </p>
-                    </div>
-                  </div>
-                  <button className="w-full mt-6 px-4 py-2 bg-primary text-white font-semibold rounded-lg hover:bg-opacity-90 transition">
-                    Request Room Booking
-                  </button>
-                </div>
-
-                <div className="bg-white rounded-lg p-8 shadow-md">
-                  <h3 className="text-xl font-semibold text-gray-900 mb-4">
-                    Capacity Details
-                  </h3>
-                  <div className="space-y-3">
-                    {[
-                      { room: "Main Sanctuary", capacity: "1,500" },
-                      { room: "Fellowship Hall", capacity: "400" },
-                      { room: "Conference Room", capacity: "80" },
-                      { room: "Children's Wing", capacity: "200" },
-                      { room: "Prayer Chapel", capacity: "30" },
-                    ].map((item, idx) => (
-                      <div
-                        key={idx}
-                        className="flex justify-between items-center pb-3 border-b last:border-b-0"
-                      >
-                        <span className="text-gray-700">{item.room}</span>
-                        <span className="font-semibold text-primary">
-                          {item.capacity} people
-                        </span>
-                      </div>
-                    ))}
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            {/* Virtual Tour */}
-            <div className="bg-gradient-to-r from-primary to-secondary text-white rounded-lg p-12 text-center">
-              <h3 className="text-2xl font-semibold mb-4">
-                Experience Our Church
-              </h3>
-              <p className="mb-6 text-lg max-w-2xl mx-auto">
-                Take a virtual tour of our facilities to get a feel for our
-                welcoming community before your first visit.
-              </p>
-              <button className="px-6 py-3 bg-white text-primary font-semibold rounded-lg hover:bg-opacity-90 transition">
-                Start Virtual Tour
-              </button>
-            </div>
-          </div>
-        </div>
-      </section>
+  
 
       {/* CTA Section */}
       <section className="py-20 bg-gray-50">

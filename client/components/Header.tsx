@@ -10,8 +10,8 @@ export default function Header() {
     { label: "About", href: "/about" },
     { label: "Services", href: "/services" },
     { label: "Ministries", href: "/ministries" },
-    { label: "Sermons", href: "/sermons" },
-    { label: "Events", href: "/events" },
+    // { label: "Sermons", href: "/sermons" },
+    // { label: "Events", href: "/events" },
     { label: "Give", href: "/giving" },
     { label: "Connect", href: "/connect" },
   ];

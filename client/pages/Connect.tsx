@@ -1,6 +1,6 @@
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
-import { Users, Heart, MapPin, Clock, Zap, BookOpen, Phone, Mail, MessageSquare } from "lucide-react";
+import { Users, Heart, MapPin, Zap, Phone, Mail } from "lucide-react";
 import { useState } from "react";
 
 export default function Connect() {
@@ -117,18 +117,7 @@ export default function Connect() {
                   </button>
                 </div>
 
-                <div className="bg-gradient-to-br from-green-50 to-teal-50 rounded-lg p-8">
-                  <h3 className="text-xl font-semibold text-gray-900 mb-4">Next Steps Classes</h3>
-                  <p className="text-gray-700 mb-3">
-                    Learn about our church, beliefs, and how to get connected.
-                  </p>
-                  <p className="text-sm text-gray-600 mb-4">
-                    <strong>Sundays 11:15 AM</strong> (After Second Service)
-                  </p>
-                  <button className="w-full px-4 py-2 bg-primary text-white font-semibold rounded-lg hover:bg-opacity-90 transition text-sm">
-                    Register for Next Steps
-                  </button>
-                </div>
+                
               </div>
             </div>
           </div>
@@ -340,109 +329,7 @@ export default function Connect() {
         </div>
       </section>
 
-      {/* Section 4: Membership */}
-      <section className="py-20 bg-gray-50">
-        <div className="container mx-auto px-4">
-          <div className="max-w-5xl mx-auto">
-            <h2 className="text-4xl font-serif font-bold text-gray-900 mb-12 text-center">Church Membership</h2>
-
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mb-12">
-              {/* Membership Process */}
-              <div className="bg-white rounded-lg shadow-md p-8">
-                <h3 className="text-2xl font-semibold text-gray-900 mb-6">Membership Process</h3>
-                <div className="space-y-6">
-                  {[
-                    { step: "1", title: "Attend Next Steps", desc: "Complete our orientation class (1 session)" },
-                    { step: "2", title: "Make a Profession", desc: "Publicly declare your faith in Christ" },
-                    { step: "3", title: "Submit Application", desc: "Complete membership form with basic info" },
-                    { step: "4", title: "Meet with Leadership", desc: "Brief conversation with pastor or leader" },
-                    { step: "5", title: "Welcome to Family!", desc: "Formally recognized as church member" },
-                  ].map((item, idx) => (
-                    <div key={idx} className="flex gap-4">
-                      <div className="w-10 h-10 bg-primary text-white rounded-full flex items-center justify-center flex-shrink-0 font-bold">
-                        {item.step}
-                      </div>
-                      <div>
-                        <h4 className="font-semibold text-gray-900 mb-1">{item.title}</h4>
-                        <p className="text-sm text-gray-600">{item.desc}</p>
-                      </div>
-                    </div>
-                  ))}
-                </div>
-              </div>
-
-              {/* Requirements & Benefits */}
-              <div className="space-y-6">
-                <div className="bg-white rounded-lg shadow-md p-6">
-                  <h3 className="text-xl font-semibold text-gray-900 mb-4">Requirements</h3>
-                  <ul className="space-y-3">
-                    <li className="flex items-start gap-3">
-                      <span className="text-primary font-bold">•</span>
-                      <span className="text-gray-700">Believe in Jesus Christ as Lord and Savior</span>
-                    </li>
-                    <li className="flex items-start gap-3">
-                      <span className="text-primary font-bold">•</span>
-                      <span className="text-gray-700">Support our statement of faith and doctrine</span>
-                    </li>
-                    <li className="flex items-start gap-3">
-                      <span className="text-primary font-bold">•</span>
-                      <span className="text-gray-700">Commit to serving and growing spiritually</span>
-                    </li>
-                    <li className="flex items-start gap-3">
-                      <span className="text-primary font-bold">•</span>
-                      <span className="text-gray-700">Agree to our membership covenant</span>
-                    </li>
-                  </ul>
-                </div>
-
-                <div className="bg-white rounded-lg shadow-md p-6">
-                  <h3 className="text-xl font-semibold text-gray-900 mb-4">Member Benefits</h3>
-                  <ul className="space-y-3">
-                    <li className="flex items-start gap-3">
-                      <span className="text-primary font-bold">✓</span>
-                      <span className="text-gray-700">Voting rights on church decisions</span>
-                    </li>
-                    <li className="flex items-start gap-3">
-                      <span className="text-primary font-bold">✓</span>
-                      <span className="text-gray-700">Access to discipleship programs</span>
-                    </li>
-                    <li className="flex items-start gap-3">
-                      <span className="text-primary font-bold">✓</span>
-                      <span className="text-gray-700">Priority for group leadership roles</span>
-                    </li>
-                    <li className="flex items-start gap-3">
-                      <span className="text-primary font-bold">✓</span>
-                      <span className="text-gray-700">Access to pastoral counseling</span>
-                    </li>
-                  </ul>
-                </div>
-              </div>
-            </div>
-
-            {/* Membership Classes */}
-            <div className="bg-white rounded-lg shadow-md p-8">
-              <h3 className="text-2xl font-semibold text-gray-900 mb-6">Membership Classes Schedule</h3>
-              <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-                <div className="border-l-4 border-primary pl-4">
-                  <p className="text-sm text-gray-600 font-semibold mb-1">CLASS 1: BELIEFS & FOUNDATION</p>
-                  <p className="font-semibold text-gray-900 mb-2">Sundays 11:15 AM</p>
-                  <p className="text-sm text-gray-600">Learn our core beliefs and church history</p>
-                </div>
-                <div className="border-l-4 border-secondary pl-4">
-                  <p className="text-sm text-gray-600 font-semibold mb-1">CLASS 2: COMMITMENT & SERVICE</p>
-                  <p className="font-semibold text-gray-900 mb-2">Sundays 11:15 AM</p>
-                  <p className="text-sm text-gray-600">Understand covenant and service expectations</p>
-                </div>
-                <div className="border-l-4 border-primary pl-4">
-                  <p className="text-sm text-gray-600 font-semibold mb-1">CLASS 3: MINISTRY & CALLING</p>
-                  <p className="font-semibold text-gray-900 mb-2">Sundays 11:15 AM</p>
-                  <p className="text-sm text-gray-600">Discover your spiritual gifts and ministry</p>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
+    
 
       {/* Section 5: Contact Form */}
       <section className="py-20">
