@@ -72,7 +72,7 @@ export default function Index() {
   const heroSlides = [
     {
       image:
-        "https://images.unsplash.com/photo-1510590337898-dcec4ce8a1c7?w=1600&h=900&fit=crop",
+        "/images/pastor.jpeg",
       caption: "A Community of Faith, Family, and Fellowship",
     },
     {
