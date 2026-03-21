@@ -71,8 +71,7 @@ export default function Index() {
   // Add this at the top of your component (or in a separate file)
   const heroSlides = [
     {
-      image:
-        "/images/pastor.jpeg",
+      image: "/images/pastor.jpeg",
       caption: "A Community of Faith, Family, and Fellowship",
     },
     {
@@ -126,7 +125,7 @@ export default function Index() {
             style={{ opacity: index === currentSlide ? 1 : 0 }}
           >
             <div
-              className="absolute inset-0 bg-cover bg-center scale-105"
+              className="absolute inset-0 bg-cover bg-top scale-105"
               style={{ backgroundImage: `url('${slide.image}')` }}
             />
             <div className="absolute inset-0 bg-black bg-opacity-55" />
