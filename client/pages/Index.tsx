@@ -128,7 +128,7 @@ export default function Index() {
               className="absolute inset-0 bg-cover bg-top scale-105"
               style={{ backgroundImage: `url('${slide.image}')` }}
             />
-            <div className="absolute inset-0 bg-black bg-opacity-55" />
+            <div className="absolute inset-0 bg-black bg-opacity-40" />
           </div>
         ))}
 
