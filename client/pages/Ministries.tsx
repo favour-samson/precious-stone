@@ -73,7 +73,7 @@ export default function Ministries() {
     {
       id: 4,
       title: "Women's Fellowship",
-      icon: "👩‍🤝‍👩",
+      icon: "👩",
       description: "Supporting and strengthening women",
       color: "from-pink-100 to-rose-100",
       content: {
