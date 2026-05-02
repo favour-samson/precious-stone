@@ -45,14 +45,17 @@ export default function Connect() {
         <div
           className="absolute inset-0 bg-cover bg-center opacity-90"
           style={{
-            backgroundImage:
-              "url('/images/pastor.jpeg')",
+            backgroundImage: "url('/images/pastor.jpeg')",
           }}
         />
         <div className="absolute inset-0 bg-black bg-opacity-40" />
         <div className="relative container mx-auto px-4 h-full flex flex-col items-center justify-center text-center">
-          <h1 className="text-5xl font-serif font-bold mb-4">Connect With Us</h1>
-          <p className="text-xl text-gray-200">Join our community and find your place of belonging</p>
+          <h1 className="text-5xl font-serif font-bold mb-4">
+            Connect With Us
+          </h1>
+          <p className="text-xl text-gray-200">
+            Join our community and find your place of belonging
+          </p>
         </div>
       </section>
 
@@ -60,12 +63,16 @@ export default function Connect() {
       <section className="py-20">
         <div className="container mx-auto px-4">
           <div className="max-w-5xl mx-auto">
-            <h2 className="text-4xl font-serif font-bold text-gray-900 mb-12 text-center">New Here?</h2>
+            <h2 className="text-4xl font-serif font-bold text-gray-900 mb-12 text-center">
+              New Here?
+            </h2>
 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mb-12">
               {/* What to Expect */}
               <div className="bg-white rounded-lg shadow-md p-8">
-                <h3 className="text-2xl font-semibold text-gray-900 mb-6">What to Expect on Your First Visit</h3>
+                <h3 className="text-2xl font-semibold text-gray-900 mb-6">
+                  What to Expect on Your First Visit
+                </h3>
                 <ul className="space-y-4">
                   {[
                     "A warm welcome from our hospitality team at the entrance",
@@ -77,7 +84,9 @@ export default function Connect() {
                     "A comfortable, welcoming atmosphere for families",
                   ].map((item, idx) => (
                     <li key={idx} className="flex items-start gap-3">
-                      <span className="text-primary font-bold flex-shrink-0">✓</span>
+                      <span className="text-primary font-bold flex-shrink-0">
+                        ✓
+                      </span>
                       <span className="text-gray-700">{item}</span>
                     </li>
                   ))}
@@ -87,64 +96,81 @@ export default function Connect() {
               {/* Welcome Team & Visitor Form */}
               <div className="space-y-6">
                 <div className="bg-gradient-to-br from-blue-50 to-cyan-50 rounded-lg p-8">
-                  <h3 className="text-xl font-semibold text-gray-900 mb-4">Welcome Team</h3>
+                  <h3 className="text-xl font-semibold text-gray-900 mb-4">
+                    Welcome Team
+                  </h3>
                   <p className="text-gray-700 mb-6">
                     Our dedicated welcome team is here to help you feel at home.
                   </p>
                   <div className="space-y-3">
                     <div className="flex items-center gap-3">
                       <Zap className="text-primary" size={20} />
-                      <span className="text-gray-700">Arrive 10 minutes early for a warm greeting</span>
+                      <span className="text-gray-700">
+                        Arrive 10 minutes early for a warm greeting
+                      </span>
                     </div>
                     <div className="flex items-center gap-3">
                       <Heart className="text-primary" size={20} />
-                      <span className="text-gray-700">Ask us any questions you may have</span>
+                      <span className="text-gray-700">
+                        Ask us any questions you may have
+                      </span>
                     </div>
                     <div className="flex items-center gap-3">
                       <Users className="text-primary" size={20} />
-                      <span className="text-gray-700">Connect with other first-time visitors</span>
+                      <span className="text-gray-700">
+                        Connect with other first-time visitors
+                      </span>
                     </div>
                   </div>
                 </div>
 
                 <div className="bg-gradient-to-br from-purple-50 to-pink-50 rounded-lg p-8">
-                  <h3 className="text-xl font-semibold text-gray-900 mb-4">Visitor Registration</h3>
+                  <h3 className="text-xl font-semibold text-gray-900 mb-4">
+                    Visitor Registration
+                  </h3>
                   <p className="text-gray-700 mb-4">
-                    Fill out our visitor form to receive a welcome gift and updates about events.
+                    Fill out our visitor form to receive a welcome gift and
+                    updates about events.
                   </p>
                   <button className="w-full px-4 py-2 bg-primary text-white font-semibold rounded-lg hover:bg-opacity-90 transition">
                     Complete Visitor Form
                   </button>
                 </div>
-
-                
               </div>
             </div>
           </div>
         </div>
       </section>
 
-
       {/* Section 3: Volunteer Opportunities */}
       <section className="py-20">
         <div className="container mx-auto px-4">
           <div className="max-w-5xl mx-auto">
-            <h2 className="text-4xl font-serif font-bold text-gray-900 mb-12 text-center">Volunteer Opportunities</h2>
+            <h2 className="text-4xl font-serif font-bold text-gray-900 mb-12 text-center">
+              Volunteer Opportunities
+            </h2>
 
             <p className="text-center text-gray-600 text-lg mb-12">
-              Use your gifts and talents to serve and make an eternal difference in lives.
+              Use your gifts and talents to serve and make an eternal difference
+              in lives.
             </p>
 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-12">
               {/* Children's Ministry */}
               <div className="bg-white rounded-lg shadow-md p-6">
-                <h3 className="text-lg font-semibold text-gray-900 mb-3">👶 Children's Ministry</h3>
+                <h3 className="text-lg font-semibold text-gray-900 mb-3">
+                  👶 Children's Ministry
+                </h3>
                 <p className="text-gray-700 text-sm mb-4">
                   Teach, assist, care for children during services and events.
                 </p>
                 <div className="mb-4">
-                  <p className="text-sm font-semibold text-gray-900 mb-2">Skills Needed:</p>
-                  <p className="text-sm text-gray-600">Teaching, patience, creativity, care for kids</p>
+                  <p className="text-sm font-semibold text-gray-900 mb-2">
+                    Skills Needed:
+                  </p>
+                  <p className="text-sm text-gray-600">
+                    Teaching, patience, creativity, care for kids
+                  </p>
                 </div>
                 {/* <button className="w-full px-4 py-2 bg-primary text-white font-semibold rounded-lg hover:bg-opacity-90 transition text-sm">
                   Apply Now
@@ -153,13 +179,19 @@ export default function Connect() {
 
               {/* Welcome Team */}
               <div className="bg-white rounded-lg shadow-md p-6">
-                <h3 className="text-lg font-semibold text-gray-900 mb-3">🙋 Welcome Team</h3>
+                <h3 className="text-lg font-semibold text-gray-900 mb-3">
+                  🙋 Welcome Team
+                </h3>
                 <p className="text-gray-700 text-sm mb-4">
                   Greet visitors, assist with seating, answer questions.
                 </p>
                 <div className="mb-4">
-                  <p className="text-sm font-semibold text-gray-900 mb-2">Skills Needed:</p>
-                  <p className="text-sm text-gray-600">Friendliness, hospitality, people skills</p>
+                  <p className="text-sm font-semibold text-gray-900 mb-2">
+                    Skills Needed:
+                  </p>
+                  <p className="text-sm text-gray-600">
+                    Friendliness, hospitality, people skills
+                  </p>
                 </div>
                 {/* <button className="w-full px-4 py-2 bg-primary text-white font-semibold rounded-lg hover:bg-opacity-90 transition text-sm">
                   Apply Now
@@ -168,13 +200,19 @@ export default function Connect() {
 
               {/* Music & Worship */}
               <div className="bg-white rounded-lg shadow-md p-6">
-                <h3 className="text-lg font-semibold text-gray-900 mb-3">🎵 Music & Worship</h3>
+                <h3 className="text-lg font-semibold text-gray-900 mb-3">
+                  🎵 Music & Worship
+                </h3>
                 <p className="text-gray-700 text-sm mb-4">
                   Play instruments, sing in choir, operate sound/lighting.
                 </p>
                 <div className="mb-4">
-                  <p className="text-sm font-semibold text-gray-900 mb-2">Skills Needed:</p>
-                  <p className="text-sm text-gray-600">Musical talent, dedication</p>
+                  <p className="text-sm font-semibold text-gray-900 mb-2">
+                    Skills Needed:
+                  </p>
+                  <p className="text-sm text-gray-600">
+                    Musical talent, dedication
+                  </p>
                 </div>
                 {/* <button className="w-full px-4 py-2 bg-primary text-white font-semibold rounded-lg hover:bg-opacity-90 transition text-sm">
                   Apply Now
@@ -183,13 +221,19 @@ export default function Connect() {
 
               {/* Community Outreach */}
               <div className="bg-white rounded-lg shadow-md p-6">
-                <h3 className="text-lg font-semibold text-gray-900 mb-3">🤝 Community Outreach</h3>
+                <h3 className="text-lg font-semibold text-gray-900 mb-3">
+                  🤝 Community Outreach
+                </h3>
                 <p className="text-gray-700 text-sm mb-4">
                   Participate in community service, visitation, care programs.
                 </p>
                 <div className="mb-4">
-                  <p className="text-sm font-semibold text-gray-900 mb-2">Skills Needed:</p>
-                  <p className="text-sm text-gray-600">Compassion, communication, organizational skills</p>
+                  <p className="text-sm font-semibold text-gray-900 mb-2">
+                    Skills Needed:
+                  </p>
+                  <p className="text-sm text-gray-600">
+                    Compassion, communication, organizational skills
+                  </p>
                 </div>
                 {/* <button className="w-full px-4 py-2 bg-primary text-white font-semibold rounded-lg hover:bg-opacity-90 transition text-sm">
                   Apply Now
@@ -198,13 +242,20 @@ export default function Connect() {
 
               {/* Ushering */}
               <div className="bg-white rounded-lg shadow-md p-6">
-                <h3 className="text-lg font-semibold text-gray-900 mb-3">👔 Ushering & Logistics</h3>
+                <h3 className="text-lg font-semibold text-gray-900 mb-3">
+                  👔 Ushering & Logistics
+                </h3>
                 <p className="text-gray-700 text-sm mb-4">
-                  Direct traffic, assist with offerings, manage logistics during services.
+                  Direct traffic, assist with offerings, manage logistics during
+                  services.
                 </p>
                 <div className="mb-4">
-                  <p className="text-sm font-semibold text-gray-900 mb-2">Skills Needed:</p>
-                  <p className="text-sm text-gray-600">Organization, leadership, customer service</p>
+                  <p className="text-sm font-semibold text-gray-900 mb-2">
+                    Skills Needed:
+                  </p>
+                  <p className="text-sm text-gray-600">
+                    Organization, leadership, customer service
+                  </p>
                 </div>
                 {/* <button className="w-full px-4 py-2 bg-primary text-white font-semibold rounded-lg hover:bg-opacity-90 transition text-sm">
                   Apply Now
@@ -213,13 +264,19 @@ export default function Connect() {
 
               {/* Office & Administration */}
               <div className="bg-white rounded-lg shadow-md p-6">
-                <h3 className="text-lg font-semibold text-gray-900 mb-3">💼 Office & Admin</h3>
+                <h3 className="text-lg font-semibold text-gray-900 mb-3">
+                  💼 Office & Admin
+                </h3>
                 <p className="text-gray-700 text-sm mb-4">
                   Help with administration, data entry, office organization.
                 </p>
                 <div className="mb-4">
-                  <p className="text-sm font-semibold text-gray-900 mb-2">Skills Needed:</p>
-                  <p className="text-sm text-gray-600">Organization, tech skills, attention to detail</p>
+                  <p className="text-sm font-semibold text-gray-900 mb-2">
+                    Skills Needed:
+                  </p>
+                  <p className="text-sm text-gray-600">
+                    Organization, tech skills, attention to detail
+                  </p>
                 </div>
                 {/* <button className="w-full px-4 py-2 bg-primary text-white font-semibold rounded-lg hover:bg-opacity-90 transition text-sm">
                   Apply Now
@@ -229,9 +286,12 @@ export default function Connect() {
 
             {/* Volunteer Application */}
             <div className="bg-gradient-to-r from-primary to-secondary text-white rounded-lg p-8 text-center">
-              <h3 className="text-2xl font-semibold mb-4">Ready to Volunteer?</h3>
+              <h3 className="text-2xl font-semibold mb-4">
+                Ready to Volunteer?
+              </h3>
               <p className="mb-6">
-                Fill out our volunteer application and join a ministry team that aligns with your gifts and passion.
+                Fill out our volunteer application and join a ministry team that
+                aligns with your gifts and passion.
               </p>
               <button className="px-8 py-3 bg-white text-primary font-semibold rounded-lg hover:bg-opacity-90 transition">
                 Complete Volunteer Application
@@ -241,31 +301,35 @@ export default function Connect() {
         </div>
       </section>
 
-    
-
       {/* Section 5: Contact Form */}
       <section className="py-20">
         <div className="container mx-auto px-4">
           <div className="max-w-3xl mx-auto">
-            <h2 className="text-4xl font-serif font-bold text-gray-900 mb-12 text-center">Contact Us</h2>
+            <h2 className="text-4xl font-serif font-bold text-gray-900 mb-12 text-center">
+              Contact Us
+            </h2>
 
             <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-12">
               <div className="bg-gray-50 rounded-lg p-6 text-center">
                 <Phone className="text-primary mx-auto mb-3" size={32} />
                 <h3 className="font-semibold text-gray-900 mb-2">Phone</h3>
-                <p className="text-gray-600 text-sm">+234 (0) 701 000 0000</p>
+                <p className="text-gray-600 text-sm">09113747467</p>
               </div>
 
               <div className="bg-gray-50 rounded-lg p-6 text-center">
                 <Mail className="text-primary mx-auto mb-3" size={32} />
                 <h3 className="font-semibold text-gray-900 mb-2">Email</h3>
-                <p className="text-gray-600 text-sm">info@rccgpreciousstone.org</p>
+                <p className="text-gray-600 text-sm">
+                  rccgpreciousstoneparish@gmail.com
+                </p>
               </div>
 
               <div className="bg-gray-50 rounded-lg p-6 text-center">
                 <MapPin className="text-primary mx-auto mb-3" size={32} />
                 <h3 className="font-semibold text-gray-900 mb-2">Visit Us</h3>
-                <p className="text-gray-600 text-sm">123 Main Street, Lagos, Nigeria</p>
+                <p className="text-gray-600 text-sm">
+                  Ajila Road, Elebu-Akuru, Ibadan, Nigeria
+                </p>
               </div>
             </div>
 
@@ -274,7 +338,9 @@ export default function Connect() {
               <form onSubmit={handleFormSubmit} className="space-y-6">
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                   <div>
-                    <label className="block text-sm font-semibold text-gray-900 mb-2">Full Name *</label>
+                    <label className="block text-sm font-semibold text-gray-900 mb-2">
+                      Full Name *
+                    </label>
                     <input
                       type="text"
                       name="name"
@@ -287,7 +353,9 @@ export default function Connect() {
                   </div>
 
                   <div>
-                    <label className="block text-sm font-semibold text-gray-900 mb-2">Email Address *</label>
+                    <label className="block text-sm font-semibold text-gray-900 mb-2">
+                      Email Address *
+                    </label>
                     <input
                       type="email"
                       name="email"
@@ -302,7 +370,9 @@ export default function Connect() {
 
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                   <div>
-                    <label className="block text-sm font-semibold text-gray-900 mb-2">Phone Number</label>
+                    <label className="block text-sm font-semibold text-gray-900 mb-2">
+                      Phone Number
+                    </label>
                     <input
                       type="tel"
                       name="phone"
@@ -314,7 +384,9 @@ export default function Connect() {
                   </div>
 
                   <div>
-                    <label className="block text-sm font-semibold text-gray-900 mb-2">Department Selection *</label>
+                    <label className="block text-sm font-semibold text-gray-900 mb-2">
+                      Department Selection *
+                    </label>
                     <select
                       name="department"
                       value={formData.department}
@@ -334,7 +406,9 @@ export default function Connect() {
                 </div>
 
                 <div>
-                  <label className="block text-sm font-semibold text-gray-900 mb-2">Your Message *</label>
+                  <label className="block text-sm font-semibold text-gray-900 mb-2">
+                    Your Message *
+                  </label>
                   <textarea
                     name="message"
                     value={formData.message}
@@ -362,8 +436,9 @@ export default function Connect() {
 
                 <div className="bg-blue-50 border border-blue-200 rounded-lg p-4">
                   <p className="text-sm text-gray-700">
-                    <strong>Response Time:</strong> We aim to respond to all inquiries within 24 business hours. For
-                    emergencies, please call us directly.
+                    <strong>Response Time:</strong> We aim to respond to all
+                    inquiries within 24 business hours. For emergencies, please
+                    call us directly.
                   </p>
                 </div>
 
