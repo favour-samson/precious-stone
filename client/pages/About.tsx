@@ -198,11 +198,7 @@ export default function About() {
                 meets monthly to provide oversight, guidance, and strategic
                 direction for the church.
               </p>
-              <p className="text-sm opacity-90">
-                Members include the Senior Pastor, Associate Pastors, ministry
-                heads, and elected church council members who collectively guide
-                our church toward fulfilling God's purpose.
-              </p>
+             
             </div>
           </div>
         </div>

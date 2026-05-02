@@ -52,14 +52,14 @@ export function WatchUsLiveSection() {
       <div className="container mx-auto px-4 relative z-10">
         {/* Header */}
         <div className="text-center mb-12">
-          <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full border border-white/10 bg-white/5 text-white/60 text-sm mb-4">
+          <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full border border-white/10 bg-white/5 text-white text-sm mb-4">
             <Radio size={14} />
             Live Broadcast
           </div>
           <h2 className="text-4xl font-serif font-bold text-white mb-3">
             Watch Us Live
           </h2>
-          <p className="text-white/50 text-lg">
+          <p className="text-white text-lg">
             Join our services from wherever you are
           </p>
         </div>
@@ -92,13 +92,13 @@ export function WatchUsLiveSection() {
                 /* Offline state */
                 <div className="aspect-video flex flex-col items-center justify-center gap-6 p-8">
                   <div className="w-20 h-20 rounded-full bg-white/5 border border-white/10 flex items-center justify-center">
-                    <Radio size={32} className="text-white/30" />
+                    <Radio size={32} className="text-white" />
                   </div>
                   <div className="text-center">
-                    <p className="text-white/80 font-semibold text-lg mb-1">
+                    <p className="text-white font-semibold text-lg mb-1">
                       We're not live right now
                     </p>
-                    <p className="text-white/40 text-sm">
+                    <p className="text-white text-sm">
                       Join us during one of our scheduled services below
                     </p>
                   </div>
@@ -116,7 +116,7 @@ export function WatchUsLiveSection() {
             </div>
 
             {/* Facebook CTA below player */}
-            <p className="text-white/30 text-xs text-center mt-3">
+            <p className="text-white text-xs text-center mt-3">
               Stream hosted on{" "}
               <a
                 href={FACEBOOK_PAGE_URL}
@@ -133,7 +133,7 @@ export function WatchUsLiveSection() {
           <div className="flex flex-col gap-4">
             {/* Service times */}
             <div className="rounded-2xl bg-white/5 border border-white/10 p-6">
-              <div className="flex items-center gap-2 text-white/60 text-sm font-medium mb-4">
+              <div className="flex items-center gap-2 text-white text-sm font-medium mb-4">
                 <Calendar size={15} />
                 Service Schedule
               </div>
@@ -143,7 +143,7 @@ export function WatchUsLiveSection() {
                     <div className="w-1.5 h-1.5 rounded-full bg-primary mt-2 shrink-0" />
                     <div>
                       <p className="text-white text-sm font-semibold">{s.label}</p>
-                      <p className="text-white/40 text-xs">
+                      <p className="text-white text-xs">
                         {s.day} • {s.time}
                       </p>
                     </div>
@@ -154,12 +154,12 @@ export function WatchUsLiveSection() {
 
             {/* Timezone note */}
             <div className="rounded-2xl bg-white/5 border border-white/10 p-6">
-              <div className="flex items-center gap-2 text-white/60 text-sm font-medium mb-2">
+              <div className="flex items-center gap-2 text-white text-sm font-medium mb-2">
                 <Clock size={15} />
                 Timezone
               </div>
-              <p className="text-white/80 text-sm">All times in <span className="text-white font-semibold">WAT (UTC+1)</span></p>
-              <p className="text-white/40 text-xs mt-1">West Africa Time — Nigeria</p>
+              <p className="text-white text-sm">All times in <span className="text-white font-semibold">WAT (UTC+1)</span></p>
+              <p className="text-white text-xs mt-1">West Africa Time — Nigeria</p>
             </div>
 
             {/* Notify me */}
@@ -168,7 +168,7 @@ export function WatchUsLiveSection() {
                 <Bell size={15} />
                 Never Miss a Service
               </div>
-              <p className="text-white/50 text-xs mb-4">
+              <p className="text-white text-xs mb-4">
                 Follow us on Facebook to get notified when we go live.
               </p>
               <a
