@@ -133,7 +133,7 @@ export default function Ministries() {
       {/* Hero Section */}
       <section className="relative h-96 bg-gradient-to-r from-gray-900 to-gray-800 text-white overflow-hidden">
         <div
-          className="absolute inset-0 bg-cover bg-center opacity-80"
+          className="absolute inset-0 bg-cover bg-center opacity-90"
           style={{
             backgroundImage: "url('/images/pastor.jpeg')",
           }}
