@@ -395,9 +395,6 @@ export default function Ministries() {
                   {ministry.id === 6 && (
                     <div className="space-y-8">
                       <div className="bg-indigo-50 p-6 rounded-lg">
-                        <h3 className="font-semibold text-gray-900 mb-2">
-                          24/7 Prayer Chain
-                        </h3>
                         <p className="text-gray-700 mb-4">
                           {ministry.content.prayerChain}
                         </p>
