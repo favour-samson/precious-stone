@@ -49,6 +49,7 @@ export default function Ministries() {
       content: {
         ageGroup: "Ages 18–49",
         events: [
+          "Youth Sunday - Every third Sunday",
           "Youth Fellowship (Local & Zonal)",
           "Zonal Youth Vigil — Quarterly",
           "National Youth Program — 1st week of October",
@@ -285,14 +286,7 @@ export default function Ministries() {
                   {/* Ministry 3: Men's Fellowship */}
                   {ministry.id === 3 && (
                     <div className="space-y-8">
-                      <div className="bg-green-50 p-6 rounded-lg">
-                        <h3 className="text-lg font-semibold text-gray-900 mb-2">
-                          Regular Meeting
-                        </h3>
-                        <p className="text-gray-700">
-                          {ministry.content.meetingSchedule}
-                        </p>
-                      </div>
+                      
 
                       <div>
                         <h3 className="text-xl font-semibold text-gray-900 mb-4">
