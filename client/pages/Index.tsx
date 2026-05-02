@@ -344,7 +344,9 @@ export default function Index() {
               <div className="p-6">
                 <div className="flex items-center gap-2 text-primary mb-3">
                   <Calendar size={18} />
-                  <span className="text-sm font-semibold">Sunday, May 3</span>
+                  <span className="text-sm font-semibold">
+                    Every First Sunday
+                  </span>
                 </div>
                 <h3 className="text-xl font-semibold text-gray-900 mb-2">
                   Thanksgiving Service
@@ -369,7 +371,7 @@ export default function Index() {
               <div className="p-6">
                 <div className="flex items-center gap-2 text-primary mb-3">
                   <Calendar size={18} />
-                  <span className="text-sm font-semibold">Tuesday, May 5</span>
+                  <span className="text-sm font-semibold">Every Tuesday</span>
                 </div>
                 <h3 className="text-xl font-semibold text-gray-900 mb-2">
                   Digging Deep (Bible Study)
@@ -382,11 +384,35 @@ export default function Index() {
               </div>
             </div>
 
-            {/* Event Card 3 */}
+            {/* Event Card 2 */}
             <div className="bg-white rounded-lg shadow-md overflow-hidden hover:shadow-lg transition">
               <div className="h-40 relative">
                 <img
                   src="/images/service-1.jpeg"
+                  alt="Midweek Bible Study"
+                  className="w-full h-full object-cover"
+                />
+              </div>
+              <div className="p-6">
+                <div className="flex items-center gap-2 text-primary mb-3">
+                  <Calendar size={18} />
+                  <span className="text-sm font-semibold">Every Thursday</span>
+                </div>
+                <h3 className="text-xl font-semibold text-gray-900 mb-2">
+                  Faith Clinic
+                </h3>
+                <p className="text-gray-600 text-sm mb-4">
+                  It's a time when we prayer and pour out our burdens unto the Lord.
+                </p>
+                <p className="text-sm text-gray-500">5:30 PM</p>
+              </div>
+            </div>
+
+            {/* Event Card 3 */}
+            <div className="bg-white rounded-lg shadow-md overflow-hidden hover:shadow-lg transition">
+              <div className="h-40 relative">
+                <img
+                  src="/images/service-3.jpeg"
                   alt="Youth Fellowship Night"
                   className="w-full h-full object-cover"
                 />
@@ -394,13 +420,13 @@ export default function Index() {
               <div className="p-6">
                 <div className="flex items-center gap-2 text-primary mb-3">
                   <Calendar size={18} />
-                  <span className="text-sm font-semibold">Sunday, May 17</span>
+                  <span className="text-sm font-semibold">Every Third Sunday</span>
                 </div>
                 <h3 className="text-xl font-semibold text-gray-900 mb-2">
                   Youth Sunday
                 </h3>
                 <p className="text-gray-600 text-sm mb-4">
-                  Community service, games, and fellowship for all young adults.
+                  Community service, games, and fellowship for all young adults(YAYA).
                 </p>
                 <p className="text-sm text-gray-500">8:00 AM</p>
               </div>

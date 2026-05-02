@@ -9,11 +9,10 @@ export default function Giving() {
 
       {/* Hero Section */}
       <section className="relative h-96 bg-gradient-to-r from-gray-900 to-gray-800 text-white overflow-hidden">
-         <div
+        <div
           className="absolute inset-0 bg-cover bg-center opacity-80"
           style={{
-            backgroundImage:
-              "url('/images/pastor.jpeg')",
+            backgroundImage: "url('/images/pastor.jpeg')",
           }}
         />
         <div className="absolute inset-0 bg-black bg-opacity-40" />
@@ -144,19 +143,74 @@ export default function Giving() {
                 <div className="space-y-4">
                   {/* Bank Transfer */}
                   <div className="bg-white rounded-lg p-6 shadow-md">
-                    <h4 className="text-lg font-semibold text-gray-900 mb-3">
+                    <h4 className="text-lg font-semibold text-gray-900 mb-4">
                       Bank Transfer
                     </h4>
-                    <div className="bg-gray-50 p-4 rounded mb-3 text-sm space-y-2">
-                      <p>
-                        <strong>Bank Name:</strong> Polaris Bank Plc
-                      </p>
-                      <p>
-                        <strong>Account:</strong> RCCG PRECIOUS STONE PARISH
-                      </p>
-                      <p>
-                        <strong>Account No:</strong> 4091820896
-                      </p>
+
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                      {/* Tithes & Offerings */}
+                      <div className="border-2 border-primary/20 bg-primary/5 rounded-lg p-4">
+                        <div className="flex items-center gap-2 mb-3">
+                          <span className="text-lg">🙏</span>
+                          <p className="font-semibold text-primary text-sm">
+                            Tithes & Offerings
+                          </p>
+                        </div>
+                        <div className="space-y-1.5 text-sm text-gray-700">
+                          <p>
+                            <span className="font-medium text-gray-900">
+                              Bank:
+                            </span>{" "}
+                            Fidelity Bank Plc
+                          </p>
+                          <p>
+                            <span className="font-medium text-gray-900">
+                              Account Name:
+                            </span>{" "}
+                            RCCG Precious Stone Parish
+                          </p>
+                          <p>
+                            <span className="font-medium text-gray-900">
+                              Account No:
+                            </span>{" "}
+                            4110118287
+                          </p>
+                        </div>
+                      </div>
+
+                      {/* Other Contributions */}
+                      <div className="border-2 border-gray-200 bg-gray-50 rounded-lg p-4">
+                        <div className="flex items-center gap-2 mb-3">
+                          <span className="text-lg">🌍</span>
+                          <p className="font-semibold text-gray-700 text-sm">
+                            Other Contributions
+                          </p>
+                        </div>
+                        <p className="text-xs text-gray-500 mb-3 leading-relaxed">
+                          Project Offerings, Let's Go A Fishing, Special
+                          Programmes, Vigil & other contributions
+                        </p>
+                        <div className="space-y-1.5 text-sm text-gray-700">
+                          <p>
+                            <span className="font-medium text-gray-900">
+                              Bank:
+                            </span>{" "}
+                            Polaris Bank Ltd
+                          </p>
+                          <p>
+                            <span className="font-medium text-gray-900">
+                              Account Name:
+                            </span>{" "}
+                            RCCG Precious Stone Parish
+                          </p>
+                          <p>
+                            <span className="font-medium text-gray-900">
+                              Account No:
+                            </span>{" "}
+                            4091820896
+                          </p>
+                        </div>
+                      </div>
                     </div>
                   </div>
 
