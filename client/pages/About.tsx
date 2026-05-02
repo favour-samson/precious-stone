@@ -11,10 +11,9 @@ export default function About() {
       {/* Hero Section */}
       <section className="relative h-96 bg-gradient-to-r from-gray-900 to-gray-800 text-white overflow-hidden">
         <div
-          className="absolute inset-0 bg-cover bg-center opacity-30"
+          className="absolute inset-0 bg-cover bg-center opacity-80"
           style={{
-            backgroundImage:
-              "url('https://images.unsplash.com/photo-1511379938547-c1f69b13d835?w=1200&h=600&fit=crop')",
+            backgroundImage: "url('/images/pastor.jpeg')",
           }}
         />
         <div className="absolute inset-0 bg-black bg-opacity-40" />
@@ -25,7 +24,6 @@ export default function About() {
           </p>
         </div>
       </section>
-
 
       {/* Section 2: Our Beliefs */}
       <section className="py-20 bg-gray-50">
@@ -97,7 +95,7 @@ export default function About() {
               ].map((belief, idx) => (
                 <div
                   key={idx}
-                  className="bg-white rounded-lg p-6 border-l-4 border-primary"
+                  className="bg-white rounded-lg p-6  border-primary"
                 >
                   <h4 className="text-lg font-semibold text-gray-900 mb-2">
                     {belief.title}
@@ -144,115 +142,48 @@ export default function About() {
         <div className="container mx-auto px-4">
           <div className="max-w-5xl mx-auto">
             <h2 className="text-4xl font-serif font-bold text-gray-900 mb-12 text-center">
-              Our Leadership
+              Our Leadership In Precious Stone Parish Area HQ
             </h2>
 
-            {/* Senior Pastor */}
-            <div className="mb-16 bg-white rounded-lg overflow-hidden shadow-md">
-              <div className="grid grid-cols-1 md:grid-cols-3 gap-8 p-8">
-                <div className="md:col-span-1">
-                  <img
-                    src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=400&h=500&fit=crop"
-                    alt="Senior Pastor"
-                    className="w-full h-80 object-cover rounded-lg"
-                  />
-                </div>
-                <div className="md:col-span-2">
-                  <h3 className="text-3xl font-semibold text-gray-900 mb-2">
-                    Pastor John Adeleke
-                  </h3>
-                  <p className="text-lg text-primary font-semibold mb-4">
-                    Senior Pastor
-                  </p>
-                  <p className="text-gray-700 leading-relaxed mb-4">
-                    Pastor John Adeleke has been serving as Senior Pastor since
-                    2005, leading RCCG Precious Stone Area HQ through a period
-                    of significant growth and spiritual maturity. With over 25
-                    years of pastoral experience, he is known for his powerful
-                    preaching, compassionate leadership, and unwavering
-                    commitment to biblical truth.
-                  </p>
-                  <p className="text-gray-700 leading-relaxed mb-4">
-                    He holds a Bachelor's degree in Theology and has completed
-                    advanced pastoral training through the RCCG Headquarters.
-                    Pastor John is married to Pastor (Mrs.) Adama Adeleke and
-                    together they have three adult children actively involved in
-                    ministry.
-                  </p>
-                
-                </div>
-              </div>
-            </div>
-
-            {/* Pastor's Wife */}
-            <div className="mb-16 bg-white rounded-lg overflow-hidden shadow-md">
-              <div className="grid grid-cols-1 md:grid-cols-3 gap-8 p-8">
-                <div className="md:col-span-1">
-                  <img
-                    src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=400&h=500&fit=crop"
-                    alt="Pastor's Wife"
-                    className="w-full h-80 object-cover rounded-lg"
-                  />
-                </div>
-                <div className="md:col-span-2">
-                  <h3 className="text-3xl font-semibold text-gray-900 mb-2">
-                    Pastor (Mrs.) Adama Adeleke
-                  </h3>
-                  <p className="text-lg text-primary font-semibold mb-4">
-                    Co-Pastor & Women's Ministry Leader
-                  </p>
-                  <p className="text-gray-700 leading-relaxed mb-4">
-                    Pastor Adama is an anointed teacher of God's Word with a
-                    special passion for women's spiritual development and
-                    empowerment. She leads the Women's Fellowship with grace and
-                    wisdom, mentoring hundreds of women in their faith journey.
-                  </p>
-                  <p className="text-gray-700 leading-relaxed mb-4">
-                    A certified counselor and life coach, Pastor Adama provides
-                    spiritual direction and practical guidance to women facing
-                    life's challenges. She is actively involved in marriage
-                    counseling and family strengthening initiatives within the
-                    church.
-                  </p>
-                  
-                </div>
-              </div>
-            </div>
-
-            {/* Associate Pastors */}
-            <div className="mb-16">
-              <h3 className="text-2xl font-semibold text-gray-900 mb-8">
-                Associate Pastors & Ministry Leaders
-              </h3>
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                {[
-                  {
-                    name: "Pastor David Okafor",
-                    role: "Associate Pastor - Youth & Young Adults Ministry",
-                  },
-                  {
-                    name: "Pastor Grace Johnson",
-                    role: "Associate Pastor - Children's Ministry",
-                  },
-                  {
-                    name: "Pastor Michael Umeh",
-                    role: "Music & Worship Ministry Leader",
-                  },
-                  {
-                    name: "Pastor Chioma Nwankwo",
-                    role: "Prayer Ministry Leader",
-                  },
-                ].map((pastor, idx) => (
-                  <div key={idx} className="bg-white rounded-lg p-6 shadow-md">
-                    <h4 className="text-lg font-semibold text-gray-900 mb-2">
-                      {pastor.name}
-                    </h4>
-                    <p className="text-primary text-sm font-semibold">
-                      {pastor.role}
-                    </p>
+            <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-6 max-w-5xl mx-auto">
+              {[
+                {
+                  name: "Pastor Ogunbajo",
+                  img: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=400&h=500&fit=crop",
+                },
+                {
+                  name: "Pastor Mrs. Ogunbajo",
+                  img: "https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=400&h=500&fit=crop",
+                },
+                {
+                  name: "A/P Adewale Ogunofejo",
+                  img: "/images/adewale.jpeg",
+                },
+                {
+                  name: "A/P Olapeju Akinpelu",
+                  img: "/images/akinpelu.jpeg",
+                },
+                {
+                  name: "Deaconess Foluke Aribisala",
+                  img: "/images/aribisala.jpeg",
+                },
+              ].map((pastor) => (
+                <div
+                  key={pastor.name}
+                  className="flex flex-col items-center text-center"
+                >
+                  <div className="w-full aspect-square overflow-hidden rounded-xl mb-3 shadow-md">
+                    <img
+                      src={pastor.img}
+                      alt={pastor.name}
+                      className="w-full h-full object-cover hover:scale-105 transition duration-300"
+                    />
                   </div>
-                ))}
-              </div>
+                  <p className="text-gray-900 font-semibold text-sm">
+                    {pastor.name}
+                  </p>
+                </div>
+              ))}
             </div>
 
             {/* Church Council */}
@@ -326,49 +257,9 @@ export default function About() {
                 ))}
               </div>
             </div>
-
-          
-
-            {/* Strategic Initiatives */}
-            <div className="bg-gradient-to-r from-secondary to-primary text-white rounded-lg p-8">
-              <h3 className="text-2xl font-semibold mb-6">
-                Strategic Initiatives
-              </h3>
-              <div className="space-y-4">
-               
-                <div>
-                  <h4 className="font-semibold mb-2">
-                    • Youth Empowerment Program
-                  </h4>
-                  <p className="text-sm opacity-90">
-                    Skills training and mentorship for young adults entering the
-                    workforce
-                  </p>
-                </div>
-                <div>
-                  <h4 className="font-semibold mb-2">
-                    • Outreach & Evangelism Campaign
-                  </h4>
-                  <p className="text-sm opacity-90">
-                    Annual crusades and community engagement events for soul
-                    winning
-                  </p>
-                </div>
-                <div>
-                  <h4 className="font-semibold mb-2">
-                    • Leadership Development Institute
-                  </h4>
-                  <p className="text-sm opacity-90">
-                    Formal training programs for pastors and ministry leaders
-                  </p>
-                </div>
-              </div>
-            </div>
           </div>
         </div>
       </section>
-
-  
 
       {/* CTA Section */}
       <section className="py-20 bg-gray-50">

@@ -32,21 +32,18 @@ export default function Ministries() {
       description: "Empowering the next generation",
       color: "from-purple-100 to-pink-100",
       content: {
-        meetingTimes: "Saturdays, 5:00 PM - 7:00 PM",
-        ageGroup: "Ages 13-25",
+        ageGroup: "Ages 18-40",
         events: [
           "Monthly youth fellowship and games",
           "Quarterly youth conventions and camps",
           "Annual youth conference (nationally)",
           "Career guidance and mentorship programs",
-          "Mission trips and outreach projects",
         ],
         leadershipTeam: [
           "Pastor David Okafor (Youth Pastor)",
           "Comfort Ejiro (Assistant Youth Pastor)",
           "Multiple youth coordinators and mentors",
         ],
-        socialMedia: ["Instagram: @rccg_preciousstone_youth", "Facebook: RCCG Precious Stone Youth"],
       },
     },
     {
@@ -221,11 +218,11 @@ export default function Ministries() {
 
       {/* Hero Section */}
       <section className="relative h-96 bg-gradient-to-r from-gray-900 to-gray-800 text-white overflow-hidden">
-        <div
-          className="absolute inset-0 bg-cover bg-center opacity-30"
+         <div
+          className="absolute inset-0 bg-cover bg-center opacity-80"
           style={{
             backgroundImage:
-              "url('https://images.unsplash.com/photo-1511379938547-c1f69b13d835?w=1200&h=600&fit=crop')",
+              "url('/images/pastor.jpeg')",
           }}
         />
         <div className="absolute inset-0 bg-black bg-opacity-40" />
@@ -319,10 +316,7 @@ export default function Ministries() {
                   {ministry.id === 2 && (
                     <div className="space-y-8">
                       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                        <div className="bg-gray-50 p-4 rounded-lg">
-                          <h3 className="font-semibold text-gray-900 mb-2">Meeting Times</h3>
-                          <p className="text-gray-700">{ministry.content.meetingTimes}</p>
-                        </div>
+                       
                         <div className="bg-gray-50 p-4 rounded-lg">
                           <h3 className="font-semibold text-gray-900 mb-2">Age Group</h3>
                           <p className="text-gray-700">{ministry.content.ageGroup}</p>
@@ -352,17 +346,7 @@ export default function Ministries() {
                         </ul>
                       </div>
 
-                      <div>
-                        <h3 className="text-xl font-semibold text-gray-900 mb-4">Follow Us</h3>
-                        <div className="space-y-2">
-                          {ministry.content.socialMedia.map((link, i) => (
-                            <div key={i} className="flex items-center gap-2 text-primary font-semibold">
-                              <LinkIcon size={18} />
-                              {link}
-                            </div>
-                          ))}
-                        </div>
-                      </div>
+                      
                     </div>
                   )}
 

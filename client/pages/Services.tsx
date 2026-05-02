@@ -1,13 +1,7 @@
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
-import {
-  Clock,
-  Music,
-  Tv,
-  Radio,
-  Calendar,
-  Users,
-} from "lucide-react";
+import { Clock, Music, Tv, Radio, Calendar, Users } from "lucide-react";
+import { WatchUsLiveSection } from "@/components/WatchUsLiveSection";
 
 export default function Services() {
   return (
@@ -17,10 +11,9 @@ export default function Services() {
       {/* Hero Section */}
       <section className="relative h-96 bg-gradient-to-r from-gray-900 to-gray-800 text-white overflow-hidden">
         <div
-          className="absolute inset-0 bg-cover bg-center opacity-30"
+          className="absolute inset-0 bg-cover bg-center opacity-80"
           style={{
-            backgroundImage:
-              "url('https://images.unsplash.com/photo-1511379938547-c1f69b13d835?w=1200&h=600&fit=crop')",
+            backgroundImage: "url('/images/pastor.jpeg')",
           }}
         />
         <div className="absolute inset-0 bg-black bg-opacity-40" />
@@ -51,7 +44,7 @@ export default function Services() {
 
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
                 {/* Second Service */}
-                <div className="bg-white rounded-lg shadow-md p-8 border-t-4 border-secondary">
+                <div className="bg-white rounded-lg shadow-md p-8 border-secondary">
                   <div className="space-y-4 mb-6">
                     <div className="flex items-center gap-3">
                       <Clock
@@ -97,41 +90,6 @@ export default function Services() {
                   </p>
                 </div>
               </div>
-
-              {/* Children's Church */}
-              <div className="bg-gradient-to-r from-blue-50 to-purple-50 rounded-lg p-8">
-                <h4 className="text-xl font-semibold text-gray-900 mb-4">
-                  👶 Children's Church
-                </h4>
-                <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-                  <div>
-                    <p className="text-sm text-gray-600 font-semibold mb-1">
-                      Time
-                    </p>
-                    <p className="text-gray-900">
-                      During Second Service (10:00 AM)
-                    </p>
-                  </div>
-                  <div>
-                    <p className="text-sm text-gray-600 font-semibold mb-1">
-                      Age Groups
-                    </p>
-                    <p className="text-gray-900">Ages 3-12</p>
-                  </div>
-                  <div>
-                    <p className="text-sm text-gray-600 font-semibold mb-1">
-                      Location
-                    </p>
-                    <p className="text-gray-900">Children's Ministry Wing</p>
-                  </div>
-                </div>
-                <p className="text-gray-700 mt-4">
-                  A special service designed specifically for children featuring
-                  Bible stories, interactive lessons, age-appropriate music, and
-                  activities. Trained volunteers provide a safe, fun learning
-                  environment.
-                </p>
-              </div>
             </div>
 
             {/* Midweek Services */}
@@ -143,7 +101,7 @@ export default function Services() {
 
               <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
                 {/* Wednesday Bible Study */}
-                <div className="bg-white rounded-lg shadow-md p-6 border-l-4 border-primary">
+                <div className="bg-white rounded-lg shadow-md p-6 border-primary">
                   <h4 className="text-lg font-semibold text-gray-900 mb-3">
                     Tuesday Bible Study
                   </h4>
@@ -178,7 +136,7 @@ export default function Services() {
                 </div>
 
                 {/* Friday Prayer Meeting */}
-                <div className="bg-white rounded-lg shadow-md p-6 border-l-4 border-secondary">
+                <div className="bg-white rounded-lg shadow-md p-6 border-secondary">
                   <h4 className="text-lg font-semibold text-gray-900 mb-3">
                     Thurday Prayer Meeting
                   </h4>
@@ -350,143 +308,27 @@ export default function Services() {
 
       {/* Section 3: Online Services */}
       <section className="py-20">
-        <div className="container mx-auto px-4">
-          <div className="max-w-5xl mx-auto">
+        <div className=" mx-auto ">
+          <div className=" mx-auto">
             <h2 className="text-4xl font-serif font-bold text-gray-900 mb-12 text-center">
               Online Services
             </h2>
-            <p className="text-center text-gray-600 mb-12 text-lg">
-              Can't join us in person? Experience our services from anywhere in
-              the world.
-            </p>
-
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mb-12">
-              {/* Live Streaming */}
-              <div className="bg-white rounded-lg shadow-md overflow-hidden">
-                <div className="bg-gradient-to-r from-primary to-secondary p-6 text-white">
-                  <Tv className="w-10 h-10 mb-3" />
-                  <h3 className="text-2xl font-semibold">Live Streaming</h3>
-                </div>
-                <div className="p-6">
-                  <div className="mb-6">
-                    <h4 className="font-semibold text-gray-900 mb-3">
-                      Schedule
-                    </h4>
-                    <div className="space-y-2 text-sm text-gray-700">
-                      <p>
-                        • <strong>Sundays:</strong> 8:00 AM
-                      </p>
-                      <p>
-                        • <strong>Tuesdays:</strong> 5:30 PM (Bible Study)
-                      </p>
-                      <p>
-                        • <strong>Thursdays:</strong> 5:30 PM (Prayer Meeting)
-                      </p>
-                    </div>
-                  </div>
-                  <p className="text-gray-700 text-sm mb-6">
-                    Join us live on Facebook from your home, office, or anywhere
-                    in the world.
-                  </p>
-                  <div className="space-y-2">
-                    {/* Facebook Live — active */}
-                    <a
-                      href="https://www.facebook.com/profile.php?id=100052050854770"
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="w-full flex items-center justify-center gap-2 px-4 py-2 bg-[#1877F2] text-white font-semibold rounded-lg hover:bg-[#1664d8] transition text-sm"
-                    >
-                      <svg
-                        xmlns="http://www.w3.org/2000/svg"
-                        width="16"
-                        height="16"
-                        viewBox="0 0 24 24"
-                        fill="currentColor"
-                      >
-                        <path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z" />
-                      </svg>
-                      Watch Live on Facebook
-                    </a>
-
-                    {/* YouTube — uncomment when ready */}
-                    {/* 
-                href="https://www.youtube.com/@yourchannel"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="w-full flex items-center justify-center gap-2 px-4 py-2 bg-[#FF0000] text-white font-semibold rounded-lg hover:bg-[#cc0000] transition text-sm"
-              >
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  width="16"
-                  height="16"
-                  viewBox="0 0 24 24"
-                  fill="currentColor"
-                >
-                  <path d="M22.54 6.42a2.78 2.78 0 0 0-1.95-1.96C18.88 4 12 4 12 4s-6.88 0-8.59.46A2.78 2.78 0 0 0 1.46 6.42 29 29 0 0 0 1 12a29 29 0 0 0 .46 5.58a2.78 2.78 0 0 0 1.95 1.96C5.12 20 12 20 12 20s6.88 0 8.59-.46a2.78 2.78 0 0 0 1.95-1.96A29 29 0 0 0 23 12a29 29 0 0 0-.46-5.58zM9.75 15.02V8.98L15.5 12l-5.75 3.02z" />
-                </svg>
-                Watch Live on YouTube
-              </a> */}
-                  </div>
-                </div>
-              </div>
-
-              {/* Audio Streaming — Mixlr */}
-              <div className="bg-white rounded-lg shadow-md overflow-hidden">
-                <div className="bg-gradient-to-r from-primary to-secondary p-6 text-white">
-                  <Radio className="w-10 h-10 mb-3" />
-                  <h3 className="text-2xl font-semibold">Audio Streaming</h3>
-                </div>
-                <div className="p-6">
-                  <div className="mb-6">
-                    <h4 className="font-semibold text-gray-900 mb-3">
-                      Listen Live
-                    </h4>
-                    <p className="text-gray-700 text-sm mb-4">
-                      Prefer audio? Tune in live through our Mixlr broadcast
-                      during all services.
-                    </p>
-                  </div>
-                  {/* Mixlr Embedded Player */}
-                  <div className="rounded-lg overflow-hidden border border-gray-200">
-                    <iframe
-                      src="https://favour347.mixlr.com"
-                      title="Mixlr Live Audio"
-                      width="100%"
-                      height="180"
-                      frameBorder="0"
-                      scrolling="no"
-                      allow="autoplay"
-                    />
-                  </div>
-                  <a
-                    href="https://favour347.mixlr.com"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="mt-3 w-full flex items-center justify-center gap-2 px-4 py-2 bg-gray-100 text-gray-900 font-semibold rounded-lg hover:bg-gray-200 transition text-sm"
-                  >
-                    Open in Mixlr
-                  </a>
-                </div>
-              </div>
-            </div>
+            <WatchUsLiveSection />
           </div>
         </div>
       </section>
 
       {/* CTA Section */}
-      <section className="py-20 bg-gray-900 text-white">
+      <section className="py-16 bg-white ">
         <div className="container mx-auto px-4 text-center">
           <h2 className="text-3xl font-serif font-bold mb-6">
             Find Your Service
           </h2>
-          <p className="text-gray-300 mb-8 max-w-2xl mx-auto text-lg">
+          <p className=" mb-8 max-w-2xl mx-auto text-lg">
             Whether you prefer traditional or contemporary worship, morning or
             evening services, online or in-person, we have a service that works
             for you.
           </p>
-          <button className="px-8 py-3 bg-primary text-white font-semibold rounded-lg hover:bg-opacity-90 transition">
-            Plan Your Visit
-          </button>
         </div>
       </section>
 

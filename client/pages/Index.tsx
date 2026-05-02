@@ -23,6 +23,8 @@ import {
   Instagram,
 } from "lucide-react";
 import { useEffect, useState } from "react";
+import { WatchUsLiveSection } from "@/components/WatchUsLiveSection";
+import { BsTiktok } from "react-icons/bs";
 
 export default function Index() {
   const sermons = [
@@ -75,18 +77,15 @@ export default function Index() {
       caption: "A Community of Faith, Family, and Fellowship",
     },
     {
-      image:
-        "https://images.unsplash.com/photo-1438032005730-c779502df39b?w=1600&h=900&fit=crop",
+      image: "/images/hero-2.jpeg",
       caption: "Come As You Are, Leave Transformed",
     },
     {
-      image:
-        "https://images.unsplash.com/photo-1529070538774-1843cb3265df?w=1600&h=900&fit=crop",
+      image: "/images/hero-3.jpeg",
       caption: "Experience the Presence of God Together",
     },
     {
-      image:
-        "https://images.unsplash.com/photo-1478147427282-58a87a120781?w=1600&h=900&fit=crop",
+      image: "/images/hero-4.jpeg",
       caption: "Growing in Grace, Rooted in Love",
     },
   ];
@@ -176,7 +175,7 @@ export default function Index() {
         <div className="relative z-10 container mx-auto px-4 h-full flex flex-col items-center justify-center text-center">
           <div className="max-w-3xl">
             <h1 className="text-4xl md:text-6xl font-serif font-bold mb-4 leading-tight">
-              RCCG Precious Stone Area HQ
+              RCCG Precious Stone Area Headquarters
             </h1>
 
             {/* Animated caption per slide */}
@@ -195,7 +194,14 @@ export default function Index() {
               >
                 Plan Your Visit
               </Link>
-              <button className="px-8 py-4 bg-white text-gray-900 font-semibold rounded-lg hover:bg-gray-100 transition-all transform hover:scale-105 flex items-center justify-center gap-2">
+              <button
+                onClick={() =>
+                  document
+                    .getElementById("watch-live")
+                    ?.scrollIntoView({ behavior: "smooth" })
+                }
+                className="px-8 py-4 bg-white text-gray-900 font-semibold rounded-lg hover:bg-gray-100 transition-all transform hover:scale-105 flex items-center justify-center gap-2"
+              >
                 <Play size={20} />
                 Watch Online
               </button>
@@ -328,77 +334,87 @@ export default function Index() {
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 max-w-5xl mx-auto mb-8">
             {/* Event Card 1 */}
             <div className="bg-white rounded-lg shadow-md overflow-hidden hover:shadow-lg transition">
-              <div className="h-40 bg-gradient-to-r from-primary to-secondary" />
+              <div className="h-40 relative">
+                <img
+                  src="/images/hero-2.jpeg"
+                  alt="Morning Worship Service"
+                  className="w-full h-full object-cover"
+                />
+              </div>
               <div className="p-6">
                 <div className="flex items-center gap-2 text-primary mb-3">
                   <Calendar size={18} />
-                  <span className="text-sm font-semibold">Sunday, Feb 23</span>
+                  <span className="text-sm font-semibold">Sunday, May 3</span>
                 </div>
                 <h3 className="text-xl font-semibold text-gray-900 mb-2">
-                  Morning Worship Service
+                  Thanksgiving Service
                 </h3>
                 <p className="text-gray-600 text-sm mb-4">
                   Join us for an uplifting worship experience and inspiring
                   message.
                 </p>
-                <p className="text-sm text-gray-500">
-                  8:00 AM • Main Sanctuary
-                </p>
+                <p className="text-sm text-gray-500">8:00 AM</p>
               </div>
             </div>
 
             {/* Event Card 2 */}
             <div className="bg-white rounded-lg shadow-md overflow-hidden hover:shadow-lg transition">
-              <div className="h-40 bg-gradient-to-r from-secondary to-primary" />
+              <div className="h-40 relative">
+                <img
+                  src="/images/hero-4.jpeg"
+                  alt="Midweek Bible Study"
+                  className="w-full h-full object-cover"
+                />
+              </div>
               <div className="p-6">
                 <div className="flex items-center gap-2 text-primary mb-3">
                   <Calendar size={18} />
-                  <span className="text-sm font-semibold">
-                    Wednesday, Feb 26
-                  </span>
+                  <span className="text-sm font-semibold">Tuesday, May 5</span>
                 </div>
                 <h3 className="text-xl font-semibold text-gray-900 mb-2">
-                  Midweek Bible Study
+                  Digging Deep (Bible Study)
                 </h3>
                 <p className="text-gray-600 text-sm mb-4">
                   Deepen your faith through interactive Bible study and
                   fellowship.
                 </p>
-                <p className="text-sm text-gray-500">
-                  7:00 PM • Fellowship Hall
-                </p>
+                <p className="text-sm text-gray-500">5:30 PM</p>
               </div>
             </div>
 
             {/* Event Card 3 */}
             <div className="bg-white rounded-lg shadow-md overflow-hidden hover:shadow-lg transition">
-              <div className="h-40 bg-gradient-to-r from-primary via-secondary to-primary" />
+              <div className="h-40 relative">
+                <img
+                  src="/images/service-1.jpeg"
+                  alt="Youth Fellowship Night"
+                  className="w-full h-full object-cover"
+                />
+              </div>
               <div className="p-6">
                 <div className="flex items-center gap-2 text-primary mb-3">
                   <Calendar size={18} />
-                  <span className="text-sm font-semibold">Saturday, Mar 2</span>
+                  <span className="text-sm font-semibold">Sunday, May 17</span>
                 </div>
                 <h3 className="text-xl font-semibold text-gray-900 mb-2">
-                  Youth Fellowship Night
+                  Youth Sunday
                 </h3>
                 <p className="text-gray-600 text-sm mb-4">
                   Community service, games, and fellowship for all young adults.
                 </p>
-                <p className="text-sm text-gray-500">
-                  6:00 PM • Community Center
-                </p>
+                <p className="text-sm text-gray-500">8:00 AM</p>
               </div>
             </div>
           </div>
 
-          <div className="text-center">
+          {/* <div className="text-center">
             <Link
               to="/events"
               className="inline-block px-6 py-3 bg-gray-200 text-gray-900 font-semibold rounded-lg hover:bg-gray-300 transition"
             >
               View Full Calendar
             </Link>
-          </div>
+          </div> */}
         </div>
       </section>
 
@@ -487,69 +503,8 @@ export default function Index() {
         </div>
       </section>
 
-      {/* Section 5: Recent Sermons */}
-      <section className="py-20">
-        <div className="container mx-auto px-4">
-          <div className="text-center mb-12">
-            <h2 className="text-4xl font-serif font-bold text-gray-900 mb-4">
-              Recent Sermons
-            </h2>
-            <p className="text-gray-600 text-lg">
-              Be inspired by powerful messages
-            </p>
-          </div>
-
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 max-w-6xl mx-auto mb-8">
-            {sermons.map((sermon) => (
-              <div
-                key={sermon.id}
-                className="bg-white rounded-lg shadow-md overflow-hidden hover:shadow-lg transition group"
-              >
-                <div className="relative h-48 bg-gray-300 overflow-hidden">
-                  <img
-                    src={sermon.thumbnail}
-                    alt="Sermon thumbnail"
-                    className="w-full h-full object-cover group-hover:scale-105 transition"
-                  />
-                  <button className="absolute inset-0 flex items-center justify-center bg-black bg-opacity-0 group-hover:bg-opacity-40 transition">
-                    <Play
-                      className="text-white opacity-0 group-hover:opacity-100 transition"
-                      size={40}
-                    />
-                  </button>
-                </div>
-                <div className="p-4">
-                  <p className="text-xs text-gray-500 mb-2">{sermon.date}</p>
-                  <h3 className="font-semibold text-gray-900 mb-2 line-clamp-2">
-                    {sermon.title}
-                  </h3>
-                  <p className="text-sm text-gray-600 mb-3">{sermon.verse}</p>
-                  <p className="text-sm text-gray-500 mb-4">{sermon.pastor}</p>
-                  <div className="flex gap-2">
-                    <button className="flex-1 flex items-center justify-center gap-1 py-2 px-3 bg-gray-100 text-gray-700 rounded hover:bg-gray-200 transition text-xs">
-                      <Play size={12} />
-                      Watch
-                    </button>
-                    <button className="flex-1 flex items-center justify-center gap-1 py-2 px-3 bg-gray-100 text-gray-700 rounded hover:bg-gray-200 transition text-xs">
-                      <Download size={12} />
-                      Listen
-                    </button>
-                  </div>
-                </div>
-              </div>
-            ))}
-          </div>
-
-          <div className="text-center">
-            <Link
-              to="/sermons"
-              className="inline-block px-6 py-3 bg-primary text-white font-semibold rounded-lg hover:bg-opacity-90 transition"
-            >
-              All Sermons
-            </Link>
-          </div>
-        </div>
-      </section>
+      {/* Section 5:  Sermons */}
+      <WatchUsLiveSection />
 
       {/* Section 6: Ministries Spotlight */}
       <section className="py-20 bg-gray-50">
@@ -706,7 +661,6 @@ export default function Index() {
                   <h4 className="font-semibold text-gray-900">
                     Adekunle Oluwaseun
                   </h4>
-                  <p className="text-sm text-gray-600">Member since 2020</p>
                 </div>
               </div>
               <p className="text-gray-700 leading-relaxed italic">
@@ -727,7 +681,6 @@ export default function Index() {
                   <h4 className="font-semibold text-gray-900">
                     Chioma Nwankwo
                   </h4>
-                  <p className="text-sm text-gray-600">Member since 2018</p>
                 </div>
               </div>
               <p className="text-gray-700 leading-relaxed italic">
@@ -748,7 +701,6 @@ export default function Index() {
                   <h4 className="font-semibold text-gray-900">
                     Pastor Tunde Okafor
                   </h4>
-                  <p className="text-sm text-gray-600">Member since 2015</p>
                 </div>
               </div>
               <p className="text-gray-700 leading-relaxed italic">
@@ -830,47 +782,81 @@ export default function Index() {
             </p>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-4xl mx-auto">
+          <div className="grid grid-cols-1 md:grid-cols-4 gap-8 max-w-4xl mx-auto">
             {/* Facebook */}
-            <div className="bg-white rounded-lg p-8 text-center shadow-md hover:shadow-lg transition">
-              <div className="flex justify-center mb-4">
-                <Facebook className="text-blue-600" size={48} />
+            <div className="flex justify-center items-center flex-col">
+              <div className="flex bg-white rounded-full w-16 h-16 shadow-md items-center justify-center mb-4">
+                <Facebook className="text-blue-600" size={30} />
               </div>
               <h3 className="text-xl font-semibold text-gray-900 mb-1">
                 Facebook
               </h3>
-              <p className="text-gray-600 text-sm mb-4">12.5K followers</p>
-              <button className="px-4 py-2 bg-primary text-white font-medium rounded-lg hover:bg-opacity-90 transition text-sm">
-                Follow Us
-              </button>
+              <a
+                href="https://www.facebook.com/share/1Ky6CrUmiB/"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                <button className="px-4 py-2 bg-primary text-white font-medium rounded-lg hover:bg-opacity-90 transition text-sm">
+                  Follow Us
+                </button>
+              </a>
             </div>
 
             {/* Instagram */}
-            <div className="bg-white rounded-lg p-8 text-center shadow-md hover:shadow-lg transition">
-              <div className="flex justify-center mb-4">
-                <Instagram className="text-pink-600" size={48} />
+            <div className="flex justify-center items-center flex-col">
+              <div className="flex bg-white rounded-full w-16 h-16 shadow-md items-center justify-center mb-4">
+                <Instagram className="text-pink-600" size={30} />
               </div>
               <h3 className="text-xl font-semibold text-gray-900 mb-1">
                 Instagram
               </h3>
-              <p className="text-gray-600 text-sm mb-4">8.3K followers</p>
-              <button className="px-4 py-2 bg-primary text-white font-medium rounded-lg hover:bg-opacity-90 transition text-sm">
-                Follow Us
-              </button>
+              <a
+                href="https://www.instagram.com/rccgpreciousstoneparish?igsh=MWN0bnNxdGV4dGxoeA=="
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                <button className="px-4 py-2 bg-primary text-white font-medium rounded-lg hover:bg-opacity-90 transition text-sm">
+                  Follow Us
+                </button>
+              </a>
             </div>
 
             {/* YouTube */}
-            <div className="bg-white rounded-lg p-8 text-center shadow-md hover:shadow-lg transition">
-              <div className="flex justify-center mb-4">
-                <Youtube className="text-red-600" size={48} />
+            <div className="flex justify-center items-center flex-col">
+              <div className="flex bg-white rounded-full w-16 h-16 shadow-md items-center justify-center mb-4">
+                <Youtube className="text-red-600" size={30} />
               </div>
               <h3 className="text-xl font-semibold text-gray-900 mb-1">
                 YouTube
               </h3>
-              <p className="text-gray-600 text-sm mb-4">15.2K followers</p>
-              <button className="px-4 py-2 bg-primary text-white font-medium rounded-lg hover:bg-opacity-90 transition text-sm">
-                Follow Us
-              </button>
+              <a
+                href="https://youtube.com/@rccgpreciousstoneparish?si=g9fy6uARVDVrU7W3"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                <button className="px-4 py-2 bg-primary text-white font-medium rounded-lg hover:bg-opacity-90 transition text-sm">
+                  Follow Us
+                </button>
+              </a>
+            </div>
+
+            {/* TikTok */}
+            <div className="flex justify-center items-center flex-col">
+              <div className="flex bg-white rounded-full w-16 h-16 shadow-md items-center justify-center mb-4">
+                <BsTiktok className="text-purple" size={30} />
+              </div>
+              <h3 className="text-xl font-semibold text-gray-900 mb-1">
+                TikTok
+              </h3>
+              <a
+                href="https://vm.tiktok.com/ZS9N7pkD2JCSw-7zpLX/"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                <button className="px-4 py-2 bg-primary text-white font-medium rounded-lg hover:bg-opacity-90 transition text-sm">
+                  Follow Us
+                </button>
+              </a>
             </div>
           </div>
         </div>

@@ -46,7 +46,7 @@ export default function Footer() {
                   Services
                 </Link>
               </li>
-              <li>
+              {/* <li>
                 <Link to="/sermons" className="text-gray-400 hover:text-primary transition">
                   Sermons
                 </Link>
@@ -55,7 +55,7 @@ export default function Footer() {
                 <Link to="/events" className="text-gray-400 hover:text-primary transition">
                   Events
                 </Link>
-              </li>
+              </li> */}
             </ul>
           </div>
 
@@ -73,7 +73,7 @@ export default function Footer() {
                   Give
                 </Link>
               </li>
-              <li>
+              {/* <li>
                 <Link to="/prayer-requests" className="text-gray-400 hover:text-primary transition">
                   Prayer Requests
                 </Link>
@@ -82,7 +82,7 @@ export default function Footer() {
                 <Link to="/resources" className="text-gray-400 hover:text-primary transition">
                   Resources
                 </Link>
-              </li>
+              </li> */}
             </ul>
           </div>
 
@@ -92,11 +92,11 @@ export default function Footer() {
             <div className="space-y-3 text-sm">
               <div className="flex gap-2">
                 <Phone size={16} className="text-primary flex-shrink-0 mt-0.5" />
-                <p className="text-gray-400">+234 (0) 701 000 0000</p>
+                <p className="text-gray-400">09113747467</p>
               </div>
               <div className="flex gap-2">
                 <Mail size={16} className="text-primary flex-shrink-0 mt-0.5" />
-                <p className="text-gray-400">info@rccgpreciousstone.org</p>
+                <p className="text-gray-400">rccgpreciousstoneparish@gmail.com</p>
               </div>
               <div className="flex gap-2">
                 <MapPin size={16} className="text-primary flex-shrink-0 mt-0.5" />
@@ -110,7 +110,7 @@ export default function Footer() {
         <div className="border-t border-gray-800 pt-8">
           <div className="flex flex-col md:flex-row items-center justify-between gap-4">
             <p className="text-gray-400 text-sm">
-              © 2024 RCCG Precious Stone Area HQ. All rights reserved.
+              © 2026 RCCG Precious Stone Area HQ. All rights reserved.
             </p>
             <div className="flex gap-6 text-sm">
               <a href="#" className="text-gray-400 hover:text-primary transition">

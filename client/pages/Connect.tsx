@@ -43,10 +43,10 @@ export default function Connect() {
       {/* Hero Section */}
       <section className="relative h-96 bg-gradient-to-r from-gray-900 to-gray-800 text-white overflow-hidden">
         <div
-          className="absolute inset-0 bg-cover bg-center opacity-30"
+          className="absolute inset-0 bg-cover bg-center opacity-80"
           style={{
             backgroundImage:
-              "url('https://images.unsplash.com/photo-1511379938547-c1f69b13d835?w=1200&h=600&fit=crop')",
+              "url('/images/pastor.jpeg')",
           }}
         />
         <div className="absolute inset-0 bg-black bg-opacity-40" />
@@ -72,7 +72,7 @@ export default function Connect() {
                     "Help finding your way to the sanctuary and parking",
                     "Friendly faces throughout the service",
                     "Meaningful worship and practical Bible teaching",
-                    "Opportunity to meet other members in the lobby",
+                    "Opportunity to meet other members",
                     "No pressure to give or commit to anything",
                     "A comfortable, welcoming atmosphere for families",
                   ].map((item, idx) => (
@@ -89,7 +89,7 @@ export default function Connect() {
                 <div className="bg-gradient-to-br from-blue-50 to-cyan-50 rounded-lg p-8">
                   <h3 className="text-xl font-semibold text-gray-900 mb-4">Welcome Team</h3>
                   <p className="text-gray-700 mb-6">
-                    Our dedicated welcome team is here to help you feel at home. Look for someone wearing a blue welcome badge.
+                    Our dedicated welcome team is here to help you feel at home.
                   </p>
                   <div className="space-y-3">
                     <div className="flex items-center gap-3">
@@ -124,88 +124,6 @@ export default function Connect() {
         </div>
       </section>
 
-      {/* Section 2: Join a Small Group */}
-      <section className="py-20 bg-gray-50">
-        <div className="container mx-auto px-4">
-          <div className="max-w-5xl mx-auto">
-            <h2 className="text-4xl font-serif font-bold text-gray-900 mb-12 text-center">Join a Small Group</h2>
-
-            <p className="text-center text-gray-600 text-lg mb-12">
-              Small groups are where real community happens. Find a group that matches your interests and life stage.
-            </p>
-
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-12">
-              {/* Bible Study Groups */}
-              <div className="bg-white rounded-lg shadow-md p-6 hover:shadow-lg transition">
-                <div className="text-4xl mb-4">📖</div>
-                <h3 className="text-xl font-semibold text-gray-900 mb-3">Bible Study Groups</h3>
-                <p className="text-gray-700 text-sm mb-4">
-                  Deep dive into Scripture in a small, intimate setting. Various books of the Bible and topics.
-                </p>
-                <div className="bg-gray-50 p-3 rounded mb-4 text-sm">
-                  <p className="text-gray-600 mb-2">Meeting Schedule:</p>
-                  <p className="text-gray-700">• Tuesday 7:00 PM</p>
-                  <p className="text-gray-700">• Thursday 6:30 AM</p>
-                </div>
-                <button className="w-full px-4 py-2 bg-primary text-white font-semibold rounded-lg hover:bg-opacity-90 transition text-sm">
-                  Find a Group
-                </button>
-              </div>
-
-              {/* Prayer Groups */}
-              <div className="bg-white rounded-lg shadow-md p-6 hover:shadow-lg transition">
-                <div className="text-4xl mb-4">🙏</div>
-                <h3 className="text-xl font-semibold text-gray-900 mb-3">Prayer Groups</h3>
-                <p className="text-gray-700 text-sm mb-4">
-                  Join prayer warriors in focused intercession for family, church, and community needs.
-                </p>
-                <div className="bg-gray-50 p-3 rounded mb-4 text-sm">
-                  <p className="text-gray-600 mb-2">Meeting Schedule:</p>
-                  <p className="text-gray-700">• Every morning 6:00 AM</p>
-                  <p className="text-gray-700">• Friday evenings 7:00 PM</p>
-                </div>
-                <button className="w-full px-4 py-2 bg-primary text-white font-semibold rounded-lg hover:bg-opacity-90 transition text-sm">
-                  Join Prayer Group
-                </button>
-              </div>
-
-              {/* Interest-Based Groups */}
-              <div className="bg-white rounded-lg shadow-md p-6 hover:shadow-lg transition">
-                <div className="text-4xl mb-4">⚡</div>
-                <h3 className="text-xl font-semibold text-gray-900 mb-3">Interest-Based Groups</h3>
-                <p className="text-gray-700 text-sm mb-4">
-                  Connect with people who share your interests. Single professionals, parents, sports, arts, etc.
-                </p>
-                <div className="bg-gray-50 p-3 rounded mb-4 text-sm">
-                  <p className="text-gray-600">Topics:</p>
-                  <p className="text-gray-700 text-xs">• Young Professionals • Parents • Sports • Arts & Music</p>
-                </div>
-                <button className="w-full px-4 py-2 bg-primary text-white font-semibold rounded-lg hover:bg-opacity-90 transition text-sm">
-                  Browse Groups
-                </button>
-              </div>
-            </div>
-
-            {/* Group Leaders */}
-            <div className="bg-white rounded-lg shadow-md p-8 mb-8">
-              <h3 className="text-2xl font-semibold text-gray-900 mb-6">Meet Your Group Leaders</h3>
-              <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-                {[
-                  { name: "Pastor David Okafor", group: "Young Professionals Bible Study", time: "Tuesdays 7:00 PM" },
-                  { name: "Mrs. Grace Johnson", group: "Women's Prayer Group", time: "Fridays 7:00 PM" },
-                  { name: "Pastor Tunde Umeh", group: "Men's Accountability Group", time: "Thursdays 6:30 AM" },
-                ].map((leader, idx) => (
-                  <div key={idx} className="border rounded-lg p-4">
-                    <p className="font-semibold text-gray-900">{leader.name}</p>
-                    <p className="text-sm text-primary font-semibold mb-2">{leader.group}</p>
-                    <p className="text-sm text-gray-600">{leader.time}</p>
-                  </div>
-                ))}
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
 
       {/* Section 3: Volunteer Opportunities */}
       <section className="py-20">
@@ -228,10 +146,9 @@ export default function Connect() {
                   <p className="text-sm font-semibold text-gray-900 mb-2">Skills Needed:</p>
                   <p className="text-sm text-gray-600">Teaching, patience, creativity, care for kids</p>
                 </div>
-                <p className="text-sm text-primary font-semibold mb-3">Time: 2-4 hours/week</p>
-                <button className="w-full px-4 py-2 bg-primary text-white font-semibold rounded-lg hover:bg-opacity-90 transition text-sm">
+                {/* <button className="w-full px-4 py-2 bg-primary text-white font-semibold rounded-lg hover:bg-opacity-90 transition text-sm">
                   Apply Now
-                </button>
+                </button> */}
               </div>
 
               {/* Welcome Team */}
@@ -244,10 +161,9 @@ export default function Connect() {
                   <p className="text-sm font-semibold text-gray-900 mb-2">Skills Needed:</p>
                   <p className="text-sm text-gray-600">Friendliness, hospitality, people skills</p>
                 </div>
-                <p className="text-sm text-primary font-semibold mb-3">Time: 1-2 hours/week (Sundays)</p>
-                <button className="w-full px-4 py-2 bg-primary text-white font-semibold rounded-lg hover:bg-opacity-90 transition text-sm">
+                {/* <button className="w-full px-4 py-2 bg-primary text-white font-semibold rounded-lg hover:bg-opacity-90 transition text-sm">
                   Apply Now
-                </button>
+                </button> */}
               </div>
 
               {/* Music & Worship */}
@@ -258,12 +174,11 @@ export default function Connect() {
                 </p>
                 <div className="mb-4">
                   <p className="text-sm font-semibold text-gray-900 mb-2">Skills Needed:</p>
-                  <p className="text-sm text-gray-600">Musical talent, tech skills, dedication</p>
+                  <p className="text-sm text-gray-600">Musical talent, dedication</p>
                 </div>
-                <p className="text-sm text-primary font-semibold mb-3">Time: 3-5 hours/week</p>
-                <button className="w-full px-4 py-2 bg-primary text-white font-semibold rounded-lg hover:bg-opacity-90 transition text-sm">
+                {/* <button className="w-full px-4 py-2 bg-primary text-white font-semibold rounded-lg hover:bg-opacity-90 transition text-sm">
                   Apply Now
-                </button>
+                </button> */}
               </div>
 
               {/* Community Outreach */}
@@ -276,10 +191,9 @@ export default function Connect() {
                   <p className="text-sm font-semibold text-gray-900 mb-2">Skills Needed:</p>
                   <p className="text-sm text-gray-600">Compassion, communication, organizational skills</p>
                 </div>
-                <p className="text-sm text-primary font-semibold mb-3">Time: 2-4 hours/week (flexible)</p>
-                <button className="w-full px-4 py-2 bg-primary text-white font-semibold rounded-lg hover:bg-opacity-90 transition text-sm">
+                {/* <button className="w-full px-4 py-2 bg-primary text-white font-semibold rounded-lg hover:bg-opacity-90 transition text-sm">
                   Apply Now
-                </button>
+                </button> */}
               </div>
 
               {/* Ushering */}
@@ -292,10 +206,9 @@ export default function Connect() {
                   <p className="text-sm font-semibold text-gray-900 mb-2">Skills Needed:</p>
                   <p className="text-sm text-gray-600">Organization, leadership, customer service</p>
                 </div>
-                <p className="text-sm text-primary font-semibold mb-3">Time: 2-3 hours/week (Sundays)</p>
-                <button className="w-full px-4 py-2 bg-primary text-white font-semibold rounded-lg hover:bg-opacity-90 transition text-sm">
+                {/* <button className="w-full px-4 py-2 bg-primary text-white font-semibold rounded-lg hover:bg-opacity-90 transition text-sm">
                   Apply Now
-                </button>
+                </button> */}
               </div>
 
               {/* Office & Administration */}
@@ -308,10 +221,9 @@ export default function Connect() {
                   <p className="text-sm font-semibold text-gray-900 mb-2">Skills Needed:</p>
                   <p className="text-sm text-gray-600">Organization, tech skills, attention to detail</p>
                 </div>
-                <p className="text-sm text-primary font-semibold mb-3">Time: 3-5 hours/week (flexible)</p>
-                <button className="w-full px-4 py-2 bg-primary text-white font-semibold rounded-lg hover:bg-opacity-90 transition text-sm">
+                {/* <button className="w-full px-4 py-2 bg-primary text-white font-semibold rounded-lg hover:bg-opacity-90 transition text-sm">
                   Apply Now
-                </button>
+                </button> */}
               </div>
             </div>
 
