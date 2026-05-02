@@ -47,12 +47,12 @@ export default function Ministries() {
       description: "Empowering the next generation",
       color: "from-purple-100 to-pink-100",
       content: {
-        ageGroup: "Ages 18-40",
+        ageGroup: "Ages 18–49",
         events: [
-          "Youth fellowship and games",
-          "Quarterly youth conventions and camps",
-          "Annual youth conference (nationally)",
-          "Career guidance and mentorship programs",
+          "Youth Fellowship (Local & Zonal)",
+          "Zonal Youth Vigil — Quarterly",
+          "National Youth Program — 1st week of October",
+          "Zonal Youth Conference — 3rd week of October",
         ],
       },
     },
@@ -180,7 +180,7 @@ export default function Ministries() {
                   <div className="flex items-start gap-6">
                     <div className="text-5xl">{ministry.icon}</div>
                     <div>
-                      <h2 className="text-3xl font-semibold text-gray-900 mb-2">
+                      <h2 className="text-xl md:text-3xl font-semibold text-gray-900 mb-2">
                         {ministry.title}
                       </h2>
                       <p className="text-gray-700 text-lg">
