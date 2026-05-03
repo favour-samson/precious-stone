@@ -9,7 +9,6 @@ import {
   Zap,
   Calendar,
   Play,
-  Download,
   Youtube,
   Baby,
   Target,
@@ -175,7 +174,7 @@ export default function Index() {
         <div className="relative z-10 container mx-auto px-4 h-full flex flex-col items-center justify-center text-center">
           <div className="max-w-3xl">
             <h1 className="text-4xl md:text-6xl font-serif font-bold mb-4 leading-tight">
-              RCCG Precious Stone Area Headquarters
+              RCCG Precious Stone Parish (Area Headquarters)
             </h1>
 
             {/* Animated caption per slide */}
@@ -402,7 +401,8 @@ export default function Index() {
                   Faith Clinic
                 </h3>
                 <p className="text-gray-600 text-sm mb-4">
-                  It's a time when we prayer and pour out our burdens unto the Lord.
+                  It's a time when we prayer and pour out our burdens unto the
+                  Lord.
                 </p>
                 <p className="text-sm text-gray-500">5:30 PM</p>
               </div>
@@ -420,13 +420,16 @@ export default function Index() {
               <div className="p-6">
                 <div className="flex items-center gap-2 text-primary mb-3">
                   <Calendar size={18} />
-                  <span className="text-sm font-semibold">Every Third Sunday</span>
+                  <span className="text-sm font-semibold">
+                    Every Third Sunday
+                  </span>
                 </div>
                 <h3 className="text-xl font-semibold text-gray-900 mb-2">
                   Youth Sunday
                 </h3>
                 <p className="text-gray-600 text-sm mb-4">
-                  Community service, games, and fellowship for all young adults(YAYA).
+                  Community service, games, and fellowship for all young
+                  adults(YAYA).
                 </p>
                 <p className="text-sm text-gray-500">8:00 AM</p>
               </div>
@@ -679,19 +682,20 @@ export default function Index() {
             <div className="bg-white rounded-lg p-8 shadow-md">
               <div className="flex items-center gap-4 mb-6">
                 <img
-                  src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=100&h=100&fit=crop"
+                  src="/images/pelumi.jpeg"
                   alt="Testimony"
                   className="w-16 h-16 rounded-full object-cover"
                 />
                 <div>
                   <h4 className="font-semibold text-gray-900">
-                    Adekunle Oluwaseun
+                    Sis. Abioye Oluwapelumi
                   </h4>
                 </div>
               </div>
               <p className="text-gray-700 leading-relaxed italic">
-                "Coming to RCCG Precious Stone changed my life. I found a loving
-                community and renewed my faith in God."
+                "I thank God for His mercies over my life and family. I bless
+                the His name to for how He has been using precious stones parish
+                to groom me"
               </p>
             </div>
 
@@ -699,19 +703,20 @@ export default function Index() {
             <div className="bg-white rounded-lg p-8 shadow-md">
               <div className="flex items-center gap-4 mb-6">
                 <img
-                  src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=100&h=100&fit=crop"
+                  src="/images/awoyele.jpeg"
                   alt="Testimony"
                   className="w-16 h-16 rounded-full object-cover"
                 />
                 <div>
                   <h4 className="font-semibold text-gray-900">
-                    Chioma Nwankwo
+                    Mrs. Emmanuella Oyewole{" "}
                   </h4>
                 </div>
               </div>
               <p className="text-gray-700 leading-relaxed italic">
-                "The women's fellowship here has been instrumental in my
-                spiritual growth and building lasting friendships."
+                "The Women Arm of the church has been a beautiful place to be.
+                Precious Stone Parish big enough to accommodate everyone and
+                also small enough to recognize everyone."
               </p>
             </div>
 
@@ -719,19 +724,21 @@ export default function Index() {
             <div className="bg-white rounded-lg p-8 shadow-md">
               <div className="flex items-center gap-4 mb-6">
                 <img
-                  src="https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?w=100&h=100&fit=crop"
+                  src="/images/favour.jpeg"
                   alt="Testimony"
                   className="w-16 h-16 rounded-full object-cover"
                 />
                 <div>
                   <h4 className="font-semibold text-gray-900">
-                    Pastor Tunde Okafor
+                    Thomas Samson Favour
                   </h4>
                 </div>
               </div>
               <p className="text-gray-700 leading-relaxed italic">
-                "This church embodies the gospel. The leadership is faithful,
-                the community is warm, and Christ is central."
+                "This church truly embodies the gospel. The leadership is
+                faithful to God’s Word, the community is warm and welcoming, and
+                Christ is at the center of everything. I’m grateful to call this
+                my church home."
               </p>
             </div>
           </div>

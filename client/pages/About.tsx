@@ -192,7 +192,7 @@ export default function About() {
                 Church Council & Leadership Board
               </h3>
               <p className="mb-6 leading-relaxed">
-                RCCG Precious Stone Area HQ is governed by a dedicated council
+                RCCG Precious Stone Parish (Area Headquarters) is governed by a dedicated council
                 of mature believers committed to vision execution, spiritual
                 accountability, and wise stewardship of resources. The council
                 meets monthly to provide oversight, guidance, and strategic
@@ -264,7 +264,7 @@ export default function About() {
             Ready to Join Our Community?
           </h2>
           <p className="text-lg text-gray-600 mb-8 max-w-2xl mx-auto">
-            We'd love to welcome you to RCCG Precious Stone Area HQ. Come as you
+            We'd love to welcome you to RCCG Precious Stone Parish (Area Headquarters). Come as you
             are and experience the love, acceptance, and authentic faith we
             share.
           </p>

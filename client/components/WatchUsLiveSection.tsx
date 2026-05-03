@@ -20,7 +20,7 @@ function useIsLiveTime() {
 
       // Sunday 8:00 AM – 11:00 AM (adjust end time to match your service length)
       const isSunday = day === 0;
-      const inServiceWindow = totalMin >= 480 && totalMin <= 660;
+      const inServiceWindow = totalMin >= 660 && totalMin <= 900;
 
       setIsLive(isSunday && inServiceWindow);
     };
