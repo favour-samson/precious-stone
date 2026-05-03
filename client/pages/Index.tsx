@@ -684,7 +684,7 @@ export default function Index() {
                 <img
                   src="/images/pelumi.jpeg"
                   alt="Testimony"
-                  className="w-16 h-16 rounded-full object-cover"
+                  className="w-16 h-[3.7rem] rounded-full object-cover"
                 />
                 <div>
                   <h4 className="font-semibold text-gray-900">
@@ -705,7 +705,7 @@ export default function Index() {
                 <img
                   src="/images/awoyele.jpeg"
                   alt="Testimony"
-                  className="w-16 h-16 rounded-full object-cover"
+                  className="w-16 h-[3.7rem] rounded-full object-cover"
                 />
                 <div>
                   <h4 className="font-semibold text-gray-900">
@@ -726,11 +726,11 @@ export default function Index() {
                 <img
                   src="/images/favour.jpeg"
                   alt="Testimony"
-                  className="w-16 h-16 rounded-full object-cover"
+                  className="w-16 h-[3.8rem] rounded-full object-cover"
                 />
                 <div>
                   <h4 className="font-semibold text-gray-900">
-                    Thomas Samson Favour
+                    Bro. Favour Thomas
                   </h4>
                 </div>
               </div>
