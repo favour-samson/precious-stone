@@ -12,9 +12,11 @@ import {
   CheckCircle,
 } from "lucide-react";
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { toast } from "sonner";
 
 export default function Ministries() {
+  const navigate = useNavigate();
   const [signupModal, setSignupModal] = useState<{ open: boolean; ministry: string }>({ open: false, ministry: "" });
   const [signupForm, setSignupForm] = useState({ name: "", email: "", phone: "", message: "" });
   const [signupLoading, setSignupLoading] = useState(false);
@@ -425,7 +427,7 @@ export default function Ministries() {
                         <p className="text-gray-700 mb-4">
                           {ministry.content.prayerChain}
                         </p>
-                        <button onClick={() => openSignup("Prayer Ministry")} className="px-4 py-2 bg-primary text-white font-semibold rounded-lg hover:bg-opacity-90 transition text-sm">
+                        <button onClick={() => navigate("/prayer-requests")} className="px-4 py-2 bg-primary text-white font-semibold rounded-lg hover:bg-opacity-90 transition text-sm">
                           Submit Prayer Request
                         </button>
                       </div>

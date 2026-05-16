@@ -1,8 +1,20 @@
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
-import { Users, Heart, MapPin, Zap, Phone, Mail, Loader2, CheckCircle } from "lucide-react";
-import { useState } from "react";
+import { Users, Heart, MapPin, Zap, Phone, Mail, Loader2, CheckCircle, X } from "lucide-react";
+import { useState, useRef } from "react";
 import { toast } from "sonner";
+
+const VOLUNTEER_ROLES = [
+  "Children's Ministry",
+  "Welcome Team",
+  "Music & Worship",
+  "Community Outreach",
+  "Ushering & Logistics",
+  "Office & Admin",
+  "Youth Ministry",
+  "Prayer Ministry",
+  "Other",
+];
 
 export default function Connect() {
   const [formData, setFormData] = useState({
@@ -15,6 +27,44 @@ export default function Connect() {
   });
   const [loading, setLoading] = useState(false);
   const [submitted, setSubmitted] = useState(false);
+
+  // Volunteer application modal
+  const [volunteerModal, setVolunteerModal] = useState(false);
+  const [volunteerForm, setVolunteerForm] = useState({ name: "", email: "", phone: "", ministry: "", message: "" });
+  const [volunteerLoading, setVolunteerLoading] = useState(false);
+  const [volunteerDone, setVolunteerDone] = useState(false);
+
+  const contactRef = useRef<HTMLElement>(null);
+
+  function scrollToContact() {
+    contactRef.current?.scrollIntoView({ behavior: "smooth" });
+  }
+
+  function openVolunteer() {
+    setVolunteerDone(false);
+    setVolunteerForm({ name: "", email: "", phone: "", ministry: "", message: "" });
+    setVolunteerModal(true);
+  }
+
+  async function handleVolunteerSubmit(e: React.FormEvent) {
+    e.preventDefault();
+    setVolunteerLoading(true);
+    try {
+      const res = await fetch("/api/ministries/signup", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ ministry: volunteerForm.ministry || "General Volunteer", ...volunteerForm }),
+      });
+      const data = await res.json();
+      if (!res.ok) throw new Error(data.error || "Failed");
+      setVolunteerDone(true);
+      toast.success("Volunteer application submitted!");
+    } catch (err: unknown) {
+      toast.error(err instanceof Error ? err.message : "Something went wrong.");
+    } finally {
+      setVolunteerLoading(false);
+    }
+  }
 
   const handleFormChange = (e: any) => {
     const { name, value, type, checked } = e.target;
@@ -141,7 +191,7 @@ export default function Connect() {
                     Fill out our visitor form to receive a welcome gift and
                     updates about events.
                   </p>
-                  <button className="w-full px-4 py-2 bg-primary text-white font-semibold rounded-lg hover:bg-opacity-90 transition">
+                  <button onClick={scrollToContact} className="w-full px-4 py-2 bg-primary text-white font-semibold rounded-lg hover:bg-opacity-90 transition">
                     Complete Visitor Form
                   </button>
                 </div>
@@ -302,7 +352,7 @@ export default function Connect() {
                 Fill out our volunteer application and join a ministry team that
                 aligns with your gifts and passion.
               </p>
-              <button className="px-8 py-3 bg-white text-primary font-semibold rounded-lg hover:bg-opacity-90 transition">
+              <button onClick={openVolunteer} className="px-8 py-3 bg-white text-primary font-semibold rounded-lg hover:bg-opacity-90 transition">
                 Complete Volunteer Application
               </button>
             </div>
@@ -311,7 +361,7 @@ export default function Connect() {
       </section>
 
       {/* Section 5: Contact Form */}
-      <section className="py-20">
+      <section className="py-20" ref={contactRef}>
         <div className="container mx-auto px-4">
           <div className="max-w-3xl mx-auto">
             <h2 className="text-4xl font-serif font-bold text-gray-900 mb-12 text-center">
@@ -470,6 +520,103 @@ export default function Connect() {
           </div>
         </div>
       </section>
+
+      {/* Volunteer Application Modal */}
+      {volunteerModal && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/50">
+          <div className="bg-white rounded-2xl shadow-xl w-full max-w-md p-6 relative max-h-[90vh] overflow-y-auto">
+            <button onClick={() => setVolunteerModal(false)} className="absolute top-4 right-4 text-gray-400 hover:text-gray-600">
+              <X size={20} />
+            </button>
+
+            {volunteerDone ? (
+              <div className="flex flex-col items-center py-10 text-center gap-4">
+                <div className="w-16 h-16 rounded-full bg-green-50 flex items-center justify-center">
+                  <CheckCircle size={36} className="text-green-500" />
+                </div>
+                <h3 className="text-xl font-serif font-bold text-gray-900">Application Received!</h3>
+                <p className="text-gray-600 text-sm max-w-xs">
+                  Thank you for wanting to serve! A ministry leader will contact you soon.
+                </p>
+                <button onClick={() => setVolunteerModal(false)} className="mt-2 px-6 py-2 bg-primary text-white rounded-lg font-medium hover:bg-opacity-90 transition text-sm">
+                  Close
+                </button>
+              </div>
+            ) : (
+              <>
+                <h2 className="text-xl font-serif font-bold text-gray-900 mb-1">Volunteer Application</h2>
+                <p className="text-sm text-gray-500 mb-5">Fill this out and we'll connect you with the right team.</p>
+                <form onSubmit={handleVolunteerSubmit} className="space-y-4">
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700 mb-1">Full Name <span className="text-red-500">*</span></label>
+                    <input
+                      type="text"
+                      required
+                      value={volunteerForm.name}
+                      onChange={(e) => setVolunteerForm((p) => ({ ...p, name: e.target.value }))}
+                      placeholder="Your name"
+                      className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary text-sm"
+                    />
+                  </div>
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700 mb-1">Email Address <span className="text-red-500">*</span></label>
+                    <input
+                      type="email"
+                      required
+                      value={volunteerForm.email}
+                      onChange={(e) => setVolunteerForm((p) => ({ ...p, email: e.target.value }))}
+                      placeholder="you@example.com"
+                      className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary text-sm"
+                    />
+                  </div>
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700 mb-1">Phone Number</label>
+                    <input
+                      type="tel"
+                      value={volunteerForm.phone}
+                      onChange={(e) => setVolunteerForm((p) => ({ ...p, phone: e.target.value }))}
+                      placeholder="+234 (0) XXX XXX XXXX"
+                      className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary text-sm"
+                    />
+                  </div>
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700 mb-1">Ministry / Role Interested In <span className="text-red-500">*</span></label>
+                    <select
+                      required
+                      value={volunteerForm.ministry}
+                      onChange={(e) => setVolunteerForm((p) => ({ ...p, ministry: e.target.value }))}
+                      className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary text-sm"
+                    >
+                      <option value="">Select a ministry...</option>
+                      {VOLUNTEER_ROLES.map((r) => (
+                        <option key={r} value={r}>{r}</option>
+                      ))}
+                    </select>
+                  </div>
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700 mb-1">Why do you want to volunteer?</label>
+                    <textarea
+                      rows={3}
+                      value={volunteerForm.message}
+                      onChange={(e) => setVolunteerForm((p) => ({ ...p, message: e.target.value }))}
+                      placeholder="Tell us a bit about yourself and your passion for serving..."
+                      className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary text-sm resize-none"
+                    />
+                  </div>
+                  <button
+                    type="submit"
+                    disabled={volunteerLoading}
+                    className="w-full flex items-center justify-center gap-2 py-3 bg-primary text-white font-semibold rounded-lg hover:bg-opacity-90 transition disabled:opacity-50 disabled:cursor-not-allowed text-sm"
+                  >
+                    {volunteerLoading ? <Loader2 size={16} className="animate-spin" /> : null}
+                    {volunteerLoading ? "Submitting..." : "Submit Application"}
+                  </button>
+                </form>
+              </>
+            )}
+          </div>
+        </div>
+      )}
 
       <Footer />
     </div>
