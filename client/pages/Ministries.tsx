@@ -6,13 +6,46 @@ import {
   Heart,
   Music,
   Zap,
-  Smile,
-  BookOpen,
   HelpingHand,
-  Link as LinkIcon,
+  X,
+  Loader2,
+  CheckCircle,
 } from "lucide-react";
+import { useState } from "react";
+import { toast } from "sonner";
 
 export default function Ministries() {
+  const [signupModal, setSignupModal] = useState<{ open: boolean; ministry: string }>({ open: false, ministry: "" });
+  const [signupForm, setSignupForm] = useState({ name: "", email: "", phone: "", message: "" });
+  const [signupLoading, setSignupLoading] = useState(false);
+  const [signupDone, setSignupDone] = useState(false);
+
+  const openSignup = (ministry: string) => {
+    setSignupDone(false);
+    setSignupForm({ name: "", email: "", phone: "", message: "" });
+    setSignupModal({ open: true, ministry });
+  };
+  const closeSignup = () => setSignupModal({ open: false, ministry: "" });
+
+  const handleSignupSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setSignupLoading(true);
+    try {
+      const res = await fetch("/api/ministries/signup", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ ministry: signupModal.ministry, ...signupForm }),
+      });
+      const data = await res.json();
+      if (!res.ok) throw new Error(data.error || "Failed");
+      setSignupDone(true);
+      toast.success(`You've signed up for ${signupModal.ministry}!`);
+    } catch (err: unknown) {
+      toast.error(err instanceof Error ? err.message : "Something went wrong.");
+    } finally {
+      setSignupLoading(false);
+    }
+  };
   const ministries = [
     {
       id: 1,
@@ -243,7 +276,7 @@ export default function Ministries() {
                         <p className="text-gray-700 mb-4">
                           {ministry.content.volunteerInfo}
                         </p>
-                        <button className="px-4 py-2 bg-primary text-white font-semibold rounded-lg hover:bg-opacity-90 transition text-sm">
+                        <button onClick={() => openSignup("Children's Ministry")} className="px-4 py-2 bg-primary text-white font-semibold rounded-lg hover:bg-opacity-90 transition text-sm">
                           Become a Volunteer
                         </button>
                       </div>
@@ -379,7 +412,7 @@ export default function Ministries() {
                         </ul>
                       </div>
 
-                      <button className="w-full px-4 py-2 bg-primary text-white font-semibold rounded-lg hover:bg-opacity-90 transition">
+                      <button onClick={() => openSignup("Music & Worship Ministry")} className="w-full px-4 py-2 bg-primary text-white font-semibold rounded-lg hover:bg-opacity-90 transition">
                         Join Our Choir
                       </button>
                     </div>
@@ -392,7 +425,7 @@ export default function Ministries() {
                         <p className="text-gray-700 mb-4">
                           {ministry.content.prayerChain}
                         </p>
-                        <button className="px-4 py-2 bg-primary text-white font-semibold rounded-lg hover:bg-opacity-90 transition text-sm">
+                        <button onClick={() => openSignup("Prayer Ministry")} className="px-4 py-2 bg-primary text-white font-semibold rounded-lg hover:bg-opacity-90 transition text-sm">
                           Submit Prayer Request
                         </button>
                       </div>
@@ -430,7 +463,7 @@ export default function Ministries() {
                         </ul>
                       </div>
 
-                      <button className="w-full px-4 py-2 bg-primary text-white font-semibold rounded-lg hover:bg-opacity-90 transition">
+                      <button onClick={() => openSignup("Outreach & Evangelism")} className="w-full px-4 py-2 bg-primary text-white font-semibold rounded-lg hover:bg-opacity-90 transition">
                         Join an Outreach Team
                       </button>
                     </div>
@@ -452,11 +485,94 @@ export default function Ministries() {
             Whether you want to volunteer, join a group, or receive support,
             there's a ministry waiting for you.
           </p>
-          <button className="px-8 py-3 bg-primary text-white font-semibold rounded-lg hover:bg-opacity-90 transition">
+          <button onClick={() => openSignup("General Ministry Interest")} className="px-8 py-3 bg-primary text-white font-semibold rounded-lg hover:bg-opacity-90 transition">
             Contact a Ministry Leader
           </button>
         </div>
       </section>
+
+      {/* Ministry Signup Modal */}
+      {signupModal.open && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/50">
+          <div className="bg-white rounded-2xl shadow-xl w-full max-w-md p-6 relative">
+            <button onClick={closeSignup} className="absolute top-4 right-4 text-gray-400 hover:text-gray-600">
+              <X size={20} />
+            </button>
+
+            {signupDone ? (
+              <div className="flex flex-col items-center py-10 text-center gap-4">
+                <div className="w-16 h-16 rounded-full bg-green-50 flex items-center justify-center">
+                  <CheckCircle size={36} className="text-green-500" />
+                </div>
+                <h3 className="text-xl font-serif font-bold text-gray-900">You're Signed Up!</h3>
+                <p className="text-gray-600 text-sm max-w-xs">
+                  A ministry leader from <strong>{signupModal.ministry}</strong> will reach out to you soon.
+                </p>
+                <button onClick={closeSignup} className="mt-2 px-6 py-2 bg-primary text-white rounded-lg font-medium hover:bg-opacity-90 transition text-sm">
+                  Close
+                </button>
+              </div>
+            ) : (
+              <>
+                <h2 className="text-xl font-serif font-bold text-gray-900 mb-1">Get Involved</h2>
+                <p className="text-sm text-gray-500 mb-5">{signupModal.ministry}</p>
+                <form onSubmit={handleSignupSubmit} className="space-y-4">
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700 mb-1">Full Name <span className="text-red-500">*</span></label>
+                    <input
+                      type="text"
+                      required
+                      value={signupForm.name}
+                      onChange={(e) => setSignupForm((p) => ({ ...p, name: e.target.value }))}
+                      placeholder="Your name"
+                      className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary text-sm"
+                    />
+                  </div>
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700 mb-1">Email Address <span className="text-red-500">*</span></label>
+                    <input
+                      type="email"
+                      required
+                      value={signupForm.email}
+                      onChange={(e) => setSignupForm((p) => ({ ...p, email: e.target.value }))}
+                      placeholder="you@example.com"
+                      className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary text-sm"
+                    />
+                  </div>
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700 mb-1">Phone Number</label>
+                    <input
+                      type="tel"
+                      value={signupForm.phone}
+                      onChange={(e) => setSignupForm((p) => ({ ...p, phone: e.target.value }))}
+                      placeholder="+234 (0) XXX XXX XXXX"
+                      className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary text-sm"
+                    />
+                  </div>
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700 mb-1">Message (optional)</label>
+                    <textarea
+                      rows={3}
+                      value={signupForm.message}
+                      onChange={(e) => setSignupForm((p) => ({ ...p, message: e.target.value }))}
+                      placeholder="Tell us a little about yourself or why you'd like to join..."
+                      className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary text-sm resize-none"
+                    />
+                  </div>
+                  <button
+                    type="submit"
+                    disabled={signupLoading}
+                    className="w-full flex items-center justify-center gap-2 py-3 bg-primary text-white font-semibold rounded-lg hover:bg-opacity-90 transition disabled:opacity-50 disabled:cursor-not-allowed text-sm"
+                  >
+                    {signupLoading ? <Loader2 size={16} className="animate-spin" /> : null}
+                    {signupLoading ? "Submitting..." : "Submit"}
+                  </button>
+                </form>
+              </>
+            )}
+          </div>
+        </div>
+      )}
 
       <Footer />
     </div>

@@ -1,11 +1,30 @@
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
-import { Calendar, MapPin, Clock, Users, Filter, Check } from "lucide-react";
+import { Calendar, MapPin, Clock, Users, Check, X, Loader2, CheckCircle } from "lucide-react";
 import { useState } from "react";
+import { toast } from "sonner";
+
+type EventItem = {
+  id: number;
+  title: string;
+  date: string;
+  time: string;
+  location: string;
+  category: string;
+  color: string;
+  icon: string;
+  description: string;
+  capacity: number;
+  attending: number;
+};
 
 export default function Events() {
   const [selectedCategory, setSelectedCategory] = useState("all");
   const [rsvpedEvents, setRsvpedEvents] = useState<number[]>([]);
+  const [rsvpModal, setRsvpModal] = useState<{ open: boolean; event: EventItem | null }>({ open: false, event: null });
+  const [rsvpForm, setRsvpForm] = useState({ name: "", email: "", phone: "", attendees: 1 });
+  const [rsvpLoading, setRsvpLoading] = useState(false);
+  const [rsvpDone, setRsvpDone] = useState(false);
 
   const events = [
     {
@@ -170,10 +189,39 @@ export default function Events() {
     { day: "Third Friday", time: "7:00 PM", event: "Night of Worship", type: "Monthly" },
   ];
 
-  const handleRSVP = (eventId: number) => {
-    setRsvpedEvents((prev) =>
-      prev.includes(eventId) ? prev.filter((id) => id !== eventId) : [...prev, eventId]
-    );
+  const handleRSVP = (event: EventItem) => {
+    if (rsvpedEvents.includes(event.id)) return;
+    setRsvpDone(false);
+    setRsvpForm({ name: "", email: "", phone: "", attendees: 1 });
+    setRsvpModal({ open: true, event });
+  };
+
+  const closeModal = () => setRsvpModal({ open: false, event: null });
+
+  const handleRsvpSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!rsvpModal.event) return;
+    setRsvpLoading(true);
+    try {
+      const res = await fetch("/api/events/register", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          eventId: rsvpModal.event.id,
+          eventName: rsvpModal.event.title,
+          ...rsvpForm,
+        }),
+      });
+      const data = await res.json();
+      if (!res.ok) throw new Error(data.error || "Failed");
+      setRsvpedEvents((prev) => [...prev, rsvpModal.event!.id]);
+      setRsvpDone(true);
+      toast.success(`You're registered for "${rsvpModal.event.title}"!`);
+    } catch (err: unknown) {
+      toast.error(err instanceof Error ? err.message : "Something went wrong.");
+    } finally {
+      setRsvpLoading(false);
+    }
   };
 
   const filteredEvents =
@@ -337,10 +385,10 @@ export default function Events() {
 
                     <div className="flex flex-col gap-2 md:w-32">
                       <button
-                        onClick={() => handleRSVP(event.id)}
+                        onClick={() => handleRSVP(event)}
                         className={`px-4 py-2 font-semibold rounded-lg transition text-sm ${
                           rsvpedEvents.includes(event.id)
-                            ? "bg-green-500 text-white hover:bg-green-600"
+                            ? "bg-green-500 text-white cursor-default"
                             : "bg-primary text-white hover:bg-opacity-90"
                         }`}
                       >
@@ -490,6 +538,90 @@ export default function Events() {
           </div>
         </div>
       </section>
+
+      {/* RSVP Modal */}
+      {rsvpModal.open && rsvpModal.event && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/50">
+          <div className="bg-white rounded-2xl shadow-xl w-full max-w-md p-6 relative">
+            <button onClick={closeModal} className="absolute top-4 right-4 text-gray-400 hover:text-gray-600">
+              <X size={20} />
+            </button>
+
+            {rsvpDone ? (
+              <div className="flex flex-col items-center py-10 text-center gap-4">
+                <div className="w-16 h-16 rounded-full bg-green-50 flex items-center justify-center">
+                  <CheckCircle size={36} className="text-green-500" />
+                </div>
+                <h3 className="text-xl font-serif font-bold text-gray-900">You're Registered!</h3>
+                <p className="text-gray-600 text-sm max-w-xs">
+                  We've recorded your registration for <strong>{rsvpModal.event.title}</strong>. See you there!
+                </p>
+                <button onClick={closeModal} className="mt-2 px-6 py-2 bg-primary text-white rounded-lg font-medium hover:bg-opacity-90 transition text-sm">
+                  Close
+                </button>
+              </div>
+            ) : (
+              <>
+                <h2 className="text-xl font-serif font-bold text-gray-900 mb-1">RSVP for Event</h2>
+                <p className="text-sm text-gray-500 mb-5">{rsvpModal.event.title} — {rsvpModal.event.date} at {rsvpModal.event.time}</p>
+                <form onSubmit={handleRsvpSubmit} className="space-y-4">
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700 mb-1">Full Name <span className="text-red-500">*</span></label>
+                    <input
+                      type="text"
+                      required
+                      value={rsvpForm.name}
+                      onChange={(e) => setRsvpForm((p) => ({ ...p, name: e.target.value }))}
+                      placeholder="Your name"
+                      className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary text-sm"
+                    />
+                  </div>
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700 mb-1">Email Address <span className="text-red-500">*</span></label>
+                    <input
+                      type="email"
+                      required
+                      value={rsvpForm.email}
+                      onChange={(e) => setRsvpForm((p) => ({ ...p, email: e.target.value }))}
+                      placeholder="you@example.com"
+                      className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary text-sm"
+                    />
+                  </div>
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700 mb-1">Phone Number</label>
+                    <input
+                      type="tel"
+                      value={rsvpForm.phone}
+                      onChange={(e) => setRsvpForm((p) => ({ ...p, phone: e.target.value }))}
+                      placeholder="+234 (0) XXX XXX XXXX"
+                      className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary text-sm"
+                    />
+                  </div>
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700 mb-1">Number of Attendees</label>
+                    <input
+                      type="number"
+                      min={1}
+                      max={20}
+                      value={rsvpForm.attendees}
+                      onChange={(e) => setRsvpForm((p) => ({ ...p, attendees: Number(e.target.value) }))}
+                      className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary text-sm"
+                    />
+                  </div>
+                  <button
+                    type="submit"
+                    disabled={rsvpLoading}
+                    className="w-full flex items-center justify-center gap-2 py-3 bg-primary text-white font-semibold rounded-lg hover:bg-opacity-90 transition disabled:opacity-50 disabled:cursor-not-allowed text-sm"
+                  >
+                    {rsvpLoading ? <Loader2 size={16} className="animate-spin" /> : null}
+                    {rsvpLoading ? "Registering..." : "Confirm RSVP"}
+                  </button>
+                </form>
+              </>
+            )}
+          </div>
+        </div>
+      )}
 
       <Footer />
     </div>

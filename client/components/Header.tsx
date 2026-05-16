@@ -14,6 +14,8 @@ export default function Header() {
     // { label: "Events", href: "/events" },
     { label: "Give", href: "/giving" },
     { label: "Connect", href: "/connect" },
+    { label: "Watch Live", href: "/live" },
+    { label: "Video Call", href: "/video-call" },
   ];
 
   return (

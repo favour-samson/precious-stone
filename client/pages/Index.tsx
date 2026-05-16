@@ -22,6 +22,7 @@ import {
   Instagram,
 } from "lucide-react";
 import { useEffect, useState } from "react";
+import { toast } from "sonner";
 import { WatchUsLiveSection } from "@/components/WatchUsLiveSection";
 import { BsTiktok } from "react-icons/bs";
 
@@ -91,6 +92,29 @@ export default function Index() {
 
   // Add these inside your component, above the return
   const [currentSlide, setCurrentSlide] = useState(0);
+  const [newsletter, setNewsletter] = useState({ name: "", email: "" });
+  const [newsletterLoading, setNewsletterLoading] = useState(false);
+  const [newsletterDone, setNewsletterDone] = useState(false);
+
+  const handleNewsletterSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setNewsletterLoading(true);
+    try {
+      const res = await fetch("/api/newsletter", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(newsletter),
+      });
+      const data = await res.json();
+      if (!res.ok) throw new Error(data.error || "Failed");
+      setNewsletterDone(true);
+      toast.success("You've subscribed to our newsletter!");
+    } catch (err: unknown) {
+      toast.error(err instanceof Error ? err.message : "Something went wrong.");
+    } finally {
+      setNewsletterLoading(false);
+    }
+  };
 
   useEffect(() => {
     const timer = setInterval(() => {
@@ -741,6 +765,50 @@ export default function Index() {
                 my church home."
               </p>
             </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Newsletter Section */}
+      <section className="py-20 bg-primary text-white">
+        <div className="container mx-auto px-4">
+          <div className="max-w-2xl mx-auto text-center">
+            <h2 className="text-4xl font-serif font-bold mb-4">Stay Connected</h2>
+            <p className="text-white/80 text-lg mb-8">
+              Subscribe to our newsletter and never miss a sermon, event, or announcement.
+            </p>
+            {newsletterDone ? (
+              <div className="bg-white/10 border border-white/30 rounded-xl p-6 text-center">
+                <p className="text-white font-semibold text-lg">You're subscribed!</p>
+                <p className="text-white/80 text-sm mt-1">Thank you for joining our community. God bless you!</p>
+              </div>
+            ) : (
+              <form onSubmit={handleNewsletterSubmit} className="flex flex-col sm:flex-row gap-3">
+                <input
+                  type="text"
+                  required
+                  placeholder="Your name"
+                  value={newsletter.name}
+                  onChange={(e) => setNewsletter((p) => ({ ...p, name: e.target.value }))}
+                  className="flex-1 px-4 py-3 rounded-lg text-gray-900 text-sm focus:outline-none focus:ring-2 focus:ring-white"
+                />
+                <input
+                  type="email"
+                  required
+                  placeholder="Your email address"
+                  value={newsletter.email}
+                  onChange={(e) => setNewsletter((p) => ({ ...p, email: e.target.value }))}
+                  className="flex-1 px-4 py-3 rounded-lg text-gray-900 text-sm focus:outline-none focus:ring-2 focus:ring-white"
+                />
+                <button
+                  type="submit"
+                  disabled={newsletterLoading}
+                  className="px-6 py-3 bg-white text-primary font-semibold rounded-lg hover:bg-gray-100 transition disabled:opacity-60 disabled:cursor-not-allowed text-sm shrink-0"
+                >
+                  {newsletterLoading ? "Subscribing..." : "Subscribe"}
+                </button>
+              </form>
+            )}
           </div>
         </div>
       </section>

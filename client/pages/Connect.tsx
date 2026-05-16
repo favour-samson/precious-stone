@@ -1,7 +1,8 @@
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
-import { Users, Heart, MapPin, Zap, Phone, Mail } from "lucide-react";
+import { Users, Heart, MapPin, Zap, Phone, Mail, Loader2, CheckCircle } from "lucide-react";
 import { useState } from "react";
+import { toast } from "sonner";
 
 export default function Connect() {
   const [formData, setFormData] = useState({
@@ -12,6 +13,8 @@ export default function Connect() {
     message: "",
     emergencyContact: false,
   });
+  const [loading, setLoading] = useState(false);
+  const [submitted, setSubmitted] = useState(false);
 
   const handleFormChange = (e: any) => {
     const { name, value, type, checked } = e.target;
@@ -21,19 +24,25 @@ export default function Connect() {
     }));
   };
 
-  const handleFormSubmit = (e: any) => {
+  const handleFormSubmit = async (e: any) => {
     e.preventDefault();
-    // Handle form submission
-    console.log("Form submitted:", formData);
-    alert("Thank you! We'll get back to you within 24 hours.");
-    setFormData({
-      name: "",
-      email: "",
-      phone: "",
-      department: "general",
-      message: "",
-      emergencyContact: false,
-    });
+    setLoading(true);
+    try {
+      const res = await fetch("/api/contact", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(formData),
+      });
+      const data = await res.json();
+      if (!res.ok) throw new Error(data.error || "Failed");
+      setSubmitted(true);
+      toast.success("Message sent! We'll get back to you within 24 hours.");
+      setFormData({ name: "", email: "", phone: "", department: "general", message: "", emergencyContact: false });
+    } catch (err: unknown) {
+      toast.error(err instanceof Error ? err.message : "Something went wrong. Please try again.");
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
@@ -335,6 +344,12 @@ export default function Connect() {
 
             {/* Contact Form */}
             <div className="bg-white rounded-lg shadow-md p-8">
+              {submitted && (
+                <div className="flex items-center gap-3 p-4 bg-green-50 border border-green-200 rounded-lg mb-6">
+                  <CheckCircle className="text-green-500 shrink-0" size={20} />
+                  <p className="text-green-800 text-sm font-medium">Your message has been sent. We'll get back to you shortly!</p>
+                </div>
+              )}
               <form onSubmit={handleFormSubmit} className="space-y-6">
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                   <div>
@@ -444,9 +459,11 @@ export default function Connect() {
 
                 <button
                   type="submit"
-                  className="w-full px-6 py-3 bg-primary text-white font-semibold rounded-lg hover:bg-opacity-90 transition"
+                  disabled={loading}
+                  className="w-full flex items-center justify-center gap-2 px-6 py-3 bg-primary text-white font-semibold rounded-lg hover:bg-opacity-90 transition disabled:opacity-50 disabled:cursor-not-allowed"
                 >
-                  Send Message
+                  {loading ? <Loader2 size={18} className="animate-spin" /> : null}
+                  {loading ? "Sending..." : "Send Message"}
                 </button>
               </form>
             </div>

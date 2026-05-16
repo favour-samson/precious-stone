@@ -1,5 +1,19 @@
 import { useState, useEffect } from "react";
-import { Radio, Clock, Calendar, Bell, ExternalLink } from "lucide-react";
+import {
+  Call,
+  LivestreamLayout,
+  StreamCall,
+  StreamVideo,
+  StreamVideoClient,
+  useCallStateHooks,
+} from "@stream-io/video-react-sdk";
+import { Radio, Clock, Calendar, Bell, ExternalLink, Loader2 } from "lucide-react";
+import { Link } from "react-router-dom";
+import {
+  createAnonymousClient,
+  isStreamConfigured,
+  LIVE_CALL_ID,
+} from "@/lib/stream";
 
 const FACEBOOK_PAGE_URL = "https://www.facebook.com/share/1Ky6CrUmiB/";
 
@@ -7,40 +21,183 @@ const SERVICE_SCHEDULE = [
   { day: "Sunday", time: "8:00 AM", label: "Worship Service" },
 ];
 
-function useIsLiveTime() {
-  const [isLive, setIsLive] = useState(false);
+// ---- inner component — needs StreamCall context ----
+function LivestreamContent() {
+  const { useIsCallLive, useCallEndedAt } = useCallStateHooks();
+  const isLive = useIsCallLive();
+  const endedAt = useCallEndedAt();
 
-  useEffect(() => {
-    const check = () => {
-      const now = new Date();
-      const day = now.getDay();       
-      const hour = now.getHours();
-      const min = now.getMinutes();
-      const totalMin = hour * 60 + min;
+  if (endedAt) {
+    return (
+      <div className="aspect-video flex flex-col items-center justify-center gap-6 p-8">
+        <Radio size={32} className="text-white/50" />
+        <div className="text-center">
+          <p className="text-white font-semibold text-lg mb-1">Service has ended</p>
+          <p className="text-white/60 text-sm">Thank you for joining us today.</p>
+        </div>
+        <a
+          href={FACEBOOK_PAGE_URL}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="flex items-center gap-2 px-5 py-2.5 bg-primary text-white text-sm font-medium rounded-lg"
+        >
+          <ExternalLink size={14} />
+          Watch Replay on Facebook
+        </a>
+      </div>
+    );
+  }
 
-      // Sunday 8:00 AM – 11:00 AM (adjust end time to match your service length)
-      const isSunday = day === 0;
-      const inServiceWindow = totalMin >= 660 && totalMin <= 900;
+  if (!isLive) {
+    return (
+      <div className="aspect-video flex flex-col items-center justify-center gap-6 p-8">
+        <div className="w-20 h-20 rounded-full bg-white/5 border border-white/10 flex items-center justify-center">
+          <Radio size={32} className="text-white" />
+        </div>
+        <div className="text-center">
+          <p className="text-white font-semibold text-lg mb-1">We're not live right now</p>
+          <p className="text-white/60 text-sm">
+            Join us during one of our scheduled services below
+          </p>
+        </div>
+        <a
+          href={FACEBOOK_PAGE_URL}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="flex items-center gap-2 px-5 py-2.5 bg-primary text-white text-sm font-medium rounded-lg transition"
+        >
+          <ExternalLink size={14} />
+          Watch Past Services on Facebook
+        </a>
+      </div>
+    );
+  }
 
-      setIsLive(isSunday && inServiceWindow);
-    };
-
-    check();
-    const interval = setInterval(check, 60_000);
-    return () => clearInterval(interval);
-  }, []);
-
-  return isLive;
+  return (
+    <div className="aspect-video">
+      <LivestreamLayout
+        muted={false}
+        enableFullScreen
+        showParticipantCount
+        showDuration
+        showLiveBadge
+        showMuteButton
+      />
+    </div>
+  );
 }
 
-export function WatchUsLiveSection() {
-  const isLive = useIsLiveTime();
-  const embedSrc = `https://www.facebook.com/plugins/video.php?href=${encodeURIComponent(FACEBOOK_PAGE_URL)}&show_text=false&autoplay=false&mute=false`;
+type ViewerStatus = "checking" | "offline" | "joining" | "live";
 
+// ---- viewer that manages client/call lifecycle ----
+function StreamLivestreamViewer() {
+  const [client, setClient] = useState<StreamVideoClient | null>(null);
+  const [call, setCall] = useState<Call | null>(null);
+  const [status, setStatus] = useState<ViewerStatus>("checking");
+
+  useEffect(() => {
+    if (!isStreamConfigured()) {
+      setStatus("offline");
+      return;
+    }
+
+    const c = createAnonymousClient();
+    const liveCall = c.call("livestream", LIVE_CALL_ID);
+    let mounted = true;
+    let joined = false;
+
+    async function checkAndJoin() {
+      try {
+        const { call: callData } = await liveCall.get();
+        const isLive = !callData.backstage;
+
+        if (!mounted) return;
+
+        if (isLive && !joined) {
+          if (mounted) setStatus("joining");
+          await liveCall.join({ create: false });
+          joined = true;
+          if (mounted) {
+            setClient(c);
+            setCall(liveCall);
+            setStatus("live");
+          }
+        } else if (!isLive) {
+          if (mounted) setStatus("offline");
+        }
+      } catch (err) {
+        console.error("[Stream] error:", err);
+        if (mounted) setStatus("offline");
+      }
+    }
+
+    checkAndJoin();
+    // re-check every 30 s so the player auto-activates when you click Go Live
+    const interval = setInterval(checkAndJoin, 30_000);
+
+    return () => {
+      mounted = false;
+      clearInterval(interval);
+      if (joined) liveCall.leave().catch(console.error);
+      c.disconnectUser().catch(console.error);
+    };
+  }, []);
+
+  if (status === "checking" || status === "joining") {
+    return (
+      <div className="aspect-video flex items-center justify-center">
+        <Loader2 size={32} className="text-primary animate-spin" />
+      </div>
+    );
+  }
+
+  if (status === "offline") {
+    return <OfflineState />;
+  }
+
+  if (!client || !call) return null;
+
+  return (
+    <StreamVideo client={client}>
+      <StreamCall call={call}>
+        <LivestreamContent />
+      </StreamCall>
+    </StreamVideo>
+  );
+}
+
+function OfflineState() {
+  return (
+    <div className="aspect-video flex flex-col items-center justify-center gap-6 p-8">
+      <div className="w-20 h-20 rounded-full bg-white/5 border border-white/10 flex items-center justify-center">
+        <Radio size={32} className="text-white" />
+      </div>
+      <div className="text-center">
+        <p className="text-white font-semibold text-lg mb-1">We're not live right now</p>
+        <p className="text-white/60 text-sm">
+          Join us during one of our scheduled services
+        </p>
+      </div>
+      <a
+        href={FACEBOOK_PAGE_URL}
+        target="_blank"
+        rel="noopener noreferrer"
+        className="flex items-center gap-2 px-5 py-2.5 bg-primary text-white text-sm font-medium rounded-lg transition"
+      >
+        <ExternalLink size={14} />
+        Watch Past Services on Facebook
+      </a>
+    </div>
+  );
+}
+
+// ---- exported section ----
+export function WatchUsLiveSection() {
   return (
     <section id="watch-live" className="py-20 bg-gray-950 relative overflow-hidden">
       {/* Background texture */}
-      <div className="absolute inset-0 opacity-5"
+      <div
+        className="absolute inset-0 opacity-5"
         style={{
           backgroundImage: `radial-gradient(circle at 1px 1px, white 1px, transparent 0)`,
           backgroundSize: "32px 32px",
@@ -56,77 +213,45 @@ export function WatchUsLiveSection() {
             <Radio size={14} />
             Live Broadcast
           </div>
-          <h2 className="text-4xl font-serif font-bold text-white mb-3">
-            Watch Us Live
-          </h2>
-          <p className="text-white text-lg">
-            Join our services from wherever you are
-          </p>
+          <h2 className="text-4xl font-serif font-bold text-white mb-3">Watch Us Live</h2>
+          <p className="text-white/70 text-lg">Join our services from wherever you are</p>
         </div>
 
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 max-w-6xl mx-auto items-start">
-
           {/* Player — takes 2 columns */}
           <div className="lg:col-span-2">
             <div className="relative rounded-2xl overflow-hidden bg-gray-900 border border-white/10 shadow-2xl">
-              {/* Live badge */}
-              {isLive && (
-                <div className="absolute top-4 left-4 z-10 flex items-center gap-2 px-3 py-1 bg-red-600 rounded-full">
-                  <span className="relative flex h-2 w-2">
-                    <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-white opacity-75" />
-                    <span className="relative inline-flex h-2 w-2 rounded-full bg-white" />
-                  </span>
-                  <span className="text-white text-xs font-bold tracking-wide">LIVE</span>
-                </div>
-              )}
-
-              {isLive ? (
-                <iframe
-                  src={embedSrc}
-                  className="w-full aspect-video"
-                  style={{ border: "none" }}
-                  allowFullScreen
-                  allow="autoplay; clipboard-write; encrypted-media; picture-in-picture; web-share"
-                />
-              ) : (
-                /* Offline state */
-                <div className="aspect-video flex flex-col items-center justify-center gap-6 p-8">
-                  <div className="w-20 h-20 rounded-full bg-white/5 border border-white/10 flex items-center justify-center">
-                    <Radio size={32} className="text-white" />
-                  </div>
-                  <div className="text-center">
-                    <p className="text-white font-semibold text-lg mb-1">
-                      We're not live right now
-                    </p>
-                    <p className="text-white text-sm">
-                      Join us during one of our scheduled services below
-                    </p>
-                  </div>
-                  <a
-                    href={FACEBOOK_PAGE_URL}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="flex items-center gap-2 px-5 py-2.5 bg-primary  text-white text-sm font-medium rounded-lg transition"
-                  >
-                    <ExternalLink size={14} />
-                    Watch Past Services on Facebook
-                  </a>
-                </div>
-              )}
+              <StreamLivestreamViewer />
             </div>
 
-            {/* Facebook CTA below player */}
-            <p className="text-white text-xs text-center mt-3">
-              Stream hosted on{" "}
-              <a
-                href={FACEBOOK_PAGE_URL}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="text-primary hover:underline"
+            <div className="flex items-center justify-between mt-3 px-1">
+              <p className="text-white/40 text-xs">
+                Powered by{" "}
+                <a
+                  href="https://getstream.io"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-primary hover:underline"
+                >
+                  Stream Video
+                </a>{" "}
+                &middot; Also on{" "}
+                <a
+                  href={FACEBOOK_PAGE_URL}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-primary hover:underline"
+                >
+                  Facebook
+                </a>
+              </p>
+              <Link
+                to="/live"
+                className="text-xs text-primary hover:underline"
               >
-                our Facebook page
-              </a>
-            </p>
+                Full screen &rarr;
+              </Link>
+            </div>
           </div>
 
           {/* Sidebar */}
@@ -143,8 +268,8 @@ export function WatchUsLiveSection() {
                     <div className="w-1.5 h-1.5 rounded-full bg-primary mt-2 shrink-0" />
                     <div>
                       <p className="text-white text-sm font-semibold">{s.label}</p>
-                      <p className="text-white text-xs">
-                        {s.day} • {s.time}
+                      <p className="text-white/60 text-xs">
+                        {s.day} &bull; {s.time}
                       </p>
                     </div>
                   </li>
@@ -158,8 +283,10 @@ export function WatchUsLiveSection() {
                 <Clock size={15} />
                 Timezone
               </div>
-              <p className="text-white text-sm">All times in <span className="text-white font-semibold">WAT (UTC+1)</span></p>
-              <p className="text-white text-xs mt-1">West Africa Time — Nigeria</p>
+              <p className="text-white text-sm">
+                All times in <span className="text-white font-semibold">WAT (UTC+1)</span>
+              </p>
+              <p className="text-white/50 text-xs mt-1">West Africa Time — Nigeria</p>
             </div>
 
             {/* Notify me */}
@@ -168,14 +295,14 @@ export function WatchUsLiveSection() {
                 <Bell size={15} />
                 Never Miss a Service
               </div>
-              <p className="text-white text-xs mb-4">
+              <p className="text-white/70 text-xs mb-4">
                 Follow us on Facebook to get notified when we go live.
               </p>
               <a
                 href={FACEBOOK_PAGE_URL}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="flex items-center justify-center gap-2 w-full py-2.5 bg-primary  text-white text-sm font-medium rounded-lg transition"
+                className="flex items-center justify-center gap-2 w-full py-2.5 bg-primary text-white text-sm font-medium rounded-lg transition"
               >
                 Follow on Facebook
               </a>

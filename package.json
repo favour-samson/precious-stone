@@ -11,7 +11,9 @@
     ]
   },
   "scripts": {
-    "dev": "vite",
+    "dev": "concurrently \"vite\" \"tsx watch server/index.ts\"",
+    "dev:client": "vite",
+    "dev:server": "tsx watch server/index.ts",
     "build": "npm run build:client",
     "build:client": "vite build",
     "start": "node dist/server/node-build.mjs",
@@ -20,8 +22,10 @@
     "typecheck": "tsc"
   },
   "dependencies": {
+    "@stream-io/video-react-sdk": "^1.36.1",
     "dotenv": "^17.2.1",
     "express": "^5.1.0",
+    "mongoose": "^9.6.2",
     "react-icons": "^5.6.0",
     "zod": "^3.25.76"
   },
@@ -70,6 +74,7 @@
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
     "cmdk": "^1.1.1",
+    "concurrently": "^9.2.1",
     "cors": "^2.8.5",
     "date-fns": "^4.1.0",
     "embla-carousel-react": "^8.6.0",

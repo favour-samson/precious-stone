@@ -14,6 +14,8 @@ import Giving from "./pages/Giving";
 import Connect from "./pages/Connect";
 import PrayerRequests from "./pages/PrayerRequests";
 import Resources from "./pages/Resources";
+import LiveStream from "./pages/LiveStream";
+import VideoCall from "./pages/VideoCall";
 import NotFound from "./pages/NotFound";
 import ScrollToTop from "./components/ScrollToTop";
 
@@ -37,6 +39,8 @@ export const App = () => (
           <Route path="/connect" element={<Connect />} />
           <Route path="/prayer-requests" element={<PrayerRequests />} />
           <Route path="/resources" element={<Resources />} />
+          <Route path="/live" element={<LiveStream />} />
+          <Route path="/video-call" element={<VideoCall />} />
           {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
           <Route path="*" element={<NotFound />} />
         </Routes>

@@ -167,10 +167,15 @@ export default function About() {
                   name: "Deaconess Foluke Aribisala",
                   img: "/images/aribisala.jpeg",
                 },
+                 {
+                  name: "Deacon Olaitan Ebenezer",
+                  img: "/images/minister-4.jpeg",
+                },
+                
               ].map((pastor) => (
                 <div
                   key={pastor.name}
-                  className="flex flex-col items-center text-center"
+                  className="flex flex-col items-center text-cente "
                 >
                   <div className="w-full aspect-square overflow-hidden rounded-xl mb-3 shadow-md">
                     <img
@@ -187,7 +192,7 @@ export default function About() {
             </div>
 
             {/* Church Council */}
-            <div className="bg-gradient-to-r from-primary to-secondary text-white rounded-lg p-8">
+            <div className="mt-8 bg-gradient-to-r from-primary to-secondary text-white rounded-lg p-8">
               <h3 className="text-2xl font-semibold mb-4">
                 Church Council & Leadership Board
               </h3>

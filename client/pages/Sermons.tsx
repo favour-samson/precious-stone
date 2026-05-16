@@ -1,7 +1,11 @@
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
-import { Search, Play, Download, Filter, Mic, Calendar, BookOpen } from "lucide-react";
+import { Search, Play, Download, Filter, Calendar } from "lucide-react";
 import { useState } from "react";
+import {
+  SermonVideoModal,
+  type SermonMeta,
+} from "@/components/SermonVideoModal";
 
 export default function Sermons() {
   const [searchTerm, setSearchTerm] = useState("");
@@ -9,8 +13,9 @@ export default function Sermons() {
   const [selectedYear, setSelectedYear] = useState("all");
   const [selectedType, setSelectedType] = useState("all");
   const [sortBy, setSortBy] = useState("newest");
+  const [activeSermon, setActiveSermon] = useState<SermonMeta | null>(null);
 
-  const sermons = [
+  const sermons: SermonMeta[] = [
     {
       id: 1,
       title: "Faith in the Midst of Challenges",
@@ -144,6 +149,7 @@ export default function Sermons() {
 
   return (
     <div className="min-h-screen bg-white">
+      <SermonVideoModal sermon={activeSermon} onClose={() => setActiveSermon(null)} />
       <Header />
 
       {/* Hero Section */}
@@ -262,7 +268,10 @@ export default function Sermons() {
                       alt={sermon.title}
                       className="w-full h-full object-cover group-hover:scale-105 transition"
                     />
-                    <button className="absolute inset-0 flex items-center justify-center bg-black bg-opacity-0 group-hover:bg-opacity-40 transition">
+                    <button
+                      onClick={() => setActiveSermon(sermon)}
+                      className="absolute inset-0 flex items-center justify-center bg-black bg-opacity-0 group-hover:bg-opacity-40 transition"
+                    >
                       <Play className="text-white opacity-0 group-hover:opacity-100 transition" size={40} />
                     </button>
                     <span className="absolute top-2 right-2 bg-primary text-white text-xs font-bold px-2 py-1 rounded">
@@ -283,13 +292,16 @@ export default function Sermons() {
 
                     {/* Stats */}
                     <div className="flex justify-between items-center text-xs text-gray-600 mb-4 pb-4 border-t">
-                      <span>{sermon.views.toLocaleString()} views</span>
+                      <span>{sermon.views?.toLocaleString() ?? 0} views</span>
                       <span>{sermon.duration}</span>
                     </div>
 
                     {/* Actions */}
                     <div className="flex gap-2">
-                      <button className="flex-1 flex items-center justify-center gap-1 py-2 px-3 bg-primary text-white font-sm rounded hover:bg-opacity-90 transition text-xs">
+                      <button
+                        onClick={() => setActiveSermon(sermon)}
+                        className="flex-1 flex items-center justify-center gap-1 py-2 px-3 bg-primary text-white font-sm rounded hover:bg-opacity-90 transition text-xs"
+                      >
                         <Play size={14} />
                         {sermon.type === "video" ? "Watch" : "Listen"}
                       </button>
