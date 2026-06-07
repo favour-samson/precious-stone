@@ -152,8 +152,8 @@ export default function About() {
                   img: "https://ui-avatars.com/api/?name=Pastor+Ogunbajo&size=400&background=1a376a&color=fff&bold=true",
                 },
                 {
-                  name: "Pastor Mrs. Ogunbajo",
-                  img: "https://ui-avatars.com/api/?name=Pastor+Mrs+Ogunbajo&size=400&background=c11a30&color=fff&bold=true",
+                  name: "A/P Ogunbajo Adewumi",
+                  img: "https://ui-avatars.com/api/?name=Ogunbajo+Adewumi&size=400&background=c11a30&color=fff&bold=true",
                 },
                 {
                   name: "A/P Adewale Ogunofejo",

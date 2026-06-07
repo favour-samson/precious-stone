@@ -105,9 +105,9 @@ export default function Giving() {
                   Support our expansion project. Help us build additional
                   facilities to serve our growing congregation and community.
                 </p>
-                <p className="text-sm text-primary font-semibold mb-4">
+                {/* <p className="text-sm text-primary font-semibold mb-4">
                   Progress: 45% funded
-                </p>
+                </p> */}
               </div>
 
               {/* Mission Support */}

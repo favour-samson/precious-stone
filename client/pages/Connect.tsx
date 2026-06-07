@@ -387,7 +387,7 @@ export default function Connect() {
                 <MapPin className="text-primary mx-auto mb-3" size={32} />
                 <h3 className="font-semibold text-gray-900 mb-2">Visit Us</h3>
                 <p className="text-gray-600 text-sm">
-                  Ajila Road, Elebu-Akuru, Ibadan, Nigeria
+                  Ajila Road 7, Elebu-Akuru, Ibadan, Nigeria
                 </p>
               </div>
             </div>
