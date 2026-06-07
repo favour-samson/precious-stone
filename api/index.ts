@@ -1,6 +1,5 @@
 import express from "express";
 import cors from "cors";
-import serverless from "serverless-http";
 import { connectDB } from "../server/db.js";
 import prayerRouter from "../server/routes/prayer.js";
 import contactRouter from "../server/routes/contact.js";
@@ -20,6 +19,6 @@ app.use("/api/ministries", ministriesRouter);
 app.use("/api/newsletter", newsletterRouter);
 app.get("/api/health", (_req, res) => res.json({ status: "ok" }));
 
-connectDB();
+connectDB().catch((err) => console.error("MongoDB connection failed:", err.message));
 
-export default serverless(app);
+export default app;
