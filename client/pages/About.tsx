@@ -149,11 +149,11 @@ export default function About() {
               {[
                 {
                   name: "Pastor Ogunbajo",
-                  img: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=400&h=500&fit=crop",
+                  img: "https://ui-avatars.com/api/?name=Pastor+Ogunbajo&size=400&background=1a376a&color=fff&bold=true",
                 },
                 {
                   name: "Pastor Mrs. Ogunbajo",
-                  img: "https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=400&h=500&fit=crop",
+                  img: "https://ui-avatars.com/api/?name=Pastor+Mrs+Ogunbajo&size=400&background=c11a30&color=fff&bold=true",
                 },
                 {
                   name: "A/P Adewale Ogunofejo",
