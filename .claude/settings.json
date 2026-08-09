@@ -5,7 +5,8 @@
       "WebFetch(domain:getstream.io)",
       "WebSearch",
       "PowerShell(pnpm add @stream-io/node-sdk)",
-      "PowerShell(pnpm typecheck 2>&1)"
+      "PowerShell(pnpm typecheck 2>&1)",
+      "PowerShell(pnpm typecheck; echo \"EXIT:$LASTEXITCODE\")"
     ]
   }
 }

@@ -10,7 +10,7 @@ import {
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import { Radio, Calendar, Clock, Bell, ExternalLink, Loader2 } from "lucide-react";
-import { createAnonymousClient, LIVE_CALL_ID, isStreamConfigured } from "@/lib/stream";
+import { createGuestClient, getOrCreateViewerIdentity, LIVE_CALL_ID, isStreamConfigured } from "@/lib/stream";
 
 const FACEBOOK_PAGE_URL = "https://www.facebook.com/share/1Ky6CrUmiB/";
 
@@ -98,7 +98,8 @@ function StreamViewer() {
       return;
     }
 
-    const c = createAnonymousClient();
+    const identity = getOrCreateViewerIdentity();
+    const c = createGuestClient(identity.name, identity.id);
     const liveCall = c.call("livestream", LIVE_CALL_ID);
     let mounted = true;
     let joined = false;

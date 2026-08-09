@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import {
   Call,
   CallControls,
@@ -21,6 +21,8 @@ import {
   Video,
   Cable,
   PhoneOff,
+  Users,
+  SwitchCamera,
 } from "lucide-react";
 
 type Stage = "locked" | "connecting" | "ready" | "error";
@@ -58,12 +60,23 @@ function CopyField({ label, value, mono = true }: { label: string; value: string
 
 // ---------- live controls (needs StreamCall context) ----------
 function HostControls({ token, onLeave }: { token: string; onLeave: () => void }) {
-  const { useIsCallLive, useCallIngress, useParticipantCount } = useCallStateHooks();
+  const { useIsCallLive, useCallIngress, useParticipantCount, useCallSession } = useCallStateHooks();
   const isLive = useIsCallLive();
   const ingress = useCallIngress();
   const participantCount = useParticipantCount();
+  const session = useCallSession();
   const [busy, setBusy] = useState(false);
   const call = useCall();
+
+  // Distinct viewers who joined this live session (host excluded), even
+  // if they've since left — Stream keeps this per-session, we just dedupe.
+  const attendeeCount = useMemo(() => {
+    if (!session) return 0;
+    const viewerIds = new Set(
+      session.participants.filter((p) => p.role !== "admin").map((p) => p.user.id),
+    );
+    return viewerIds.size;
+  }, [session]);
 
   async function toggleLive() {
     if (!call) return;
@@ -121,12 +134,34 @@ function HostControls({ token, onLeave }: { token: string; onLeave: () => void }
       <div className="flex flex-col gap-4">
         <div className="rounded-2xl bg-white/5 border border-white/10 p-5">
           <div className="flex items-center gap-2 text-white text-sm font-medium mb-3">
-            <Video size={15} />
-            This device's camera
+            <Users size={15} />
+            Attendance
+          </div>
+          <p className="text-white text-3xl font-bold">{attendeeCount}</p>
+          <p className="text-white/50 text-xs mt-1">
+            {isLive
+              ? "Distinct people who've joined this service so far, even if they've left."
+              : "Will start counting once you go live."}
+          </p>
+        </div>
+
+        <div className="rounded-2xl bg-white/5 border border-white/10 p-5">
+          <div className="flex items-center justify-between mb-3">
+            <div className="flex items-center gap-2 text-white text-sm font-medium">
+              <Video size={15} />
+              This device's camera
+            </div>
+            <button
+              onClick={() => call?.camera.flip()}
+              className="flex items-center gap-1.5 px-2.5 py-1 bg-white/10 hover:bg-white/20 text-white text-xs rounded-lg transition"
+            >
+              <SwitchCamera size={13} />
+              Flip
+            </button>
           </div>
           <p className="text-white/60 text-xs">
-            Already publishing above. On a phone, just keep this page open in the browser — no app needed.
-            Use the mic/camera buttons below the preview to mute or switch cameras.
+            Defaults to the rear camera. On a phone, just keep this page open in the browser — no app needed.
+            Use "Flip" to switch to the front camera, or the buttons below the preview to mute.
           </p>
         </div>
 
@@ -184,7 +219,9 @@ export default function Broadcast() {
       const call = client.call(data.callType, data.callId);
 
       await call.microphone.enable();
-      await call.camera.enable();
+      // default to the rear camera on phones — front-facing is the wrong
+      // choice for filming a service. selectDirection() enables the camera too.
+      await call.camera.selectDirection("back");
       await call.join({ create: true });
 
       setSession({ client, call, token: data.token });
