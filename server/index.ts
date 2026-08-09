@@ -7,6 +7,7 @@ import contactRouter from "./routes/contact.js";
 import eventsRouter from "./routes/events.js";
 import ministriesRouter from "./routes/ministries.js";
 import newsletterRouter from "./routes/newsletter.js";
+import streamRouter from "./routes/stream.js";
 
 const app = express();
 const PORT = process.env.API_PORT || 3001;
@@ -19,6 +20,7 @@ app.use("/api/contact", contactRouter);
 app.use("/api/events", eventsRouter);
 app.use("/api/ministries", ministriesRouter);
 app.use("/api/newsletter", newsletterRouter);
+app.use("/api/stream", streamRouter);
 
 app.get("/api/health", (_req, res) => res.json({ status: "ok" }));
 

@@ -1,5 +1,6 @@
 import { Router } from "express";
 import { PrayerRequest } from "../models/PrayerRequest.js";
+import { notifyChurch } from "../mailer.js";
 
 const router = Router();
 
@@ -15,6 +16,12 @@ router.post("/", async (req, res) => {
       request: request.trim(),
       isAnonymous: !!isAnonymous,
       isUrgent: !!isUrgent,
+    });
+    notifyChurch(isUrgent ? "🚨 Urgent Prayer Request" : "New Prayer Request", {
+      Name: doc.name,
+      Email: doc.email,
+      Anonymous: doc.isAnonymous ? "Yes" : "No",
+      Request: doc.request,
     });
     res.status(201).json({ success: true, id: doc._id });
   } catch (err) {

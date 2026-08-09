@@ -1,7 +1,11 @@
 {
   "permissions": {
     "allow": [
-      "Bash(sort -u -t: -k3)"
+      "Bash(sort -u -t: -k3)",
+      "WebFetch(domain:getstream.io)",
+      "WebSearch",
+      "PowerShell(pnpm add @stream-io/node-sdk)",
+      "PowerShell(pnpm typecheck 2>&1)"
     ]
   }
 }

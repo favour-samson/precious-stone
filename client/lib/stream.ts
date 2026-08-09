@@ -24,3 +24,12 @@ export function createGuestClient(
   const user: User = { type: "guest", id: guestId, name };
   return new StreamVideoClient({ apiKey, user });
 }
+
+export function createHostClient(
+  userId: string,
+  token: string,
+  name?: string,
+): StreamVideoClient {
+  const user: User = { id: userId, name: name ?? "Broadcast Host" };
+  return new StreamVideoClient({ apiKey, user, token });
+}

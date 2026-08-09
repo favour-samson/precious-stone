@@ -1,5 +1,6 @@
 import { Router } from "express";
 import { ContactMessage } from "../models/ContactMessage.js";
+import { notifyChurch } from "../mailer.js";
 
 const router = Router();
 
@@ -16,6 +17,13 @@ router.post("/", async (req, res) => {
       department: department || "General",
       message: message.trim(),
       isEmergency: !!isEmergency,
+    });
+    notifyChurch(isEmergency ? "🚨 Urgent Contact Message" : "New Contact Message", {
+      Name: doc.name,
+      Email: doc.email,
+      Phone: doc.phone,
+      Department: doc.department,
+      Message: doc.message,
     });
     res.status(201).json({ success: true, id: doc._id });
   } catch (err) {
