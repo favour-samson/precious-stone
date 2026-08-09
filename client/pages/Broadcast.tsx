@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useState } from "react";
 import {
   Call,
   CallControls,
@@ -21,7 +21,6 @@ import {
   Video,
   Cable,
   PhoneOff,
-  Users,
   SwitchCamera,
 } from "lucide-react";
 
@@ -60,27 +59,18 @@ function CopyField({ label, value, mono = true }: { label: string; value: string
 
 // ---------- live controls (needs StreamCall context) ----------
 function HostControls({ token, onLeave }: { token: string; onLeave: () => void }) {
-  const { useIsCallLive, useCallIngress, useParticipantCount, useCallSession } = useCallStateHooks();
+  const { useIsCallLive, useCallIngress, useParticipantCount } = useCallStateHooks();
   const isLive = useIsCallLive();
   const ingress = useCallIngress();
   const participantCount = useParticipantCount();
-  const session = useCallSession();
   const [busy, setBusy] = useState(false);
+  const [liveError, setLiveError] = useState("");
   const call = useCall();
-
-  // Distinct viewers who joined this live session (host excluded), even
-  // if they've since left — Stream keeps this per-session, we just dedupe.
-  const attendeeCount = useMemo(() => {
-    if (!session) return 0;
-    const viewerIds = new Set(
-      session.participants.filter((p) => p.role !== "admin").map((p) => p.user.id),
-    );
-    return viewerIds.size;
-  }, [session]);
 
   async function toggleLive() {
     if (!call) return;
     setBusy(true);
+    setLiveError("");
     try {
       if (isLive) {
         await call.stopLive();
@@ -89,6 +79,7 @@ function HostControls({ token, onLeave }: { token: string; onLeave: () => void }
       }
     } catch (err) {
       console.error("[Broadcast] go live / stop live failed:", err);
+      setLiveError(err instanceof Error ? err.message : "Failed to change live status.");
     } finally {
       setBusy(false);
     }
@@ -125,6 +116,7 @@ function HostControls({ token, onLeave }: { token: string; onLeave: () => void }
             Leave
           </button>
         </div>
+        {liveError && <p className="text-red-400 text-xs mt-2">{liveError}</p>}
         <div className="mt-3">
           <CallControls onLeave={onLeave} />
         </div>
@@ -132,19 +124,6 @@ function HostControls({ token, onLeave }: { token: string; onLeave: () => void }
 
       {/* feed sources */}
       <div className="flex flex-col gap-4">
-        <div className="rounded-2xl bg-white/5 border border-white/10 p-5">
-          <div className="flex items-center gap-2 text-white text-sm font-medium mb-3">
-            <Users size={15} />
-            Attendance
-          </div>
-          <p className="text-white text-3xl font-bold">{attendeeCount}</p>
-          <p className="text-white/50 text-xs mt-1">
-            {isLive
-              ? "Distinct people who've joined this service so far, even if they've left."
-              : "Will start counting once you go live."}
-          </p>
-        </div>
-
         <div className="rounded-2xl bg-white/5 border border-white/10 p-5">
           <div className="flex items-center justify-between mb-3">
             <div className="flex items-center gap-2 text-white text-sm font-medium">

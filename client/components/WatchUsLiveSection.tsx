@@ -10,8 +10,7 @@ import {
 import { Radio, Clock, Calendar, Bell, ExternalLink, Loader2 } from "lucide-react";
 import { Link } from "react-router-dom";
 import {
-  createGuestClient,
-  getOrCreateViewerIdentity,
+  createAnonymousClient,
   isStreamConfigured,
   LIVE_CALL_ID,
 } from "@/lib/stream";
@@ -102,8 +101,7 @@ function StreamLivestreamViewer() {
       return;
     }
 
-    const identity = getOrCreateViewerIdentity();
-    const c = createGuestClient(identity.name, identity.id);
+    const c = createAnonymousClient();
     const liveCall = c.call("livestream", LIVE_CALL_ID);
     let mounted = true;
     let joined = false;
