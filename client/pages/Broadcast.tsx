@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import {
   Call,
   CallControls,
@@ -22,6 +22,8 @@ import {
   Cable,
   PhoneOff,
   SwitchCamera,
+  Users,
+  ZoomIn,
 } from "lucide-react";
 
 type Stage = "locked" | "connecting" | "ready" | "error";
@@ -31,6 +33,17 @@ interface HostSession {
   call: Call;
   token: string;
 }
+
+// zoom is a real, widely-supported (mainly Android Chrome) but non-standard
+// MediaTrackConstraint the DOM lib types don't know about.
+interface ZoomRange {
+  min: number;
+  max: number;
+  step: number;
+}
+type CapabilitiesWithZoom = MediaTrackCapabilities & { zoom?: ZoomRange };
+type SettingsWithZoom = MediaTrackSettings & { zoom?: number };
+type ConstraintsWithZoom = MediaTrackConstraintSet & { zoom?: number };
 
 // ---------- copyable field ----------
 function CopyField({ label, value, mono = true }: { label: string; value: string; mono?: boolean }) {
@@ -59,13 +72,53 @@ function CopyField({ label, value, mono = true }: { label: string; value: string
 
 // ---------- live controls (needs StreamCall context) ----------
 function HostControls({ token, onLeave }: { token: string; onLeave: () => void }) {
-  const { useIsCallLive, useCallIngress, useParticipantCount } = useCallStateHooks();
+  const { useIsCallLive, useCallIngress, useParticipantCount, useCallSession } = useCallStateHooks();
   const isLive = useIsCallLive();
   const ingress = useCallIngress();
   const participantCount = useParticipantCount();
+  const session = useCallSession();
   const [busy, setBusy] = useState(false);
   const [liveError, setLiveError] = useState("");
   const call = useCall();
+
+  // Distinct viewers who joined this live session (host excluded), even
+  // if they've since left — Stream keeps this per-session, we just dedupe.
+  const attendeeCount = useMemo(() => {
+    if (!session) return 0;
+    const viewerIds = new Set(
+      session.participants.filter((p) => p.role !== "admin").map((p) => p.user.id),
+    );
+    return viewerIds.size;
+  }, [session]);
+
+  const [zoomTrack, setZoomTrack] = useState<MediaStreamTrack | null>(null);
+  const [zoomRange, setZoomRange] = useState<ZoomRange | null>(null);
+  const [zoom, setZoom] = useState(0);
+
+  useEffect(() => {
+    if (!call) return;
+    const sub = call.camera.state.mediaStream$.subscribe((stream) => {
+      const track = stream?.getVideoTracks()[0] ?? null;
+      setZoomTrack(track);
+      const caps = track?.getCapabilities?.() as CapabilitiesWithZoom | undefined;
+      if (track && caps?.zoom) {
+        setZoomRange(caps.zoom);
+        const settings = track.getSettings?.() as SettingsWithZoom;
+        setZoom(settings.zoom ?? caps.zoom.min);
+      } else {
+        setZoomRange(null);
+      }
+    });
+    return () => sub.unsubscribe();
+  }, [call]);
+
+  function handleZoomChange(value: number) {
+    setZoom(value);
+    const constraint: ConstraintsWithZoom = { zoom: value };
+    zoomTrack
+      ?.applyConstraints({ advanced: [constraint] })
+      .catch((err) => console.error("[Broadcast] zoom failed:", err));
+  }
 
   async function toggleLive() {
     if (!call) return;
@@ -73,9 +126,10 @@ function HostControls({ token, onLeave }: { token: string; onLeave: () => void }
     setLiveError("");
     try {
       if (isLive) {
+        await call.stopRecording().catch(() => {});
         await call.stopLive();
       } else {
-        await call.goLive();
+        await call.goLive({ start_composite_recording: true });
       }
     } catch (err) {
       console.error("[Broadcast] go live / stop live failed:", err);
@@ -125,6 +179,19 @@ function HostControls({ token, onLeave }: { token: string; onLeave: () => void }
       {/* feed sources */}
       <div className="flex flex-col gap-4">
         <div className="rounded-2xl bg-white/5 border border-white/10 p-5">
+          <div className="flex items-center gap-2 text-white text-sm font-medium mb-3">
+            <Users size={15} />
+            Attendance
+          </div>
+          <p className="text-white text-3xl font-bold">{attendeeCount}</p>
+          <p className="text-white/50 text-xs mt-1">
+            {isLive
+              ? "Distinct people who've joined this service so far, even if they've left."
+              : "Will start counting once you go live."}
+          </p>
+        </div>
+
+        <div className="rounded-2xl bg-white/5 border border-white/10 p-5">
           <div className="flex items-center justify-between mb-3">
             <div className="flex items-center gap-2 text-white text-sm font-medium">
               <Video size={15} />
@@ -138,10 +205,27 @@ function HostControls({ token, onLeave }: { token: string; onLeave: () => void }
               Flip
             </button>
           </div>
-          <p className="text-white/60 text-xs">
+          <p className="text-white/60 text-xs mb-3">
             Defaults to the rear camera. On a phone, just keep this page open in the browser — no app needed.
             Use "Flip" to switch to the front camera, or the buttons below the preview to mute.
           </p>
+          {zoomRange && (
+            <div>
+              <div className="flex items-center gap-1.5 text-white/60 text-xs mb-1.5">
+                <ZoomIn size={12} />
+                Zoom
+              </div>
+              <input
+                type="range"
+                min={zoomRange.min}
+                max={zoomRange.max}
+                step={zoomRange.step || 0.1}
+                value={zoom}
+                onChange={(e) => handleZoomChange(Number(e.target.value))}
+                className="w-full accent-primary"
+              />
+            </div>
+          )}
         </div>
 
         <div className="rounded-2xl bg-white/5 border border-white/10 p-5">

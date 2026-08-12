@@ -1,9 +1,49 @@
 import { Link } from "react-router-dom";
 import { Menu, X } from "lucide-react";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+
+function useIsChurchLive(): boolean {
+  const [isLive, setIsLive] = useState(false);
+
+  useEffect(() => {
+    let mounted = true;
+
+    async function checkLive() {
+      try {
+        const res = await fetch("/api/stream/live-status");
+        const data = await res.json();
+        if (mounted) setIsLive(Boolean(data.isLive));
+      } catch {
+        if (mounted) setIsLive(false);
+      }
+    }
+
+    checkLive();
+    const interval = setInterval(checkLive, 45_000);
+    return () => {
+      mounted = false;
+      clearInterval(interval);
+    };
+  }, []);
+
+  return isLive;
+}
+
+function LiveBadge() {
+  return (
+    <span className="flex items-center gap-1 px-1.5 py-0.5 bg-red-600 text-white text-[10px] font-bold rounded">
+      <span className="relative flex h-1.5 w-1.5">
+        <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-white opacity-75" />
+        <span className="relative inline-flex h-1.5 w-1.5 rounded-full bg-white" />
+      </span>
+      LIVE
+    </span>
+  );
+}
 
 export default function Header() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const isLive = useIsChurchLive();
 
   const navLinks = [
     { label: "Home", href: "/" },
@@ -41,9 +81,10 @@ export default function Header() {
               <Link
                 key={link.href}
                 to={link.href}
-                className="px-3 py-2 text-sm font-medium text-gray-700 hover:text-primary hover:bg-gray-50 rounded-md transition-colors"
+                className="flex items-center gap-1.5 px-3 py-2 text-sm font-medium text-gray-700 hover:text-primary hover:bg-gray-50 rounded-md transition-colors"
               >
                 {link.label}
+                {link.href === "/live" && isLive && <LiveBadge />}
               </Link>
             ))}
           </nav>
@@ -74,10 +115,11 @@ export default function Header() {
               <Link
                 key={link.href}
                 to={link.href}
-                className="block px-4 py-2 text-sm font-medium text-gray-700 hover:text-primary hover:bg-gray-50 transition-colors"
+                className="flex items-center gap-1.5 px-4 py-2 text-sm font-medium text-gray-700 hover:text-primary hover:bg-gray-50 transition-colors"
                 onClick={() => setMobileMenuOpen(false)}
               >
                 {link.label}
+                {link.href === "/live" && isLive && <LiveBadge />}
               </Link>
             ))}
             <div className="px-4 py-2">

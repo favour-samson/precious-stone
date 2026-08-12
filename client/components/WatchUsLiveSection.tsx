@@ -7,10 +7,11 @@ import {
   StreamVideoClient,
   useCallStateHooks,
 } from "@stream-io/video-react-sdk";
-import { Radio, Clock, Calendar, Bell, ExternalLink, Loader2 } from "lucide-react";
+import { Radio, Clock, Calendar, Bell, PlayCircle, Loader2 } from "lucide-react";
 import { Link } from "react-router-dom";
 import {
-  createAnonymousClient,
+  createGuestClient,
+  getOrCreateViewerIdentity,
   isStreamConfigured,
   LIVE_CALL_ID,
 } from "@/lib/stream";
@@ -35,15 +36,23 @@ function LivestreamContent() {
           <p className="text-white font-semibold text-lg mb-1">Service has ended</p>
           <p className="text-white/60 text-sm">Thank you for joining us today.</p>
         </div>
-        <a
-          href={FACEBOOK_PAGE_URL}
-          target="_blank"
-          rel="noopener noreferrer"
-          className="flex items-center gap-2 px-5 py-2.5 bg-primary text-white text-sm font-medium rounded-lg"
-        >
-          <ExternalLink size={14} />
-          Watch Replay on Facebook
-        </a>
+        <div className="flex flex-col items-center gap-3">
+          <Link
+            to="/live/past"
+            className="flex items-center gap-2 px-5 py-2.5 bg-primary text-white text-sm font-medium rounded-lg"
+          >
+            <PlayCircle size={14} />
+            Watch Past Services
+          </Link>
+          <a
+            href={FACEBOOK_PAGE_URL}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="text-white/50 text-xs hover:text-white/80 transition"
+          >
+            Also on Facebook
+          </a>
+        </div>
       </div>
     );
   }
@@ -60,15 +69,23 @@ function LivestreamContent() {
             Join us during one of our scheduled services below
           </p>
         </div>
-        <a
-          href={FACEBOOK_PAGE_URL}
-          target="_blank"
-          rel="noopener noreferrer"
-          className="flex items-center gap-2 px-5 py-2.5 bg-primary text-white text-sm font-medium rounded-lg transition"
-        >
-          <ExternalLink size={14} />
-          Watch Past Services on Facebook
-        </a>
+        <div className="flex flex-col items-center gap-3">
+          <Link
+            to="/live/past"
+            className="flex items-center gap-2 px-5 py-2.5 bg-primary text-white text-sm font-medium rounded-lg transition"
+          >
+            <PlayCircle size={14} />
+            Watch Past Services
+          </Link>
+          <a
+            href={FACEBOOK_PAGE_URL}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="text-white/50 text-xs hover:text-white/80 transition"
+          >
+            Also on Facebook
+          </a>
+        </div>
       </div>
     );
   }
@@ -101,7 +118,8 @@ function StreamLivestreamViewer() {
       return;
     }
 
-    const c = createAnonymousClient();
+    const identity = getOrCreateViewerIdentity();
+    const c = createGuestClient(identity.name, identity.id);
     const liveCall = c.call("livestream", LIVE_CALL_ID);
     let mounted = true;
     let joined = false;
@@ -178,15 +196,23 @@ function OfflineState() {
           Join us during one of our scheduled services
         </p>
       </div>
-      <a
-        href={FACEBOOK_PAGE_URL}
-        target="_blank"
-        rel="noopener noreferrer"
-        className="flex items-center gap-2 px-5 py-2.5 bg-primary text-white text-sm font-medium rounded-lg transition"
-      >
-        <ExternalLink size={14} />
-        Watch Past Services on Facebook
-      </a>
+      <div className="flex flex-col items-center gap-3">
+        <Link
+          to="/live/past"
+          className="flex items-center gap-2 px-5 py-2.5 bg-primary text-white text-sm font-medium rounded-lg transition"
+        >
+          <PlayCircle size={14} />
+          Watch Past Services
+        </Link>
+        <a
+          href={FACEBOOK_PAGE_URL}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="text-white/50 text-xs hover:text-white/80 transition"
+        >
+          Also on Facebook
+        </a>
+      </div>
     </div>
   );
 }

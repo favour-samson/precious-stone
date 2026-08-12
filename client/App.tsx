@@ -16,6 +16,7 @@ import PrayerRequests from "./pages/PrayerRequests";
 import Resources from "./pages/Resources";
 import LiveStream from "./pages/LiveStream";
 import Broadcast from "./pages/Broadcast";
+import PastServices from "./pages/PastServices";
 import VideoCall from "./pages/VideoCall";
 import NotFound from "./pages/NotFound";
 import ScrollToTop from "./components/ScrollToTop";
@@ -42,6 +43,7 @@ export const App = () => (
           <Route path="/resources" element={<Resources />} />
           <Route path="/live" element={<LiveStream />} />
           <Route path="/live/host" element={<Broadcast />} />
+          <Route path="/live/past" element={<PastServices />} />
           <Route path="/video-call" element={<VideoCall />} />
           {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
           <Route path="*" element={<NotFound />} />

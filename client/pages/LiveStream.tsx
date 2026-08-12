@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { Link } from "react-router-dom";
 import {
   Call,
   LivestreamLayout,
@@ -9,8 +10,8 @@ import {
 } from "@stream-io/video-react-sdk";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
-import { Radio, Calendar, Clock, Bell, ExternalLink, Loader2 } from "lucide-react";
-import { createAnonymousClient, LIVE_CALL_ID, isStreamConfigured } from "@/lib/stream";
+import { Radio, Calendar, Clock, Bell, Loader2, PlayCircle } from "lucide-react";
+import { createGuestClient, getOrCreateViewerIdentity, LIVE_CALL_ID, isStreamConfigured } from "@/lib/stream";
 
 const FACEBOOK_PAGE_URL = "https://www.facebook.com/share/1Ky6CrUmiB/";
 
@@ -34,15 +35,23 @@ function LivestreamContent() {
           <p className="text-white font-semibold text-lg mb-1">Service has ended</p>
           <p className="text-white/60 text-sm">Thank you for joining us. See you next Sunday!</p>
         </div>
-        <a
-          href={FACEBOOK_PAGE_URL}
-          target="_blank"
-          rel="noopener noreferrer"
-          className="flex items-center gap-2 px-5 py-2.5 bg-primary text-white text-sm font-medium rounded-lg"
-        >
-          <ExternalLink size={14} />
-          Watch Replay on Facebook
-        </a>
+        <div className="flex flex-col items-center gap-3">
+          <Link
+            to="/live/past"
+            className="flex items-center gap-2 px-5 py-2.5 bg-primary text-white text-sm font-medium rounded-lg"
+          >
+            <PlayCircle size={14} />
+            Watch Past Services
+          </Link>
+          <a
+            href={FACEBOOK_PAGE_URL}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="text-white/50 text-xs hover:text-white/80 transition"
+          >
+            Also on Facebook
+          </a>
+        </div>
       </div>
     );
   }
@@ -57,15 +66,23 @@ function LivestreamContent() {
           <p className="text-white font-semibold text-lg mb-1">We're not live right now</p>
           <p className="text-white/60 text-sm">Join us during one of our scheduled services below</p>
         </div>
-        <a
-          href={FACEBOOK_PAGE_URL}
-          target="_blank"
-          rel="noopener noreferrer"
-          className="flex items-center gap-2 px-5 py-2.5 bg-primary text-white text-sm font-medium rounded-lg"
-        >
-          <ExternalLink size={14} />
-          Watch Past Services on Facebook
-        </a>
+        <div className="flex flex-col items-center gap-3">
+          <Link
+            to="/live/past"
+            className="flex items-center gap-2 px-5 py-2.5 bg-primary text-white text-sm font-medium rounded-lg"
+          >
+            <PlayCircle size={14} />
+            Watch Past Services
+          </Link>
+          <a
+            href={FACEBOOK_PAGE_URL}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="text-white/50 text-xs hover:text-white/80 transition"
+          >
+            Also on Facebook
+          </a>
+        </div>
       </div>
     );
   }
@@ -98,7 +115,8 @@ function StreamViewer() {
       return;
     }
 
-    const c = createAnonymousClient();
+    const identity = getOrCreateViewerIdentity();
+    const c = createGuestClient(identity.name, identity.id);
     const liveCall = c.call("livestream", LIVE_CALL_ID);
     let mounted = true;
     let joined = false;
@@ -157,15 +175,23 @@ function StreamViewer() {
           <p className="text-white font-semibold text-lg mb-1">We're not live right now</p>
           <p className="text-white/60 text-sm">Join us during one of our scheduled services</p>
         </div>
-        <a
-          href={FACEBOOK_PAGE_URL}
-          target="_blank"
-          rel="noopener noreferrer"
-          className="flex items-center gap-2 px-5 py-2.5 bg-primary text-white text-sm font-medium rounded-lg"
-        >
-          <ExternalLink size={14} />
-          Watch on Facebook
-        </a>
+        <div className="flex flex-col items-center gap-3">
+          <Link
+            to="/live/past"
+            className="flex items-center gap-2 px-5 py-2.5 bg-primary text-white text-sm font-medium rounded-lg"
+          >
+            <PlayCircle size={14} />
+            Watch Past Services
+          </Link>
+          <a
+            href={FACEBOOK_PAGE_URL}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="text-white/50 text-xs hover:text-white/80 transition"
+          >
+            Also on Facebook
+          </a>
+        </div>
       </div>
     );
   }
@@ -209,36 +235,34 @@ export default function LiveStream() {
             <p className="text-white/70 text-lg">Join our services from wherever you are</p>
           </div>
 
-          <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 max-w-6xl mx-auto items-start">
-            {/* Player */}
-            <div className="lg:col-span-2">
-              <div className="relative rounded-2xl overflow-hidden bg-gray-900 border border-white/10 shadow-2xl">
-                <StreamViewer />
-              </div>
-              <p className="text-white/40 text-xs text-center mt-3">
-                Powered by{" "}
-                <a
-                  href="https://getstream.io"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="text-primary hover:underline"
-                >
-                  Stream Video
-                </a>{" "}
-                &middot; Also on{" "}
-                <a
-                  href={FACEBOOK_PAGE_URL}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="text-primary hover:underline"
-                >
-                  Facebook
-                </a>
-              </p>
+          <div className="max-w-6xl mx-auto">
+            {/* Player — full width */}
+            <div className="relative rounded-2xl overflow-hidden bg-gray-900 border border-white/10 shadow-2xl">
+              <StreamViewer />
             </div>
+            <p className="text-white/40 text-xs text-center mt-3">
+              Powered by{" "}
+              <a
+                href="https://getstream.io"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-primary hover:underline"
+              >
+                Stream Video
+              </a>{" "}
+              &middot; Also on{" "}
+              <a
+                href={FACEBOOK_PAGE_URL}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-primary hover:underline"
+              >
+                Facebook
+              </a>
+            </p>
 
-            {/* Sidebar */}
-            <div className="flex flex-col gap-4">
+            {/* Info row */}
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mt-8">
               <div className="rounded-2xl bg-white/5 border border-white/10 p-6">
                 <div className="flex items-center gap-2 text-white text-sm font-medium mb-4">
                   <Calendar size={15} />
