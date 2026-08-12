@@ -14,6 +14,7 @@ import {
   isStreamConfigured,
   LIVE_CALL_ID,
 } from "@/lib/stream";
+import { pingAttendance } from "@/lib/attendance";
 
 const FACEBOOK_PAGE_URL = "https://www.facebook.com/share/1Ky6CrUmiB/";
 
@@ -133,6 +134,7 @@ function StreamLivestreamViewer() {
           if (mounted) setStatus("joining");
           await liveCall.join({ create: false });
           joined = true;
+          if (callData.current_session_id) pingAttendance(callData.current_session_id);
           if (mounted) {
             setClient(c);
             setCall(liveCall);

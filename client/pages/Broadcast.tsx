@@ -1,8 +1,7 @@
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import {
   Call,
   CallControls,
-  SpeakerLayout,
   StreamCall,
   StreamVideo,
   StreamVideoClient,
@@ -18,7 +17,6 @@ import {
   Copy,
   Check,
   Loader2,
-  Video,
   Cable,
   PhoneOff,
   SwitchCamera,
@@ -70,6 +68,17 @@ function CopyField({ label, value, mono = true }: { label: string; value: string
   );
 }
 
+// ---------- raw local camera preview (full-size, cropped to fill) ----------
+function CameraPreview({ stream }: { stream: MediaStream | null }) {
+  const videoRef = useRef<HTMLVideoElement>(null);
+
+  useEffect(() => {
+    if (videoRef.current) videoRef.current.srcObject = stream;
+  }, [stream]);
+
+  return <video ref={videoRef} autoPlay playsInline muted className="w-full h-full object-cover" />;
+}
+
 // ---------- live controls (needs StreamCall context) ----------
 function HostControls({ token, onLeave }: { token: string; onLeave: () => void }) {
   const { useIsCallLive, useCallIngress, useParticipantCount, useCallSession } = useCallStateHooks();
@@ -81,19 +90,33 @@ function HostControls({ token, onLeave }: { token: string; onLeave: () => void }
   const [liveError, setLiveError] = useState("");
   const call = useCall();
 
-  // Viewers join anonymously (required for reliable public livestream
-  // access — see note below), so Stream can't give us per-person identity
-  // to dedupe against. anonymous_participant_count is the best available
-  // number: current anonymous viewers on this session, live only — it
-  // does NOT persist people who've already left.
-  const attendeeCount = useMemo(() => {
-    if (!session) return 0;
-    const namedViewers = new Set(
-      session.participants.filter((p) => p.role !== "admin").map((p) => p.user.id),
-    );
-    return session.anonymous_participant_count + namedViewers.size;
-  }, [session]);
+  // Real distinct-attendee count, tracked independently in our own DB (see
+  // /api/stream/attendance) — survives viewers leaving, unlike anything
+  // Stream's anonymous connection can report on its own.
+  const [attendeeCount, setAttendeeCount] = useState(0);
+  const sessionId = session?.id;
 
+  useEffect(() => {
+    if (!sessionId) return;
+    let mounted = true;
+    async function poll() {
+      try {
+        const res = await fetch(`/api/stream/attendance/${sessionId}`);
+        const data = await res.json();
+        if (mounted) setAttendeeCount(data.count ?? 0);
+      } catch (err) {
+        console.error("[Broadcast] attendance poll failed:", err);
+      }
+    }
+    poll();
+    const interval = setInterval(poll, 10_000);
+    return () => {
+      mounted = false;
+      clearInterval(interval);
+    };
+  }, [sessionId]);
+
+  const [cameraStream, setCameraStream] = useState<MediaStream | null>(null);
   const [zoomTrack, setZoomTrack] = useState<MediaStreamTrack | null>(null);
   const [zoomRange, setZoomRange] = useState<ZoomRange | null>(null);
   const [zoom, setZoom] = useState(0);
@@ -101,6 +124,7 @@ function HostControls({ token, onLeave }: { token: string; onLeave: () => void }
   useEffect(() => {
     if (!call) return;
     const sub = call.camera.state.mediaStream$.subscribe((stream) => {
+      setCameraStream(stream ?? null);
       const track = stream?.getVideoTracks()[0] ?? null;
       setZoomTrack(track);
       const caps = track?.getCapabilities?.() as CapabilitiesWithZoom | undefined;
@@ -143,36 +167,64 @@ function HostControls({ token, onLeave }: { token: string; onLeave: () => void }
   }
 
   return (
-    <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-      {/* preview + controls */}
-      <div className="lg:col-span-2">
-        <div className="rounded-2xl overflow-hidden bg-gray-900 border border-white/10" style={{ height: "60vh" }}>
-          <SpeakerLayout />
-        </div>
-        <div className="flex items-center justify-between mt-4">
-          <div className="flex items-center gap-3">
+    <div className="flex flex-col gap-6">
+      {/* preview — full width */}
+      <div>
+        <div
+          className="relative rounded-2xl overflow-hidden bg-gray-900 border border-white/10"
+          style={{ height: "65vh" }}
+        >
+          <CameraPreview stream={cameraStream} />
+
+          <div className="absolute top-3 right-3">
             <button
-              onClick={toggleLive}
-              disabled={busy}
-              className={`flex items-center gap-2 px-5 py-2.5 rounded-lg text-sm font-semibold transition disabled:opacity-50 ${
-                isLive ? "bg-red-600 hover:bg-red-700 text-white" : "bg-primary hover:bg-opacity-90 text-white"
-              }`}
+              onClick={() => call?.camera.flip()}
+              className="flex items-center gap-1.5 px-2.5 py-1.5 bg-black/50 hover:bg-black/70 backdrop-blur text-white text-xs rounded-lg transition"
             >
-              {busy ? <Loader2 size={16} className="animate-spin" /> : <Radio size={16} />}
-              {isLive ? "End Stream" : "Go Live"}
+              <SwitchCamera size={13} />
+              Flip
             </button>
-            <span className="text-white/50 text-xs">
-              {isLive ? `Visible to viewers · ${participantCount} watching` : "In backstage — viewers can't see this yet"}
-            </span>
           </div>
+
+          {zoomRange && (
+            <div className="absolute bottom-3 left-3 right-3 flex items-center gap-2 bg-black/50 backdrop-blur px-3 py-2 rounded-lg">
+              <ZoomIn size={14} className="text-white/80 shrink-0" />
+              <input
+                type="range"
+                min={zoomRange.min}
+                max={zoomRange.max}
+                step={zoomRange.step || 0.1}
+                value={zoom}
+                onChange={(e) => handleZoomChange(Number(e.target.value))}
+                className="flex-1 accent-primary"
+              />
+              <span className="text-white/80 text-xs w-9 text-right shrink-0">{zoom.toFixed(1)}x</span>
+            </div>
+          )}
+        </div>
+
+        <div className="flex items-center justify-between mt-4">
+          <button
+            onClick={toggleLive}
+            disabled={busy}
+            className={`flex items-center gap-2 px-5 py-2.5 rounded-lg text-sm font-semibold transition disabled:opacity-50 ${
+              isLive ? "bg-red-600 hover:bg-red-700 text-white" : "bg-primary hover:bg-opacity-90 text-white"
+            }`}
+          >
+            {busy ? <Loader2 size={16} className="animate-spin" /> : <Radio size={16} />}
+            {isLive ? "End Stream" : "Go Live"}
+          </button>
           <button
             onClick={onLeave}
-            className="flex items-center gap-1.5 px-3 py-2 bg-white/5 hover:bg-white/10 border border-white/10 text-white/70 text-xs rounded-lg transition"
+            className="flex items-center gap-1.5 px-3 py-2 bg-white/5 hover:bg-white/10 border border-white/10 text-white/70 text-xs rounded-lg transition shrink-0"
           >
             <PhoneOff size={12} />
             Leave
           </button>
         </div>
+        <p className="text-white/50 text-xs mt-2">
+          {isLive ? `Visible to viewers · ${participantCount} watching` : "In backstage — viewers can't see this yet"}
+        </p>
         {liveError && <p className="text-red-400 text-xs mt-2">{liveError}</p>}
         <div className="mt-3">
           <CallControls onLeave={onLeave} />
@@ -180,7 +232,7 @@ function HostControls({ token, onLeave }: { token: string; onLeave: () => void }
       </div>
 
       {/* feed sources */}
-      <div className="flex flex-col gap-4">
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
         <div className="rounded-2xl bg-white/5 border border-white/10 p-5">
           <div className="flex items-center gap-2 text-white text-sm font-medium mb-3">
             <Users size={15} />
@@ -189,46 +241,9 @@ function HostControls({ token, onLeave }: { token: string; onLeave: () => void }
           <p className="text-white text-3xl font-bold">{attendeeCount}</p>
           <p className="text-white/50 text-xs mt-1">
             {isLive
-              ? "Currently watching. Viewers join anonymously for reliable access, so this can't track people after they leave."
+              ? "Distinct people who've joined this service so far, even if they've left."
               : "Will start counting once you go live."}
           </p>
-        </div>
-
-        <div className="rounded-2xl bg-white/5 border border-white/10 p-5">
-          <div className="flex items-center justify-between mb-3">
-            <div className="flex items-center gap-2 text-white text-sm font-medium">
-              <Video size={15} />
-              This device's camera
-            </div>
-            <button
-              onClick={() => call?.camera.flip()}
-              className="flex items-center gap-1.5 px-2.5 py-1 bg-white/10 hover:bg-white/20 text-white text-xs rounded-lg transition"
-            >
-              <SwitchCamera size={13} />
-              Flip
-            </button>
-          </div>
-          <p className="text-white/60 text-xs mb-3">
-            Defaults to the rear camera. On a phone, just keep this page open in the browser — no app needed.
-            Use "Flip" to switch to the front camera, or the buttons below the preview to mute.
-          </p>
-          {zoomRange && (
-            <div>
-              <div className="flex items-center gap-1.5 text-white/60 text-xs mb-1.5">
-                <ZoomIn size={12} />
-                Zoom
-              </div>
-              <input
-                type="range"
-                min={zoomRange.min}
-                max={zoomRange.max}
-                step={zoomRange.step || 0.1}
-                value={zoom}
-                onChange={(e) => handleZoomChange(Number(e.target.value))}
-                className="w-full accent-primary"
-              />
-            </div>
-          )}
         </div>
 
         <div className="rounded-2xl bg-white/5 border border-white/10 p-5">

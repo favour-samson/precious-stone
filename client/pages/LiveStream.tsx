@@ -12,6 +12,7 @@ import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import { Radio, Calendar, Clock, Bell, Loader2, PlayCircle } from "lucide-react";
 import { createAnonymousClient, LIVE_CALL_ID, isStreamConfigured } from "@/lib/stream";
+import { pingAttendance } from "@/lib/attendance";
 
 const FACEBOOK_PAGE_URL = "https://www.facebook.com/share/1Ky6CrUmiB/";
 
@@ -131,6 +132,7 @@ function StreamViewer() {
           setStatus("joining");
           await liveCall.join({ create: false });
           joined = true;
+          if (callData.current_session_id) pingAttendance(callData.current_session_id);
           if (mounted) {
             setClient(c);
             setCall(liveCall);

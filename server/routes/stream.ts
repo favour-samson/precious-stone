@@ -1,5 +1,6 @@
 import { Router } from "express";
 import { StreamClient } from "@stream-io/node-sdk";
+import { LiveAttendance } from "../models/LiveAttendance.js";
 
 const router = Router();
 
@@ -87,6 +88,39 @@ router.get("/recordings", async (_req, res) => {
   } catch (err) {
     console.error("Failed to list Stream recordings:", err);
     res.json({ recordings: [] });
+  }
+});
+
+// Attendance is tracked independently of the viewer's Stream connection
+// (which must stay anonymous for reliable public access — see LiveStream.tsx)
+// so it survives people leaving instead of relying on Stream's live
+// participant state.
+router.post("/attendance", async (req, res) => {
+  const { sessionId, viewerId } = req.body ?? {};
+  if (!sessionId || !viewerId) {
+    return res.status(400).json({ error: "sessionId and viewerId are required." });
+  }
+
+  try {
+    await LiveAttendance.updateOne(
+      { sessionId, viewerId },
+      { $setOnInsert: { sessionId, viewerId } },
+      { upsert: true },
+    );
+    res.status(204).end();
+  } catch (err) {
+    console.error("Failed to record attendance:", err);
+    res.status(500).json({ error: "Failed to record attendance." });
+  }
+});
+
+router.get("/attendance/:sessionId", async (req, res) => {
+  try {
+    const count = await LiveAttendance.countDocuments({ sessionId: req.params.sessionId });
+    res.json({ count });
+  } catch (err) {
+    console.error("Failed to count attendance:", err);
+    res.json({ count: 0 });
   }
 });
 
