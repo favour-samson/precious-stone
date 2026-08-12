@@ -81,14 +81,17 @@ function HostControls({ token, onLeave }: { token: string; onLeave: () => void }
   const [liveError, setLiveError] = useState("");
   const call = useCall();
 
-  // Distinct viewers who joined this live session (host excluded), even
-  // if they've since left — Stream keeps this per-session, we just dedupe.
+  // Viewers join anonymously (required for reliable public livestream
+  // access — see note below), so Stream can't give us per-person identity
+  // to dedupe against. anonymous_participant_count is the best available
+  // number: current anonymous viewers on this session, live only — it
+  // does NOT persist people who've already left.
   const attendeeCount = useMemo(() => {
     if (!session) return 0;
-    const viewerIds = new Set(
+    const namedViewers = new Set(
       session.participants.filter((p) => p.role !== "admin").map((p) => p.user.id),
     );
-    return viewerIds.size;
+    return session.anonymous_participant_count + namedViewers.size;
   }, [session]);
 
   const [zoomTrack, setZoomTrack] = useState<MediaStreamTrack | null>(null);
@@ -186,7 +189,7 @@ function HostControls({ token, onLeave }: { token: string; onLeave: () => void }
           <p className="text-white text-3xl font-bold">{attendeeCount}</p>
           <p className="text-white/50 text-xs mt-1">
             {isLive
-              ? "Distinct people who've joined this service so far, even if they've left."
+              ? "Currently watching. Viewers join anonymously for reliable access, so this can't track people after they leave."
               : "Will start counting once you go live."}
           </p>
         </div>
