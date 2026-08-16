@@ -22,6 +22,7 @@ import {
   SwitchCamera,
   Users,
   ZoomIn,
+  Mic,
 } from "lucide-react";
 
 type Stage = "locked" | "connecting" | "ready" | "error";
@@ -147,6 +148,58 @@ function HostControls({ token, onLeave }: { token: string; onLeave: () => void }
       .catch((err) => console.error("[Broadcast] zoom failed:", err));
   }
 
+  // A visual mic level meter so the host can confirm audio is being picked
+  // up without needing to hear themselves — the preview video is (correctly)
+  // muted locally, since playing your own mic back through your own speaker
+  // causes a feedback howl. This gives the same confirmation, safely.
+  const [micLevel, setMicLevel] = useState(0);
+
+  useEffect(() => {
+    if (!call) return;
+    let audioCtx: AudioContext | null = null;
+    let analyser: AnalyserNode | null = null;
+    let source: MediaStreamAudioSourceNode | null = null;
+    let raf = 0;
+
+    function teardown() {
+      if (raf) cancelAnimationFrame(raf);
+      source?.disconnect();
+      audioCtx?.close().catch(() => {});
+      audioCtx = null;
+      analyser = null;
+      source = null;
+    }
+
+    const sub = call.microphone.state.mediaStream$.subscribe((stream) => {
+      teardown();
+      const track = stream?.getAudioTracks()[0];
+      if (!stream || !track) {
+        setMicLevel(0);
+        return;
+      }
+
+      audioCtx = new AudioContext();
+      analyser = audioCtx.createAnalyser();
+      analyser.fftSize = 256;
+      source = audioCtx.createMediaStreamSource(stream);
+      source.connect(analyser);
+
+      const data = new Uint8Array(analyser.frequencyBinCount);
+      const tick = () => {
+        analyser!.getByteFrequencyData(data);
+        const avg = data.reduce((a, b) => a + b, 0) / data.length;
+        setMicLevel(Math.min(1, avg / 128));
+        raf = requestAnimationFrame(tick);
+      };
+      tick();
+    });
+
+    return () => {
+      sub.unsubscribe();
+      teardown();
+    };
+  }, [call]);
+
   async function toggleLive() {
     if (!call) return;
     setBusy(true);
@@ -175,6 +228,16 @@ function HostControls({ token, onLeave }: { token: string; onLeave: () => void }
           style={{ height: "65vh" }}
         >
           <CameraPreview stream={cameraStream} />
+
+          <div className="absolute top-3 left-3 flex items-center gap-2 bg-black/50 backdrop-blur px-2.5 py-1.5 rounded-lg">
+            <Mic size={13} className="text-white/80 shrink-0" />
+            <div className="w-14 h-1.5 bg-white/20 rounded-full overflow-hidden">
+              <div
+                className="h-full bg-green-400 transition-[width] duration-75"
+                style={{ width: `${micLevel * 100}%` }}
+              />
+            </div>
+          </div>
 
           <div className="absolute top-3 right-3">
             <button
@@ -223,7 +286,10 @@ function HostControls({ token, onLeave }: { token: string; onLeave: () => void }
           </button>
         </div>
         <p className="text-white/50 text-xs mt-2">
-          {isLive ? `Visible to viewers · ${participantCount} watching` : "In backstage — viewers can't see this yet"}
+          {/* participantCount includes the host itself — subtract 1 to show viewers only */}
+          {isLive
+            ? `Visible to viewers · ${Math.max(0, participantCount - 1)} watching`
+            : "In backstage — viewers can't see this yet"}
         </p>
         {liveError && <p className="text-red-400 text-xs mt-2">{liveError}</p>}
         <div className="mt-3">

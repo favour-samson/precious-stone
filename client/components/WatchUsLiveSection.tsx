@@ -36,7 +36,7 @@ function LivestreamContent() {
           <p className="text-white font-semibold text-lg mb-1">Service has ended</p>
           <p className="text-white/60 text-sm">Thank you for joining us today.</p>
         </div>
-        <div className="flex flex-col items-center gap-3">
+        {/* <div className="flex flex-col items-center gap-3">
           <Link
             to="/live/past"
             className="flex items-center gap-2 px-5 py-2.5 bg-primary text-white text-sm font-medium rounded-lg"
@@ -52,7 +52,7 @@ function LivestreamContent() {
           >
             Also on Facebook
           </a>
-        </div>
+        </div> */}
       </div>
     );
   }
@@ -69,7 +69,7 @@ function LivestreamContent() {
             Join us during one of our scheduled services below
           </p>
         </div>
-        <div className="flex flex-col items-center gap-3">
+        {/* <div className="flex flex-col items-center gap-3">
           <Link
             to="/live/past"
             className="flex items-center gap-2 px-5 py-2.5 bg-primary text-white text-sm font-medium rounded-lg transition"
@@ -85,7 +85,7 @@ function LivestreamContent() {
           >
             Also on Facebook
           </a>
-        </div>
+        </div> */}
       </div>
     );
   }
@@ -196,7 +196,7 @@ function OfflineState() {
           Join us during one of our scheduled services
         </p>
       </div>
-      <div className="flex flex-col items-center gap-3">
+      {/* <div className="flex flex-col items-center gap-3">
         <Link
           to="/live/past"
           className="flex items-center gap-2 px-5 py-2.5 bg-primary text-white text-sm font-medium rounded-lg transition"
@@ -212,7 +212,7 @@ function OfflineState() {
         >
           Also on Facebook
         </a>
-      </div>
+      </div> */}
     </div>
   );
 }
