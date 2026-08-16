@@ -241,26 +241,7 @@ export default function LiveStream() {
             <div className="relative rounded-2xl overflow-hidden bg-gray-900 border border-white/10 shadow-2xl">
               <StreamViewer />
             </div>
-            <p className="text-white/40 text-xs text-center mt-3">
-              Powered by{" "}
-              <a
-                href="https://getstream.io"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="text-primary hover:underline"
-              >
-                Stream Video
-              </a>{" "}
-              &middot; Also on{" "}
-              <a
-                href={FACEBOOK_PAGE_URL}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="text-primary hover:underline"
-              >
-                Facebook
-              </a>
-            </p>
+        
 
             {/* Info row */}
             <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mt-8">

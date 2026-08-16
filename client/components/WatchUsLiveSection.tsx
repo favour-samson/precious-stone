@@ -251,26 +251,6 @@ export function WatchUsLiveSection() {
             </div>
 
             <div className="flex items-center justify-between mt-3 px-1">
-              <p className="text-white/40 text-xs">
-                Powered by{" "}
-                <a
-                  href="https://getstream.io"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="text-primary hover:underline"
-                >
-                  Stream Video
-                </a>{" "}
-                &middot; Also on{" "}
-                <a
-                  href={FACEBOOK_PAGE_URL}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="text-primary hover:underline"
-                >
-                  Facebook
-                </a>
-              </p>
               <Link
                 to="/live"
                 className="text-xs text-primary hover:underline"
