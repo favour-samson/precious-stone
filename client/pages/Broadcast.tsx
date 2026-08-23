@@ -292,6 +292,12 @@ function HostControls({ token, onLeave }: { token: string; onLeave: () => void }
             : "In backstage — viewers can't see this yet"}
         </p>
         {liveError && <p className="text-red-400 text-xs mt-2">{liveError}</p>}
+        <div className="flex items-center gap-2 mt-3 px-3 py-2 bg-amber-500/10 border border-amber-500/20 rounded-lg">
+          <Cable size={13} className="text-amber-400 shrink-0" />
+          <p className="text-amber-200/90 text-xs">
+            Using OBS instead of this device? Mute the camera and mic below first, so only your OBS feed publishes.
+          </p>
+        </div>
         <div className="mt-3">
           <CallControls onLeave={onLeave} />
         </div>
