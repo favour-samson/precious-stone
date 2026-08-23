@@ -1,6 +1,9 @@
 /** @import must precede all other statements */
 @import url("https://fonts.googleapis.com/css2?family=Lora:wght@400;600;700;800&family=Poppins:wght@400;500;600;700;800&display=swap");
-@import "@stream-io/video-react-sdk/dist/css/styles.css";
+/* Stream's video-react-sdk stylesheet is imported in App.tsx instead, after
+   this file, so its button/icon styles aren't stripped by Tailwind's reset
+   below (an @import here can only load before @tailwind base, which loses
+   the cascade to Preflight). */
 
 @tailwind base;
 @tailwind components;

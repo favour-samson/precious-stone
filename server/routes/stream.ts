@@ -61,7 +61,10 @@ router.get("/live-status", async (_req, res) => {
     const { call } = await client.video.call(CALL_TYPE, CALL_ID).get();
     res.json({ isLive: !call.backstage });
   } catch (err) {
-    // most commonly: the call doesn't exist yet (no service has ever gone live)
+    // Most commonly: the call doesn't exist yet (no service has ever gone
+    // live) — but this also silently swallows real misconfiguration (e.g.
+    // STREAM_API_SECRET wrong), so log it rather than going fully quiet.
+    console.error("[live-status] check failed:", err);
     res.json({ isLive: false });
   }
 });
@@ -79,6 +82,7 @@ router.get("/recordings", async (_req, res) => {
       .map((r) => ({
         url: r.url,
         sessionId: r.session_id,
+        filename: r.filename,
         startTime: r.start_time,
         endTime: r.end_time,
       }))
@@ -88,6 +92,31 @@ router.get("/recordings", async (_req, res) => {
   } catch (err) {
     console.error("Failed to list Stream recordings:", err);
     res.json({ recordings: [] });
+  }
+});
+
+router.delete("/recordings", async (req, res) => {
+  const passcode = process.env.STREAM_HOST_PASSCODE;
+  if (!passcode || req.body?.passcode !== passcode) {
+    return res.status(401).json({ error: "Incorrect passcode." });
+  }
+
+  const { sessionId, filename } = req.body ?? {};
+  if (!sessionId || !filename) {
+    return res.status(400).json({ error: "sessionId and filename are required." });
+  }
+
+  const client = getStreamServerClient();
+  if (!client) {
+    return res.status(503).json({ error: "Broadcasting is not configured yet (missing STREAM_API_SECRET)." });
+  }
+
+  try {
+    await client.video.call(CALL_TYPE, CALL_ID).deleteRecording({ session: sessionId, filename });
+    res.status(204).end();
+  } catch (err) {
+    console.error("Failed to delete Stream recording:", err);
+    res.status(500).json({ error: "Failed to delete recording." });
   }
 });
 

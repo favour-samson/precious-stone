@@ -10,7 +10,7 @@ import {
 } from "@stream-io/video-react-sdk";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
-import { Radio, Calendar, Clock, Bell, Loader2, PlayCircle } from "lucide-react";
+import { Radio, Calendar, Clock, Bell, Loader2, PlayCircle, Volume2 } from "lucide-react";
 import { createAnonymousClient, LIVE_CALL_ID, isStreamConfigured } from "@/lib/stream";
 import { pingAttendance } from "@/lib/attendance";
 
@@ -25,6 +25,10 @@ function LivestreamContent() {
   const { useIsCallLive, useCallEndedAt } = useCallStateHooks();
   const isLive = useIsCallLive();
   const endedAt = useCallEndedAt();
+  // Browsers block autoplay-with-sound until a real click happens on the
+  // page — start muted (always allowed to autoplay) and let the viewer
+  // unmute with one tap, rather than relying on a stray click elsewhere.
+  const [soundEnabled, setSoundEnabled] = useState(false);
 
   if (endedAt) {
     return (
@@ -36,7 +40,7 @@ function LivestreamContent() {
           <p className="text-white font-semibold text-lg mb-1">Service has ended</p>
           <p className="text-white/60 text-sm">Thank you for joining us. See you next Sunday!</p>
         </div>
-        {/* <div className="flex flex-col items-center gap-3">
+        <div className="flex flex-col items-center gap-3">
           <Link
             to="/live/past"
             className="flex items-center gap-2 px-5 py-2.5 bg-primary text-white text-sm font-medium rounded-lg"
@@ -44,15 +48,8 @@ function LivestreamContent() {
             <PlayCircle size={14} />
             Watch Past Services
           </Link>
-          <a
-            href={FACEBOOK_PAGE_URL}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="text-white/50 text-xs hover:text-white/80 transition"
-          >
-            Also on Facebook
-          </a>
-        </div> */}
+          
+        </div>
       </div>
     );
   }
@@ -67,7 +64,7 @@ function LivestreamContent() {
           <p className="text-white font-semibold text-lg mb-1">We're not live right now</p>
           <p className="text-white/60 text-sm">Join us during one of our scheduled services below</p>
         </div>
-        {/* <div className="flex flex-col items-center gap-3">
+        <div className="flex flex-col items-center gap-3">
           <Link
             to="/live/past"
             className="flex items-center gap-2 px-5 py-2.5 bg-primary text-white text-sm font-medium rounded-lg"
@@ -75,29 +72,33 @@ function LivestreamContent() {
             <PlayCircle size={14} />
             Watch Past Services
           </Link>
-          <a
-            href={FACEBOOK_PAGE_URL}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="text-white/50 text-xs hover:text-white/80 transition"
-          >
-            Also on Facebook
-          </a>
-        </div> */}
+       
+        </div>
       </div>
     );
   }
 
   return (
-    <div className="h-[65vh] min-h-[360px]">
+    <div className="relative h-[65vh] min-h-[360px]">
       <LivestreamLayout
-        muted={false}
+        muted={!soundEnabled}
         enableFullScreen
         showParticipantCount
         showDuration
         showLiveBadge
         showMuteButton
       />
+      {!soundEnabled && (
+        <button
+          onClick={() => setSoundEnabled(true)}
+          className="absolute inset-0 flex items-center justify-center bg-black/40 hover:bg-black/50 transition"
+        >
+          <span className="flex items-center gap-2 px-5 py-2.5 bg-white text-gray-900 text-sm font-semibold rounded-full shadow-lg">
+            <Volume2 size={16} />
+            Tap to unmute
+          </span>
+        </button>
+      )}
     </div>
   );
 }
@@ -150,9 +151,19 @@ function StreamViewer() {
     checkAndJoin();
     const interval = setInterval(checkAndJoin, 30_000);
 
+    // Mobile browsers throttle/pause setInterval while the tab is
+    // backgrounded (screen locked, app-switched) — recheck immediately on
+    // return instead of waiting for the timer to catch up, so viewers don't
+    // need to manually refresh after coming back to the tab.
+    function handleVisibility() {
+      if (document.visibilityState === "visible") checkAndJoin();
+    }
+    document.addEventListener("visibilitychange", handleVisibility);
+
     return () => {
       mounted = false;
       clearInterval(interval);
+      document.removeEventListener("visibilitychange", handleVisibility);
       if (joined) liveCall.leave().catch(console.error);
       c.disconnectUser().catch(console.error);
     };
@@ -176,7 +187,7 @@ function StreamViewer() {
           <p className="text-white font-semibold text-lg mb-1">We're not live right now</p>
           <p className="text-white/60 text-sm">Join us during one of our scheduled services</p>
         </div>
-        {/* <div className="flex flex-col items-center gap-3">
+        <div className="flex flex-col items-center gap-3">
           <Link
             to="/live/past"
             className="flex items-center gap-2 px-5 py-2.5 bg-primary text-white text-sm font-medium rounded-lg"
@@ -184,15 +195,8 @@ function StreamViewer() {
             <PlayCircle size={14} />
             Watch Past Services
           </Link>
-          <a
-            href={FACEBOOK_PAGE_URL}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="text-white/50 text-xs hover:text-white/80 transition"
-          >
-            Also on Facebook
-          </a>
-        </div> */}
+        
+        </div>
       </div>
     );
   }

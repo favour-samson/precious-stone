@@ -20,9 +20,19 @@ function useIsChurchLive(): boolean {
 
     checkLive();
     const interval = setInterval(checkLive, 45_000);
+
+    // Mobile browsers throttle/pause setInterval while the tab is
+    // backgrounded — recheck immediately on return so the badge doesn't go
+    // stale while the phone is locked or another app is in front.
+    function handleVisibility() {
+      if (document.visibilityState === "visible") checkLive();
+    }
+    document.addEventListener("visibilitychange", handleVisibility);
+
     return () => {
       mounted = false;
       clearInterval(interval);
+      document.removeEventListener("visibilitychange", handleVisibility);
     };
   }, []);
 

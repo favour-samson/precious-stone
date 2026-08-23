@@ -23,6 +23,9 @@ import {
   Users,
   ZoomIn,
   Mic,
+  Film,
+  Trash2,
+  Calendar,
 } from "lucide-react";
 
 type Stage = "locked" | "connecting" | "ready" | "error";
@@ -80,8 +83,108 @@ function CameraPreview({ stream }: { stream: MediaStream | null }) {
   return <video ref={videoRef} autoPlay playsInline muted className="w-full h-full object-cover" />;
 }
 
+// ---------- past recordings management (list + delete) ----------
+interface Recording {
+  url: string;
+  sessionId: string;
+  filename: string;
+  startTime: string;
+  endTime: string;
+}
+
+function RecordingsManager({ passcode }: { passcode: string }) {
+  const [recordings, setRecordings] = useState<Recording[] | null>(null);
+  const [deleting, setDeleting] = useState<string | null>(null);
+  const [error, setError] = useState("");
+
+  function load() {
+    fetch("/api/stream/recordings")
+      .then((res) => res.json())
+      .then((data) => setRecordings(data.recordings ?? []))
+      .catch((err) => {
+        console.error("[Broadcast] failed to load recordings:", err);
+        setRecordings([]);
+      });
+  }
+
+  useEffect(load, []);
+
+  async function handleDelete(r: Recording) {
+    if (!confirm(`Delete the recording from ${new Date(r.startTime).toLocaleDateString()}? This can't be undone.`)) {
+      return;
+    }
+    setDeleting(r.filename);
+    setError("");
+    try {
+      const res = await fetch("/api/stream/recordings", {
+        method: "DELETE",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ sessionId: r.sessionId, filename: r.filename, passcode }),
+      });
+      if (!res.ok) {
+        const data = await res.json().catch(() => ({}));
+        throw new Error(data.error || "Failed to delete recording.");
+      }
+      setRecordings((prev) => prev?.filter((x) => x.filename !== r.filename) ?? null);
+    } catch (err) {
+      console.error("[Broadcast] delete recording failed:", err);
+      setError(err instanceof Error ? err.message : "Failed to delete recording.");
+    } finally {
+      setDeleting(null);
+    }
+  }
+
+  return (
+    <div className="rounded-2xl bg-white/5 border border-white/10 p-5">
+      <div className="flex items-center gap-2 text-white text-sm font-medium mb-3">
+        <Film size={15} />
+        Past Recordings
+      </div>
+      {recordings === null ? (
+        <p className="text-white/50 text-xs">Loading…</p>
+      ) : recordings.length === 0 ? (
+        <p className="text-white/50 text-xs">No recordings yet.</p>
+      ) : (
+        <ul className="space-y-2">
+          {recordings.map((r) => (
+            <li
+              key={r.filename}
+              className="flex items-center justify-between gap-3 bg-black/20 rounded-lg px-3 py-2"
+            >
+              <span className="flex items-center gap-2 text-white/80 text-xs min-w-0">
+                <Calendar size={12} className="text-primary shrink-0" />
+                <span className="truncate">{new Date(r.startTime).toLocaleDateString()}</span>
+              </span>
+              <button
+                onClick={() => handleDelete(r)}
+                disabled={deleting === r.filename}
+                className="text-white/50 hover:text-red-400 shrink-0 transition disabled:opacity-50"
+              >
+                {deleting === r.filename ? (
+                  <Loader2 size={14} className="animate-spin" />
+                ) : (
+                  <Trash2 size={14} />
+                )}
+              </button>
+            </li>
+          ))}
+        </ul>
+      )}
+      {error && <p className="text-red-400 text-xs mt-2">{error}</p>}
+    </div>
+  );
+}
+
 // ---------- live controls (needs StreamCall context) ----------
-function HostControls({ token, onLeave }: { token: string; onLeave: () => void }) {
+function HostControls({
+  token,
+  passcode,
+  onLeave,
+}: {
+  token: string;
+  passcode: string;
+  onLeave: () => void;
+}) {
   const { useIsCallLive, useCallIngress, useParticipantCount, useCallSession } = useCallStateHooks();
   const isLive = useIsCallLive();
   const ingress = useCallIngress();
@@ -337,6 +440,8 @@ function HostControls({ token, onLeave }: { token: string; onLeave: () => void }
             <p className="text-white/50 text-xs">Loading ingress details…</p>
           )}
         </div>
+
+        <RecordingsManager passcode={passcode} />
       </div>
     </div>
   );
@@ -430,7 +535,7 @@ export default function Broadcast() {
           ) : session ? (
             <StreamVideo client={session.client}>
               <StreamCall call={session.call}>
-                <HostControls token={session.token} onLeave={leave} />
+                <HostControls token={session.token} passcode={passcode} onLeave={leave} />
               </StreamCall>
             </StreamVideo>
           ) : null}

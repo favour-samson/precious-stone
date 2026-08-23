@@ -1,4 +1,7 @@
 import "./global.css";
+// Loaded after global.css (which compiles Tailwind's reset) so Stream's own
+// button/icon styles win the cascade instead of being stripped by Preflight.
+import "@stream-io/video-react-sdk/dist/css/styles.css";
 import { Toaster } from "@/components/ui/toaster";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
