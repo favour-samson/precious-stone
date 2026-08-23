@@ -28,7 +28,7 @@ function LivestreamContent() {
 
   if (endedAt) {
     return (
-      <div className="aspect-video flex flex-col items-center justify-center gap-6 p-8">
+      <div className="h-[65vh] min-h-[360px] flex flex-col items-center justify-center gap-6 p-8">
         <div className="w-20 h-20 rounded-full bg-white/5 border border-white/10 flex items-center justify-center">
           <Radio size={32} className="text-white/50" />
         </div>
@@ -59,7 +59,7 @@ function LivestreamContent() {
 
   if (!isLive) {
     return (
-      <div className="aspect-video flex flex-col items-center justify-center gap-6 p-8">
+      <div className="h-[65vh] min-h-[360px] flex flex-col items-center justify-center gap-6 p-8">
         <div className="relative w-20 h-20 rounded-full bg-white/5 border border-white/10 flex items-center justify-center">
           <Radio size={32} className="text-white/50" />
         </div>
@@ -89,7 +89,7 @@ function LivestreamContent() {
   }
 
   return (
-    <div className="aspect-video">
+    <div className="h-[65vh] min-h-[360px]">
       <LivestreamLayout
         muted={false}
         enableFullScreen
@@ -160,7 +160,7 @@ function StreamViewer() {
 
   if (status === "checking" || status === "joining") {
     return (
-      <div className="aspect-video flex items-center justify-center">
+      <div className="h-[65vh] min-h-[360px] flex items-center justify-center">
         <Loader2 size={32} className="text-primary animate-spin" />
       </div>
     );
@@ -168,7 +168,7 @@ function StreamViewer() {
 
   if (status === "offline") {
     return (
-      <div className="aspect-video flex flex-col items-center justify-center gap-6 p-8">
+      <div className="h-[65vh] min-h-[360px] flex flex-col items-center justify-center gap-6 p-8">
         <div className="w-20 h-20 rounded-full bg-white/5 border border-white/10 flex items-center justify-center">
           <Radio size={32} className="text-white/50" />
         </div>
