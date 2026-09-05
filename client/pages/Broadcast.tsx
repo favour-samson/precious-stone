@@ -185,27 +185,26 @@ function HostControls({
   passcode: string;
   onLeave: () => void;
 }) {
-  const { useIsCallLive, useCallIngress, useParticipantCount, useCallSession } = useCallStateHooks();
+  const { useIsCallLive, useCallIngress, useParticipantCount } = useCallStateHooks();
   const isLive = useIsCallLive();
   const ingress = useCallIngress();
   const participantCount = useParticipantCount();
-  const session = useCallSession();
   const [busy, setBusy] = useState(false);
   const [liveError, setLiveError] = useState("");
   const call = useCall();
 
   // Real distinct-attendee count, tracked independently in our own DB (see
-  // /api/stream/attendance) — survives viewers leaving, unlike anything
-  // Stream's anonymous connection can report on its own.
+  // /api/stream/attendance) — survives viewers leaving, and survives the
+  // stream itself dropping and going live again mid-service, since it's
+  // bucketed by calendar day server-side rather than by Stream's call
+  // session id (which resets on a reconnect).
   const [attendeeCount, setAttendeeCount] = useState(0);
-  const sessionId = session?.id;
 
   useEffect(() => {
-    if (!sessionId) return;
     let mounted = true;
     async function poll() {
       try {
-        const res = await fetch(`/api/stream/attendance/${sessionId}`);
+        const res = await fetch("/api/stream/attendance/today");
         const data = await res.json();
         if (mounted) setAttendeeCount(data.count ?? 0);
       } catch (err) {
@@ -218,7 +217,7 @@ function HostControls({
       mounted = false;
       clearInterval(interval);
     };
-  }, [sessionId]);
+  }, []);
 
   const [cameraStream, setCameraStream] = useState<MediaStream | null>(null);
   const [zoomTrack, setZoomTrack] = useState<MediaStreamTrack | null>(null);
@@ -415,9 +414,8 @@ function HostControls({
           </div>
           <p className="text-white text-3xl font-bold">{attendeeCount}</p>
           <p className="text-white/50 text-xs mt-1">
-            {isLive
-              ? "Distinct people who've joined this service so far, even if they've left."
-              : "Will start counting once you go live."}
+            Distinct people who've joined today's service, even if they left or the stream
+            reconnected.
           </p>
         </div>
 

@@ -34,7 +34,7 @@ function LivestreamContent() {
 
   if (endedAt) {
     return (
-      <div className="aspect-video flex flex-col items-center justify-center gap-6 p-8">
+      <div className="h-[65vh] min-h-[360px] flex flex-col items-center justify-center gap-6 p-8">
         <Radio size={32} className="text-white/50" />
         <div className="text-center">
           <p className="text-white font-semibold text-lg mb-1">Service has ended</p>
@@ -55,7 +55,7 @@ function LivestreamContent() {
 
   if (!isLive) {
     return (
-      <div className="aspect-video flex flex-col items-center justify-center gap-6 p-8">
+      <div className="h-[65vh] min-h-[360px] flex flex-col items-center justify-center gap-6 p-8">
         <div className="w-20 h-20 rounded-full bg-white/5 border border-white/10 flex items-center justify-center">
           <Radio size={32} className="text-white" />
         </div>
@@ -80,7 +80,7 @@ function LivestreamContent() {
   }
 
   return (
-    <div className="relative aspect-video">
+    <div className="relative h-[65vh] min-h-[360px]">
       <LivestreamLayout
         muted={!soundEnabled}
         enableFullScreen
@@ -134,7 +134,7 @@ function StreamLivestreamViewer() {
           if (mounted) setStatus("joining");
           await liveCall.join({ create: false });
           joined = true;
-          if (callData.current_session_id) pingAttendance(callData.current_session_id);
+          pingAttendance();
           if (mounted) {
             setClient(c);
             setCall(liveCall);
@@ -172,7 +172,7 @@ function StreamLivestreamViewer() {
 
   if (status === "checking" || status === "joining") {
     return (
-      <div className="aspect-video flex items-center justify-center">
+      <div className="h-[65vh] min-h-[360px] flex items-center justify-center">
         <Loader2 size={32} className="text-primary animate-spin" />
       </div>
     );
@@ -195,7 +195,7 @@ function StreamLivestreamViewer() {
 
 function OfflineState() {
   return (
-    <div className="aspect-video flex flex-col items-center justify-center gap-6 p-8">
+    <div className="h-[65vh] min-h-[360px] flex flex-col items-center justify-center gap-6 p-8">
       <div className="w-20 h-20 rounded-full bg-white/5 border border-white/10 flex items-center justify-center">
         <Radio size={32} className="text-white" />
       </div>

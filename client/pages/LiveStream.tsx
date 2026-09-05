@@ -133,7 +133,7 @@ function StreamViewer() {
           setStatus("joining");
           await liveCall.join({ create: false });
           joined = true;
-          if (callData.current_session_id) pingAttendance(callData.current_session_id);
+          pingAttendance();
           if (mounted) {
             setClient(c);
             setCall(liveCall);

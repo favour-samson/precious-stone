@@ -22,10 +22,15 @@ export function getOrCreateAttendanceId(): string {
   return id;
 }
 
-export function pingAttendance(sessionId: string) {
+// No sessionId param — the server buckets attendance by service day itself,
+// not by Stream's call session id. Stream starts a *new* session every time
+// a dropped/reconnected broadcast goes live again mid-service, which was
+// fragmenting the count and causing rejoining viewers to be recounted.
+// Bucketing by day survives that.
+export function pingAttendance() {
   fetch("/api/stream/attendance", {
     method: "POST",
     headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({ sessionId, viewerId: getOrCreateAttendanceId() }),
+    body: JSON.stringify({ viewerId: getOrCreateAttendanceId() }),
   }).catch((err) => console.error("[Attendance] ping failed:", err));
 }

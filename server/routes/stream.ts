@@ -16,6 +16,17 @@ function getStreamServerClient(): StreamClient | null {
   return new StreamClient(API_KEY, API_SECRET);
 }
 
+// Attendance is bucketed by calendar day in the church's own timezone (WAT,
+// UTC+1, fixed — Nigeria doesn't observe DST), computed here server-side
+// rather than trusted from the client. Buckets by day instead of by Stream's
+// call session id so a mid-service reconnect (host's stream drops and they
+// click Go Live again) doesn't start a fresh session and cause rejoining
+// viewers to be recounted as new attendees.
+function getServiceDateKey(): string {
+  const watMs = Date.now() + 60 * 60 * 1000;
+  return new Date(watMs).toISOString().slice(0, 10);
+}
+
 router.post("/host-token", async (req, res) => {
   const passcode = process.env.STREAM_HOST_PASSCODE;
   if (!passcode) {
@@ -125,11 +136,12 @@ router.delete("/recordings", async (req, res) => {
 // so it survives people leaving instead of relying on Stream's live
 // participant state.
 router.post("/attendance", async (req, res) => {
-  const { sessionId, viewerId } = req.body ?? {};
-  if (!sessionId || !viewerId) {
-    return res.status(400).json({ error: "sessionId and viewerId are required." });
+  const { viewerId } = req.body ?? {};
+  if (!viewerId) {
+    return res.status(400).json({ error: "viewerId is required." });
   }
 
+  const sessionId = getServiceDateKey();
   try {
     await LiveAttendance.updateOne(
       { sessionId, viewerId },
@@ -143,9 +155,9 @@ router.post("/attendance", async (req, res) => {
   }
 });
 
-router.get("/attendance/:sessionId", async (req, res) => {
+router.get("/attendance/today", async (_req, res) => {
   try {
-    const count = await LiveAttendance.countDocuments({ sessionId: req.params.sessionId });
+    const count = await LiveAttendance.countDocuments({ sessionId: getServiceDateKey() });
     res.json({ count });
   } catch (err) {
     console.error("Failed to count attendance:", err);
