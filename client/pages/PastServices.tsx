@@ -100,13 +100,11 @@ export default function PastServices() {
                 {recordings.map((r) => (
                   <div
                     key={r.sessionId + r.startTime}
-                    className={`rounded-2xl overflow-hidden bg-gray-900 border border-white/10 ${
-                      playing?.url === r.url ? "md:col-span-2" : ""
-                    }`}
+                    className="rounded-2xl overflow-hidden bg-gray-900 border border-white/10"
                   >
                     {playing?.url === r.url ? (
-                      <div className="relative h-[65vh] min-h-[360px] bg-black">
-                        <video src={r.url} controls autoPlay className="w-full h-full object-cover" />
+                      <div className="relative aspect-video bg-black">
+                        <video src={r.url} controls autoPlay className="w-full h-full" />
                         <button
                           onClick={() => setPlaying(null)}
                           className="absolute top-2 right-2 p-1.5 bg-black/60 hover:bg-black/80 text-white rounded-full transition"

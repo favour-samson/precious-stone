@@ -311,7 +311,11 @@ function HostControls({
         await call.stopRecording().catch(() => {});
         await call.stopLive();
       } else {
-        await call.goLive({ start_composite_recording: true });
+        // "individual" records this host's own raw track directly, with no
+        // shared layout canvas to composite onto — unlike composite
+        // recording, there's no padding/background baked in around a
+        // portrait video that doesn't fill a 16:9 canvas.
+        await call.goLive({ start_individual_recording: true });
       }
     } catch (err) {
       console.error("[Broadcast] go live / stop live failed:", err);
