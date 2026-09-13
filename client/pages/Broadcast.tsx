@@ -85,11 +85,12 @@ function CameraPreview({ stream }: { stream: MediaStream | null }) {
 
 // ---------- past recordings management (list + delete) ----------
 interface Recording {
-  url: string;
+  url: string | null;
   sessionId: string;
   filename: string;
   startTime: string;
   endTime: string;
+  status: "ready" | "processing" | "failed";
 }
 
 function RecordingsManager({ passcode }: { passcode: string }) {
@@ -154,6 +155,16 @@ function RecordingsManager({ passcode }: { passcode: string }) {
               <span className="flex items-center gap-2 text-white/80 text-xs min-w-0">
                 <Calendar size={12} className="text-primary shrink-0" />
                 <span className="truncate">{new Date(r.startTime).toLocaleDateString()}</span>
+                {r.status === "processing" && (
+                  <span className="shrink-0 px-1.5 py-0.5 bg-amber-500/20 text-amber-300 rounded text-[10px] font-medium">
+                    Processing
+                  </span>
+                )}
+                {r.status === "failed" && (
+                  <span className="shrink-0 px-1.5 py-0.5 bg-red-500/20 text-red-300 rounded text-[10px] font-medium">
+                    Failed
+                  </span>
+                )}
               </span>
               <button
                 onClick={() => handleDelete(r)}

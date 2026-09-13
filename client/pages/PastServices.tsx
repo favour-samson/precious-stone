@@ -5,10 +5,11 @@ import Footer from "@/components/Footer";
 import { Film, Calendar, Loader2, PlayCircle, X, Radio } from "lucide-react";
 
 interface Recording {
-  url: string;
+  url: string | null;
   sessionId: string;
   startTime: string;
   endTime: string;
+  status: "ready" | "processing" | "failed";
 }
 
 function formatDate(iso: string) {
@@ -36,7 +37,14 @@ export default function PastServices() {
     fetch("/api/stream/recordings")
       .then((res) => res.json())
       .then((data) => {
-        if (mounted) setRecordings(data.recordings ?? []);
+        // Only show recordings that actually finished processing — a
+        // "processing" or "failed" one has nothing playable yet, and isn't
+        // this page's concern to explain (that's the host's job, on the
+        // admin recordings list).
+        const ready = ((data.recordings ?? []) as Recording[]).filter(
+          (r: Recording) => r.status === "ready",
+        );
+        if (mounted) setRecordings(ready);
       })
       .catch((err) => {
         console.error("[PastServices] failed to load recordings:", err);

@@ -88,14 +88,25 @@ router.get("/recordings", async (_req, res) => {
 
   try {
     const { recordings } = await client.video.call(CALL_TYPE, CALL_ID).listRecordings();
+    // Never silently drop a recording — a missing `url` used to mean it was
+    // filtered out entirely, which is exactly how recordings from reconnect
+    // fragments (a common OBS/RTMP hiccup) went "missing" with no trace. A
+    // recording with no url yet is either still processing (recent) or
+    // genuinely failed (old) — surface both as a status instead of hiding
+    // them, so the host can at least see and delete the failed ones.
+    const RECENT_MS = 15 * 60 * 1000;
     const list = recordings
-      .filter((r) => r.url)
       .map((r) => ({
-        url: r.url,
+        url: r.url || null,
         sessionId: r.session_id,
         filename: r.filename,
         startTime: r.start_time,
         endTime: r.end_time,
+        status: r.url
+          ? ("ready" as const)
+          : Date.now() - new Date(r.start_time).getTime() < RECENT_MS
+            ? ("processing" as const)
+            : ("failed" as const),
       }))
       .sort((a, b) => new Date(b.startTime).getTime() - new Date(a.startTime).getTime());
 
