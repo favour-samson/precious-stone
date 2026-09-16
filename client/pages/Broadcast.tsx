@@ -93,6 +93,15 @@ interface Recording {
   status: "ready" | "processing" | "failed";
 }
 
+function formatRecordingDuration(startIso: string, endIso: string): string | null {
+  const ms = new Date(endIso).getTime() - new Date(startIso).getTime();
+  if (!Number.isFinite(ms) || ms <= 0) return null;
+  const totalMin = Math.round(ms / 60_000);
+  const h = Math.floor(totalMin / 60);
+  const m = totalMin % 60;
+  return h > 0 ? `${h}h ${m}m` : `${m}m`;
+}
+
 function RecordingsManager({ passcode }: { passcode: string }) {
   const [recordings, setRecordings] = useState<Recording[] | null>(null);
   const [deleting, setDeleting] = useState<string | null>(null);
@@ -154,7 +163,21 @@ function RecordingsManager({ passcode }: { passcode: string }) {
             >
               <span className="flex items-center gap-2 text-white/80 text-xs min-w-0">
                 <Calendar size={12} className="text-primary shrink-0" />
-                <span className="truncate">{new Date(r.startTime).toLocaleDateString()}</span>
+                <span className="truncate">
+                  {new Date(r.startTime).toLocaleString(undefined, {
+                    day: "2-digit",
+                    month: "2-digit",
+                    year: "numeric",
+                    hour: "numeric",
+                    minute: "2-digit",
+                  })}
+                  {formatRecordingDuration(r.startTime, r.endTime) && (
+                    <span className="text-white/40">
+                      {" "}
+                      · {formatRecordingDuration(r.startTime, r.endTime)}
+                    </span>
+                  )}
+                </span>
                 {r.status === "processing" && (
                   <span className="shrink-0 px-1.5 py-0.5 bg-amber-500/20 text-amber-300 rounded text-[10px] font-medium">
                     Processing
