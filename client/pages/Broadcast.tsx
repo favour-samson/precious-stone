@@ -14,10 +14,7 @@ import { createHostClient } from "@/lib/stream";
 import {
   Lock,
   Radio,
-  Copy,
-  Check,
   Loader2,
-  Cable,
   PhoneOff,
   SwitchCamera,
   Users,
@@ -46,31 +43,6 @@ interface ZoomRange {
 type CapabilitiesWithZoom = MediaTrackCapabilities & { zoom?: ZoomRange };
 type SettingsWithZoom = MediaTrackSettings & { zoom?: number };
 type ConstraintsWithZoom = MediaTrackConstraintSet & { zoom?: number };
-
-// ---------- copyable field ----------
-function CopyField({ label, value, mono = true }: { label: string; value: string; mono?: boolean }) {
-  const [copied, setCopied] = useState(false);
-  return (
-    <div>
-      <p className="text-white/50 text-xs mb-1">{label}</p>
-      <div className="flex items-center gap-2 bg-black/30 border border-white/10 rounded-lg px-3 py-2">
-        <span className={`flex-1 text-white text-sm truncate ${mono ? "font-mono" : ""}`}>
-          {value}
-        </span>
-        <button
-          onClick={() => {
-            navigator.clipboard.writeText(value);
-            setCopied(true);
-            setTimeout(() => setCopied(false), 2000);
-          }}
-          className="text-white/60 hover:text-white shrink-0"
-        >
-          {copied ? <Check size={14} /> : <Copy size={14} />}
-        </button>
-      </div>
-    </div>
-  );
-}
 
 // ---------- raw local camera preview (full-size, cropped to fill) ----------
 function CameraPreview({ stream }: { stream: MediaStream | null }) {
@@ -211,17 +183,14 @@ function RecordingsManager({ passcode }: { passcode: string }) {
 
 // ---------- live controls (needs StreamCall context) ----------
 function HostControls({
-  token,
   passcode,
   onLeave,
 }: {
-  token: string;
   passcode: string;
   onLeave: () => void;
 }) {
-  const { useIsCallLive, useCallIngress, useParticipantCount } = useCallStateHooks();
+  const { useIsCallLive, useParticipantCount } = useCallStateHooks();
   const isLive = useIsCallLive();
-  const ingress = useCallIngress();
   const participantCount = useParticipantCount();
   const [busy, setBusy] = useState(false);
   const [liveError, setLiveError] = useState("");
@@ -345,11 +314,15 @@ function HostControls({
         await call.stopRecording().catch(() => {});
         await call.stopLive();
       } else {
-        // "individual" records this host's own raw track directly, with no
-        // shared layout canvas to composite onto — unlike composite
-        // recording, there's no padding/background baked in around a
-        // portrait video that doesn't fill a 16:9 canvas.
-        await call.goLive({ start_individual_recording: true });
+        // Reverted from "individual" back to "composite" (2026-09-16):
+        // individual recording looked appealing (no compositor padding
+        // around portrait video) but proved unreliable for long sessions —
+        // verified directly against Stream's API that a real 3h+ service
+        // only produced an 8-minute, audio-only file. Composite recording
+        // reliably captured full ~1hr services before the switch. The
+        // white-padding cosmetic issue is a much smaller problem than
+        // silently losing most of a service.
+        await call.goLive({ start_composite_recording: true });
       }
     } catch (err) {
       console.error("[Broadcast] go live / stop live failed:", err);
@@ -432,12 +405,6 @@ function HostControls({
             : "In backstage — viewers can't see this yet"}
         </p>
         {liveError && <p className="text-red-400 text-xs mt-2">{liveError}</p>}
-        <div className="flex items-center gap-2 mt-3 px-3 py-2 bg-amber-500/10 border border-amber-500/20 rounded-lg">
-          <Cable size={13} className="text-amber-400 shrink-0" />
-          <p className="text-amber-200/90 text-xs">
-            Using OBS instead of this device? Mute the camera and mic below first, so only your OBS feed publishes.
-          </p>
-        </div>
         <div className="mt-3">
           <CallControls onLeave={onLeave} />
         </div>
@@ -455,26 +422,6 @@ function HostControls({
             Distinct people who've joined today's service, even if they left or the stream
             reconnected.
           </p>
-        </div>
-
-        <div className="rounded-2xl bg-white/5 border border-white/10 p-5">
-          <div className="flex items-center gap-2 text-white text-sm font-medium mb-3">
-            <Cable size={15} />
-            OBS / RTMP app
-          </div>
-          {ingress?.rtmp?.address ? (
-            <div className="space-y-3">
-              <CopyField label="Server / URL" value={ingress.rtmp.address} />
-              <CopyField label="Stream Key" value={token} />
-              <p className="text-white/50 text-xs pt-1">
-                In OBS: Settings → Stream → Service: <b>Custom</b>, paste Server + Stream Key, then Start Streaming.
-                On phone, use an RTMP app (e.g. Larix Broadcaster) with the same two values. Then click{" "}
-                <b>Go Live</b> above.
-              </p>
-            </div>
-          ) : (
-            <p className="text-white/50 text-xs">Loading ingress details…</p>
-          )}
         </div>
 
         <RecordingsManager passcode={passcode} />
@@ -548,7 +495,7 @@ export default function Broadcast() {
               </div>
               <h1 className="text-white text-xl font-serif font-bold mb-2">Broadcast Controls</h1>
               <p className="text-white/60 text-sm mb-6">
-                Enter the broadcast passcode to unlock camera and OBS controls for the live service.
+                Enter the broadcast passcode to unlock camera controls for the live service.
               </p>
               <input
                 type="password"
@@ -571,7 +518,7 @@ export default function Broadcast() {
           ) : session ? (
             <StreamVideo client={session.client}>
               <StreamCall call={session.call}>
-                <HostControls token={session.token} passcode={passcode} onLeave={leave} />
+                <HostControls passcode={passcode} onLeave={leave} />
               </StreamCall>
             </StreamVideo>
           ) : null}
