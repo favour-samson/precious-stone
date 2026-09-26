@@ -23,6 +23,7 @@ import {
   Film,
   Trash2,
   Calendar,
+  RectangleHorizontal,
 } from "lucide-react";
 
 type Stage = "locked" | "connecting" | "ready" | "error";
@@ -405,6 +406,15 @@ function HostControls({
             : "In backstage — viewers can't see this yet"}
         </p>
         {liveError && <p className="text-red-400 text-xs mt-2">{liveError}</p>}
+        {!isLive && (
+          <div className="flex items-center gap-2 mt-3 px-3 py-2 bg-amber-500/10 border border-amber-500/20 rounded-lg">
+            <RectangleHorizontal size={13} className="text-amber-400 shrink-0" />
+            <p className="text-amber-200/90 text-xs">
+              Turn the phone sideways (landscape) before going live — portrait recordings have come
+              out padded or rotated in the past.
+            </p>
+          </div>
+        )}
         <div className="mt-3">
           <CallControls onLeave={onLeave} />
         </div>
