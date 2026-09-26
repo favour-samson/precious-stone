@@ -188,7 +188,7 @@ export default function Giving() {
                         </div>
                         <p className="text-xs text-gray-500 mb-3 leading-relaxed">
                           Project Offerings, Let's Go A Fishing, Special
-                          Programmes, Vigil & other contributions
+                          Programmes, Vigil & other contributions.
                         </p>
                         <div className="space-y-1.5 text-sm text-gray-700">
                           <p>
